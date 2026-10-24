@@ -4,118 +4,235 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HTML Practice | Typing Code Trainer</title>
+  <title>Typing Code Trainer</title>
   <style>
+    :root {
+      --bg: #080D24;
+      --panel: #111A38;
+      --panel2: #172344;
+      --cyan: #39E7FF;
+      --pink: #FF4FD8;
+      --text: #F3F6FF;
+      --muted: #A9B6D8;
+      --green: #5CFFB0;
+      --red: #FF6B8A;
+    }
+
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
       min-height: 100vh;
-      background: #080D24;
-      color: #f4f7ff;
-      font-family: Arial, Tahoma, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(ellipse at 15% 0%, #15265a 0%, transparent 45%),
+        radial-gradient(ellipse at 90% 15%, #351348 0%, transparent 35%),
+        var(--bg);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
     }
 
     header {
-      padding: 20px 6%;
-      border-bottom: 1px solid #263653;
-      color: #55eaff;
-      font-weight: bold;
+      padding: 22px 16px;
+      text-align: center;
+      font-size: 23px;
+      font-weight: 800;
+      letter-spacing: 1px;
+      border-bottom: 1px solid #26345d;
+      text-shadow: 0 0 16px #39e7ff66;
     }
 
     main {
-      width: min(1000px, 92%);
-      margin: 35px auto;
+      width: min(900px, 92%);
+      margin: 28px auto 60px;
     }
 
     .back {
-      color: #55eaff;
+      display: inline-block;
+      margin-bottom: 22px;
+      color: var(--cyan);
       text-decoration: none;
     }
 
-    h1 { margin-bottom: 8px; }
+    .back:hover { color: var(--pink); }
 
-    .muted { color: #aab8d7; line-height: 1.7; }
+    h1 {
+      margin: 0 0 8px;
+      font-size: clamp(26px, 5vw, 38px);
+    }
+
+    .muted {
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .panel {
+      margin-top: 22px;
+      padding: 22px;
+      background: linear-gradient(145deg, #121d3b, #0e1630);
+      border: 1px solid #33446e;
+      border-radius: 18px;
+      box-shadow: 0 12px 36px #0005, 0 0 18px #39e7ff0b;
+    }
+
+    .field-label {
+      display: block;
+      margin-bottom: 9px;
+      font-weight: 700;
+    }
+
+    select, textarea {
+      width: 100%;
+      color: var(--text);
+      background: #080f27;
+      border: 1px solid #435780;
+      border-radius: 10px;
+      font: inherit;
+    }
+
+    select {
+      padding: 12px 14px;
+      cursor: pointer;
+    }
+
+    select:focus, textarea:focus {
+      outline: 2px solid var(--cyan);
+      outline-offset: 2px;
+    }
 
     .stats {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 12px;
-      margin: 24px 0;
+      margin-top: 20px;
     }
 
     .card {
-      padding: 18px;
-      border: 1px solid #304265;
+      padding: 16px 10px;
+      text-align: center;
+      color: var(--muted);
+      background: #151f40;
+      border: 1px solid #2c3b64;
       border-radius: 14px;
-      background: #111a35;
     }
 
     .number {
       display: block;
       margin-top: 8px;
-      color: #55eaff;
-      font-size: 25px;
-      font-weight: bold;
+      color: var(--cyan);
+      font-size: 23px;
+      font-weight: 800;
+      overflow-wrap: anywhere;
     }
 
     .code {
-      padding: 20px;
-      overflow-wrap: anywhere;
-      border: 1px solid #ff4fd8;
-      border-radius: 14px;
-      background: #10162e;
-      color: #ff91e7;
-      font: 16px/2 monospace;
+      padding: 18px;
+      margin: 16px 0;
+      overflow-x: auto;
       white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      color: var(--cyan);
+      background: #060b1c;
+      border: 1px solid #30466e;
+      border-left: 4px solid var(--pink);
+      border-radius: 10px;
+      font: 16px/1.8 Consolas, Monaco, monospace;
     }
 
     textarea {
       display: block;
-      width: 100%;
-      min-height: 180px;
-      margin-top: 14px;
-      padding: 16px;
-      resize: vertical;
-      border: 1px solid #55eaff;
-      border-radius: 14px;
-      outline: none;
-      background: #060b1c;
-      color: #eaf7ff;
-      font: 15px/1.8 monospace;
-    }
-
-    textarea:focus {
-      box-shadow: 0 0 15px #55eaff35;
-    }
-
-    button {
-      margin: 14px 8px 0 0;
-      padding: 13px 20px;
-      border: 0;
-      border-radius: 10px;
-      background: linear-gradient(100deg, #55eaff, #ff4fd8);
-      color: #080D24;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    button.secondary {
-      border: 1px solid #405277;
-      background: #172342;
-      color: white;
-    }
-
-    #feedback {
-      margin-top: 18px;
+      min-height: 150px;
       padding: 15px;
-      border-radius: 10px;
-      background: #111a35;
+      resize: vertical;
+      line-height: 1.8;
+      font: 15px/1.8 Consolas, Monaco, monospace;
+    }
+
+    .hint {
+      color: var(--muted);
+      font-size: 13px;
       line-height: 1.7;
     }
 
-    @media (max-width: 600px) {
-      .stats { grid-template-columns: 1fr; }
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    button {
+      min-height: 45px;
+      padding: 11px 20px;
+      border: 0;
+      border-radius: 10px;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+      transition: transform .15s, filter .15s;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.12);
+    }
+
+    button:focus-visible {
+      outline: 2px solid white;
+      outline-offset: 3px;
+    }
+
+    .primary {
+      color: #071126;
+      background: linear-gradient(90deg, var(--cyan), #8bf5ff);
+      box-shadow: 0 0 18px #39e7ff30;
+    }
+
+    .secondary {
+      color: white;
+      background: #293657;
+      border: 1px solid #52638b;
+    }
+
+    .feedback {
+      min-height: 28px;
+      margin-top: 16px;
+      font-weight: 700;
+      line-height: 1.7;
+      overflow-wrap: anywhere;
+    }
+
+    .success { color: var(--green); }
+    .error { color: var(--pink); }
+
+    .progress-track {
+      height: 8px;
+      margin-top: 14px;
+      overflow: hidden;
+      background: #263252;
+      border-radius: 99px;
+    }
+
+    .progress-fill {
+      width: 0;
+      height: 100%;
+      background: linear-gradient(90deg, var(--cyan), var(--pink));
+      transition: width .2s;
+    }
+
+    footer {
+      padding: 20px;
+      color: #8392b8;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    @media (max-width: 560px) {
+      header { font-size: 20px; }
+      .panel { padding: 16px; }
+      .stats { gap: 7px; }
+      .card { padding: 12px 5px; font-size: 13px; }
+      .number { font-size: 19px; }
+      .buttons button { flex: 1 1 100%; }
     }
   </style>
 </head>
@@ -125,103 +242,191 @@
   <main>
     <a class="back" href="index.html">← กลับหน้าหลัก</a>
 
-    <h1>HTML Typing Practice</h1>
+    <h1>ฝึกพิมพ์โค้ด</h1>
     <p class="muted">
-      ฝึกพิมพ์โค้ดให้ถูกต้อง พัฒนาความเร็วและความแม่นยำ
+      เลือกภาษา ฝึกพิมพ์ตามโจทย์ และตรวจสอบความแม่นยำของคุณ
     </p>
 
-    <section class="stats">
-      <div class="card">
-        ความแม่นยำ
-        <span class="number" id="accuracy">100%</span>
+    <section class="panel">
+      <label class="field-label" for="language">เลือกภาษาโปรแกรม</label>
+      <select id="language">
+        <option value="html">HTML</option>
+        <option value="javascript">JavaScript</option>
+        <option value="css">CSS</option>
+        <option value="php">PHP</option>
+        <option value="python">Python</option>
+      </select>
+
+      <div class="stats">
+        <div class="card">
+          ความแม่นยำ
+          <span class="number" id="accuracy">100%</span>
+        </div>
+        <div class="card">
+          พิมพ์แล้ว
+          <span class="number" id="progress">0 / 0</span>
+        </div>
+        <div class="card">
+          สถานะ
+          <span class="number" id="status">พร้อม</span>
+        </div>
       </div>
-      <div class="card">
-        พิมพ์แล้ว
-        <span class="number" id="progress">0 / 0</span>
-      </div>
-      <div class="card">
-        สถานะ
-        <span class="number" id="status">พร้อม</span>
+
+      <div class="progress-track" aria-label="ความคืบหน้า">
+        <div class="progress-fill" id="progressFill"></div>
       </div>
     </section>
 
-    <h3>ด่าน 1 — HTML Heading</h3>
-    <p class="muted">พิมพ์โค้ดด้านล่างให้ตรงทุกตัวอักษร</p>
+    <section class="panel">
+      <label class="field-label" for="target">โจทย์ที่ต้องพิมพ์</label>
+      <div class="code" id="target" aria-live="polite"></div>
+      <p class="hint">
+        พิมพ์โค้ดให้ตรงกับโจทย์ทุกตัวอักษร รวมถึงตัวพิมพ์เล็ก-ใหญ่
+        เครื่องหมาย และช่องว่าง
+      </p>
 
-    <div class="code" id="target">&lt;h1&gt;Hello World&lt;/h1&gt;</div>
+      <label class="field-label" for="answer">พิมพ์โค้ดของคุณที่นี่</label>
+      <textarea
+        id="answer"
+        placeholder="เริ่มพิมพ์โค้ดตรงนี้..."
+        spellcheck="false"
+        autocapitalize="off"
+        autocomplete="off"
+        autocorrect="off"
+      ></textarea>
 
-    <textarea
-      id="answer"
-      placeholder="เริ่มพิมพ์โค้ดที่นี่..."
-      spellcheck="false"
-      autocomplete="off"
-      autocapitalize="off"
-    ></textarea>
+      <div class="buttons">
+        <button class="primary" id="check" type="button">ตรวจคำตอบ</button>
+        <button class="secondary" id="reset" type="button">เริ่มใหม่</button>
+      </div>
 
-    <button id="check">ตรวจคำตอบ</button>
-    <button class="secondary" id="reset">เริ่มใหม่</button>
-
-    <div id="feedback" aria-live="polite">
-      พร้อมแล้วหรือยัง? ลองพิมพ์โค้ดตามตัวอย่างด้านบนค่ะ
-    </div>
+      <div class="feedback" id="feedback" role="status" aria-live="polite">
+        เริ่มฝึกได้เลยค่ะ สู้ ๆ!
+      </div>
+    </section>
   </main>
 
+  <footer>Typing Code Trainer · ฝึกฝนทีละบรรทัด พัฒนาได้ทุกวัน</footer>
+
   <script>
-    const target = '<h1>Hello World</h1>';
+    const exercises = {
+      html: '<h1>Hello World</h1>',
+      javascript: 'console.log("Hello World");',
+      css: 'h1 { color: red; }',
+      php: '<?php echo "Hello World"; ?>',
+      python: 'print("Hello World")'
+    };
+
+    const language = document.getElementById('language');
+    const targetDisplay = document.getElementById('target');
     const answer = document.getElementById('answer');
     const accuracy = document.getElementById('accuracy');
     const progress = document.getElementById('progress');
     const status = document.getElementById('status');
     const feedback = document.getElementById('feedback');
+    const progressFill = document.getElementById('progressFill');
+    const checkButton = document.getElementById('check');
+    const resetButton = document.getElementById('reset');
+
+    let target = exercises[language.value];
+
+    function clearFeedback() {
+      feedback.textContent = 'พิมพ์ตามโจทย์ แล้วกด “ตรวจคำตอบ” เมื่อต้องการตรวจ';
+      feedback.className = 'feedback';
+    }
 
     function updateStats() {
       const typed = answer.value;
       let correct = 0;
 
       for (let i = 0; i < typed.length; i++) {
-        if (typed[i] === target[i]) correct++;
+        if (i < target.length && typed[i] === target[i]) {
+          correct++;
+        }
       }
 
       const percent = typed.length === 0
         ? 100
-        : Math.round(correct / typed.length * 100);
+        : Math.round((correct / typed.length) * 100);
+
+      const completed = typed === target;
+      const progressCount = Math.min(typed.length, target.length);
+      const progressPercent = target.length === 0
+        ? 0
+        : Math.min(100, (progressCount / target.length) * 100);
 
       accuracy.textContent = percent + '%';
-      progress.textContent =
-        Math.min(typed.length, target.length) + ' / ' + target.length;
+      progress.textContent = progressCount + ' / ' + target.length;
+      progressFill.style.width = progressPercent + '%';
 
-      status.textContent =
-        typed.length === 0 ? 'พร้อม' :
-        typed === target ? 'สำเร็จ!' : 'กำลังฝึก';
+      if (completed) {
+        status.textContent = 'สำเร็จ!';
+      } else if (typed.length === 0) {
+        status.textContent = 'พร้อม';
+      } else {
+        status.textContent = 'กำลังฝึก';
+      }
     }
 
-    answer.addEventListener('input', updateStats);
+    function resetExercise() {
+      answer.value = '';
+      updateStats();
+      clearFeedback();
+      answer.focus();
+    }
 
-    document.getElementById('check').addEventListener('click', () => {
-      if (answer.value === target) {
-        feedback.textContent =
-          '🎉 ยอดเยี่ยม! คุณพิมพ์ถูกต้องครบทุกตัวอักษรแล้ว';
+    function changeLanguage() {
+      target = exercises[language.value];
+      targetDisplay.textContent = target;
+      resetExercise();
+    }
+
+    answer.addEventListener('input', () => {
+      updateStats();
+      clearFeedback();
+    });
+
+    checkButton.addEventListener('click', () => {
+      const typed = answer.value;
+
+      if (typed === target) {
+        feedback.textContent = '🎉 ยอดเยี่ยม! คุณพิมพ์ถูกต้องครบทุกตัวอักษรแล้ว';
+        feedback.className = 'feedback success';
         status.textContent = 'สำเร็จ!';
-      } else {
-        let i = 0;
-        while (
-          i < answer.value.length &&
-          i < target.length &&
-          answer.value[i] === target[i]
-        ) i++;
+        accuracy.textContent = '100%';
+        progress.textContent = target.length + ' / ' + target.length;
+        progressFill.style.width = '100%';
+        return;
+      }
 
+      let i = 0;
+      while (
+        i < typed.length &&
+        i < target.length &&
+        typed[i] === target[i]
+      ) {
+        i++;
+      }
+
+      if (typed.length === 0) {
+        feedback.textContent = 'ลองพิมพ์โค้ดตามโจทย์ก่อนนะคะ';
+      } else if (i === target.length && typed.length > target.length) {
+        feedback.textContent =
+          'เกือบแล้วค่ะ! โจทย์ถูกต้องครบแล้ว แต่มีตัวอักษรเกินท้ายข้อความ';
+      } else {
         feedback.textContent =
           'ยังไม่ตรงทั้งหมดค่ะ ตรวจดูอีกครั้งตั้งแต่ตำแหน่งตัวอักษรที่ ' +
           (i + 1) + ' แล้วลองใหม่ได้เลย';
       }
+
+      feedback.className = 'feedback error';
+      status.textContent = 'กำลังฝึก';
     });
 
-    document.getElementById('reset').addEventListener('click', () => {
-      answer.value = '';
-      updateStats();
-      feedback.textContent = 'เริ่มใหม่ได้เลยค่ะ สู้ ๆ!';
-      answer.focus();
-    });
+    resetButton.addEventListener('click', resetExercise);
+    language.addEventListener('change', changeLanguage);
+
+    changeLanguage();
   </script>
 </body>
 </html>
