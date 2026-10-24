@@ -1,1 +1,227 @@
 
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HTML Practice | Typing Code Trainer</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: #080D24;
+      color: #f4f7ff;
+      font-family: Arial, Tahoma, sans-serif;
+    }
+
+    header {
+      padding: 20px 6%;
+      border-bottom: 1px solid #263653;
+      color: #55eaff;
+      font-weight: bold;
+    }
+
+    main {
+      width: min(1000px, 92%);
+      margin: 35px auto;
+    }
+
+    .back {
+      color: #55eaff;
+      text-decoration: none;
+    }
+
+    h1 { margin-bottom: 8px; }
+
+    .muted { color: #aab8d7; line-height: 1.7; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .card {
+      padding: 18px;
+      border: 1px solid #304265;
+      border-radius: 14px;
+      background: #111a35;
+    }
+
+    .number {
+      display: block;
+      margin-top: 8px;
+      color: #55eaff;
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .code {
+      padding: 20px;
+      overflow-wrap: anywhere;
+      border: 1px solid #ff4fd8;
+      border-radius: 14px;
+      background: #10162e;
+      color: #ff91e7;
+      font: 16px/2 monospace;
+      white-space: pre-wrap;
+    }
+
+    textarea {
+      display: block;
+      width: 100%;
+      min-height: 180px;
+      margin-top: 14px;
+      padding: 16px;
+      resize: vertical;
+      border: 1px solid #55eaff;
+      border-radius: 14px;
+      outline: none;
+      background: #060b1c;
+      color: #eaf7ff;
+      font: 15px/1.8 monospace;
+    }
+
+    textarea:focus {
+      box-shadow: 0 0 15px #55eaff35;
+    }
+
+    button {
+      margin: 14px 8px 0 0;
+      padding: 13px 20px;
+      border: 0;
+      border-radius: 10px;
+      background: linear-gradient(100deg, #55eaff, #ff4fd8);
+      color: #080D24;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button.secondary {
+      border: 1px solid #405277;
+      background: #172342;
+      color: white;
+    }
+
+    #feedback {
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 10px;
+      background: #111a35;
+      line-height: 1.7;
+    }
+
+    @media (max-width: 600px) {
+      .stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>⌨ Typing Code Trainer</header>
+
+  <main>
+    <a class="back" href="index.html">← กลับหน้าหลัก</a>
+
+    <h1>HTML Typing Practice</h1>
+    <p class="muted">
+      ฝึกพิมพ์โค้ดให้ถูกต้อง พัฒนาความเร็วและความแม่นยำ
+    </p>
+
+    <section class="stats">
+      <div class="card">
+        ความแม่นยำ
+        <span class="number" id="accuracy">100%</span>
+      </div>
+      <div class="card">
+        พิมพ์แล้ว
+        <span class="number" id="progress">0 / 0</span>
+      </div>
+      <div class="card">
+        สถานะ
+        <span class="number" id="status">พร้อม</span>
+      </div>
+    </section>
+
+    <h3>ด่าน 1 — HTML Heading</h3>
+    <p class="muted">พิมพ์โค้ดด้านล่างให้ตรงทุกตัวอักษร</p>
+
+    <div class="code" id="target">&lt;h1&gt;Hello World&lt;/h1&gt;</div>
+
+    <textarea
+      id="answer"
+      placeholder="เริ่มพิมพ์โค้ดที่นี่..."
+      spellcheck="false"
+      autocomplete="off"
+      autocapitalize="off"
+    ></textarea>
+
+    <button id="check">ตรวจคำตอบ</button>
+    <button class="secondary" id="reset">เริ่มใหม่</button>
+
+    <div id="feedback" aria-live="polite">
+      พร้อมแล้วหรือยัง? ลองพิมพ์โค้ดตามตัวอย่างด้านบนค่ะ
+    </div>
+  </main>
+
+  <script>
+    const target = '<h1>Hello World</h1>';
+    const answer = document.getElementById('answer');
+    const accuracy = document.getElementById('accuracy');
+    const progress = document.getElementById('progress');
+    const status = document.getElementById('status');
+    const feedback = document.getElementById('feedback');
+
+    function updateStats() {
+      const typed = answer.value;
+      let correct = 0;
+
+      for (let i = 0; i < typed.length; i++) {
+        if (typed[i] === target[i]) correct++;
+      }
+
+      const percent = typed.length === 0
+        ? 100
+        : Math.round(correct / typed.length * 100);
+
+      accuracy.textContent = percent + '%';
+      progress.textContent =
+        Math.min(typed.length, target.length) + ' / ' + target.length;
+
+      status.textContent =
+        typed.length === 0 ? 'พร้อม' :
+        typed === target ? 'สำเร็จ!' : 'กำลังฝึก';
+    }
+
+    answer.addEventListener('input', updateStats);
+
+    document.getElementById('check').addEventListener('click', () => {
+      if (answer.value === target) {
+        feedback.textContent =
+          '🎉 ยอดเยี่ยม! คุณพิมพ์ถูกต้องครบทุกตัวอักษรแล้ว';
+        status.textContent = 'สำเร็จ!';
+      } else {
+        let i = 0;
+        while (
+          i < answer.value.length &&
+          i < target.length &&
+          answer.value[i] === target[i]
+        ) i++;
+
+        feedback.textContent =
+          'ยังไม่ตรงทั้งหมดค่ะ ตรวจดูอีกครั้งตั้งแต่ตำแหน่งตัวอักษรที่ ' +
+          (i + 1) + ' แล้วลองใหม่ได้เลย';
+      }
+    });
+
+    document.getElementById('reset').addEventListener('click', () => {
+      answer.value = '';
+      updateStats();
+      feedback.textContent = 'เริ่มใหม่ได้เลยค่ะ สู้ ๆ!';
+      answer.focus();
+    });
+  </script>
+</body>
+</html>
