@@ -1,0 +1,190 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Typing Code Trainer</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, Tahoma, sans-serif;
+      color: #ffffff;
+      background:
+        radial-gradient(ellipse at 15% 20%, #142957 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 75%, #32123f 0%, transparent 40%),
+        #080D24;
+    }
+
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 8%;
+      border-bottom: 1px solid #263453;
+    }
+
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
+      color: #55eaff;
+    }
+
+    .nav-link {
+      color: #c6d2ed;
+      text-decoration: none;
+    }
+
+    main {
+      width: min(1000px, 90%);
+      margin: 80px auto;
+      text-align: center;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 9px 16px;
+      border: 1px solid #ff4fd8;
+      border-radius: 30px;
+      color: #ff73e0;
+      background: #ff4fd810;
+    }
+
+    h1 {
+      margin: 28px 0 16px;
+      font-size: clamp(36px, 6vw, 64px);
+      line-height: 1.15;
+    }
+
+    h1 span {
+      color: #55eaff;
+      text-shadow: 0 0 25px #20dfff60;
+    }
+
+    .description {
+      max-width: 600px;
+      margin: 0 auto;
+      color: #aab8d7;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .panel {
+      max-width: 700px;
+      margin: 38px auto 0;
+      padding: 30px;
+      border: 1px solid #33456d;
+      border-radius: 22px;
+      background: #111a35cc;
+      box-shadow: 0 0 35px #00d9ff12;
+    }
+
+    .panel h2 {
+      color: #ff73e0;
+      margin-top: 0;
+    }
+
+    .languages {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .language {
+      padding: 13px 20px;
+      border: 1px solid #34476d;
+      border-radius: 12px;
+      background: #172342;
+      color: white;
+    }
+
+    .html {
+      border-color: #ff4fd8;
+    }
+
+    .js {
+      border-color: #55eaff;
+    }
+
+    .python {
+      border-color: #8d7bff;
+    }
+
+    .start {
+      display: inline-block;
+      padding: 15px 30px;
+      border: 0;
+      border-radius: 12px;
+      background: linear-gradient(100deg, #00d9ff, #ff4fd8);
+      color: #080D24;
+      font-size: 16px;
+      font-weight: bold;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .note {
+      margin-top: 22px;
+      color: #7f91b5;
+      font-size: 13px;
+    }
+
+    footer {
+      padding: 25px;
+      text-align: center;
+      color: #7f91b5;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">⌨ Typing Code Trainer</div>
+    <a class="nav-link" href="#practice">เริ่มเรียนรู้</a>
+  </nav>
+
+  <main>
+    <div class="tag">NEXT LEVEL CODING</div>
+
+    <h1>
+      ฝึกพิมพ์โค้ดให้เร็วขึ้น<br>
+      <span>เก่งขึ้นทุกวัน</span>
+    </h1>
+
+    <p class="description">
+      ฝึกพิมพ์คำสั่งโปรแกรมมิ่งผ่านบทเรียนและด่านเกม
+      พัฒนาความเร็ว ความแม่นยำ และทักษะการเขียนโค้ด
+      ในสไตล์ Futuristic Gaming
+    </p>
+
+    <section class="panel" id="practice">
+      <h2>เลือกภาษาที่อยากฝึก</h2>
+      <p>เริ่มต้นเส้นทางโปรแกรมเมอร์ของคุณ</p>
+
+      <div class="languages">
+        <div class="language html">HTML</div>
+        <div class="language js">JavaScript</div>
+        <div class="language python">Python</div>
+      </div>
+
+      <a class="start" href="#practice">
+        เริ่มฝึกพิมพ์ →
+      </a>
+
+      <p class="note">
+        YOUR CODE. YOUR SPEED. YOUR FUTURE.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    Typing Code Trainer · Practice. Improve. Level Up.
+  </footer>
+</body>
+</html>
