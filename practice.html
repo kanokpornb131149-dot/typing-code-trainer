@@ -3,27 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Practice Studio - Typing Code Trainer</title>
+  <title>Practice Studio — Typing Code Trainer</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   
   <style>
     :root {
-      --bg-base: #090d16;
-      --bg-card: rgba(18, 26, 43, 0.75);
-      --border-card: rgba(255, 255, 255, 0.08);
-      --accent-cyan: #00f2fe;
-      --accent-cyan-glow: rgba(0, 242, 254, 0.35);
-      --accent-purple: #9d4edd;
-      --text-main: #f8fafc;
-      --text-muted: #94a3b8;
-      --kb-chassis: #e3ded6;
-      --kb-chassis-shadow: #b3aca0;
-      --kb-cap-cream: #faf7f2;
-      --kb-cap-cream-shadow: #c8c2b7;
-      --kb-cap-dark: #64748b;
-      --kb-cap-dark-shadow: #475569;
+      --bg-deep: #060911;
+      --bg-surface: rgba(15, 22, 38, 0.78);
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --cyan: #00f2fe;
+      --cyan-glow: rgba(0, 242, 254, 0.45);
+      --emerald: #2dd4bf;
+      --rose: #ff4d6d;
+      --amber: #fbbf24;
+      --purple-btn: #a78bfa;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-dim: #475569;
     }
 
     * {
@@ -33,200 +31,218 @@
       user-select: none;
     }
 
-    body {
-      background-color: var(--bg-base);
+    html, body {
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background-color: var(--bg-deep);
       background-image: 
-        radial-gradient(circle at 50% 0%, rgba(0, 242, 254, 0.05) 0%, transparent 60%),
-        radial-gradient(circle at 85% 60%, rgba(157, 78, 221, 0.04) 0%, transparent 50%),
-        linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-      background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
-      color: var(--text-main);
+        radial-gradient(circle at 50% 10%, rgba(0, 242, 254, 0.06) 0%, transparent 55%),
+        radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.06) 0%, transparent 50%),
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 32px 32px, 32px 32px;
+      color: var(--text-primary);
       font-family: 'Plus Jakarta Sans', 'Noto Sans Thai', sans-serif;
-      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      overflow-x: hidden;
     }
 
     /* TOP NAVBAR */
     .navbar {
-      height: 72px;
-      padding: 0 48px;
+      height: 60px;
+      padding: 0 40px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      border-bottom: 1px solid var(--border-card);
+      border-bottom: 1px solid var(--border-subtle);
+      background: rgba(6, 9, 17, 0.88);
       backdrop-filter: blur(12px);
-      background: rgba(9, 13, 22, 0.85);
-      position: sticky;
-      top: 0;
+      flex-shrink: 0;
       z-index: 100;
     }
 
     .brand {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
-      letter-spacing: -0.5px;
       color: #ffffff;
       text-decoration: none;
+      letter-spacing: -0.4px;
       display: flex;
       align-items: center;
-      gap: 2px;
     }
 
-    .cursor-blink {
+    .brand-cursor {
       display: inline-block;
-      width: 10px;
-      height: 20px;
-      background: var(--accent-cyan);
-      margin-left: 2px;
-      animation: blink 1s infinite;
+      width: 9px;
+      height: 18px;
+      background: var(--cyan);
+      margin-left: 3px;
+      animation: blink 1s step-end infinite;
     }
 
-    @keyframes blink {
-      0%, 49% { opacity: 1; }
-      50%, 100% { opacity: 0; }
-    }
+    @keyframes blink { 50% { opacity: 0; } }
 
-    .nav-menu {
+    .nav-links {
       display: flex;
       align-items: center;
-      gap: 36px;
+      gap: 34px;
       list-style: none;
     }
 
-    .nav-link {
-      color: var(--text-muted);
+    .nav-links a {
+      color: var(--text-secondary);
       text-decoration: none;
-      font-size: 15px;
-      font-weight: 600;
-      transition: color 0.2s, text-shadow 0.2s;
-      position: relative;
-    }
-
-    .nav-link:hover {
-      color: #ffffff;
-    }
-
-    .nav-link.active {
-      color: #ffffff;
-    }
-
-    .nav-link.active::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 0;
-      right: 0;
-      height: 2.5px;
-      background: #ffffff;
-      border-radius: 4px;
-    }
-
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .btn-signin {
-      background: #222d42;
-      color: #ffffff;
-      border: 1px solid rgba(255,255,255,0.1);
-      padding: 9px 24px;
-      border-radius: 9999px;
       font-size: 14px;
       font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-    }
-
-    .btn-signin:hover {
-      background: #2b3954;
-      transform: translateY(-1px);
-    }
-
-    /* MAIN CONTAINER */
-    .studio-container {
-      flex: 1;
-      display: flex;
-      padding: 24px 48px 36px 48px;
-      gap: 40px;
-      max-width: 1680px;
-      margin: 0 auto;
-      width: 100%;
+      transition: color 0.2s;
       position: relative;
     }
 
-    /* CENTER STAGE (PRACTICE ARENA) */
-    .center-stage {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-width: 0;
+    .nav-links a:hover, .nav-links a.active {
+      color: #ffffff;
     }
 
-    /* TOP PILL TOOLBAR */
-    .top-toolbar {
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+      border-radius: 2px;
+    }
+
+    .nav-actions {
       display: flex;
       align-items: center;
       gap: 12px;
-      background: rgba(18, 25, 41, 0.85);
-      border: 1px solid var(--border-card);
-      padding: 6px 14px;
-      border-radius: 9999px;
-      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
-      margin-bottom: 32px;
-      position: relative;
-      z-index: 50;
     }
 
-    .toolbar-dropdown-btn {
+    .btn-sound {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #ffffff;
-      padding: 8px 16px;
-      border-radius: 9999px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
+      border: 1px solid var(--border-subtle);
+      color: var(--cyan);
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      cursor: pointer;
       transition: all 0.2s;
     }
 
-    .toolbar-dropdown-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
-      border-color: rgba(255, 255, 255, 0.2);
+    .btn-sound.muted {
+      color: var(--text-dim);
     }
 
-    .dropdown-menu {
+    .btn-signin {
+      background: #1e293b;
+      color: #ffffff;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 7px 20px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .btn-signin:hover {
+      background: #334155;
+    }
+
+    /* MAIN SINGLE-SCREEN WORKSPACE */
+    .studio-layout {
+      flex: 1;
+      display: grid;
+      grid-template-columns: 1fr 124px;
+      gap: 24px;
+      max-width: 1520px;
+      width: 100%;
+      margin: 0 auto;
+      padding: 14px 36px 16px 36px;
+      align-items: center;
+      min-height: 0;
+    }
+
+    .center-arena {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      height: 100%;
+      min-height: 0;
+    }
+
+    /* TOP PILL TOOLBAR */
+    .top-pill-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(13, 20, 36, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 5px 12px;
+      border-radius: 999px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      z-index: 60;
+      flex-shrink: 0;
+    }
+
+    .dropdown-wrap {
+      position: relative;
+    }
+
+    .pill-select-btn {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.2s;
+    }
+
+    .pill-select-btn:hover {
+      border-color: var(--cyan);
+      background: rgba(0, 242, 254, 0.1);
+    }
+
+    .dropdown-panel {
       position: absolute;
-      top: 50px;
-      left: 10px;
-      background: #111827;
-      border: 1px solid rgba(255,255,255,0.12);
+      top: calc(100% + 8px);
+      left: 0;
+      background: #0f172a;
+      border: 1px solid rgba(255, 255, 255, 0.14);
       border-radius: 14px;
       padding: 6px;
-      min-width: 200px;
+      min-width: 215px;
       display: none;
-      box-shadow: 0 16px 36px rgba(0,0,0,0.6);
-      z-index: 60;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.75);
+      z-index: 90;
     }
 
-    .dropdown-menu.show {
+    .dropdown-panel.right {
+      left: auto;
+      right: 0;
+      min-width: 155px;
+    }
+
+    .dropdown-panel.open {
       display: block;
     }
 
-    .dropdown-item {
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-size: 13px;
-      font-weight: 600;
-      color: var(--text-muted);
+    .dd-option {
+      padding: 9px 12px;
+      border-radius: 9px;
       cursor: pointer;
       transition: all 0.15s;
       display: flex;
@@ -234,1260 +250,1966 @@
       gap: 2px;
     }
 
-    .dropdown-item span.desc {
+    .dd-option .dd-title {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .dd-option .dd-sub {
       font-size: 11px;
-      font-weight: 400;
+      color: var(--text-secondary);
+    }
+
+    .dd-option:hover, .dd-option.selected {
+      background: rgba(0, 242, 254, 0.14);
+    }
+
+    .dd-option.selected .dd-title {
+      color: var(--cyan);
+    }
+
+    .lang-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .lang-tab {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-secondary);
+      padding: 6px 13px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .lang-tab:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .lang-tab.active {
+      background: rgba(0, 242, 254, 0.14);
+      color: var(--cyan);
+      border-color: rgba(0, 242, 254, 0.35);
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.18);
+    }
+
+    .icon-action-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .icon-action-btn:hover {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.25);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* STATUS BAR & FINGER HINT */
+    .status-strip {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      margin: 6px 0;
+      flex-shrink: 0;
+    }
+
+    .lang-badge-Tag {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 12.5px;
+      font-weight: 800;
+      color: #e2e8f0;
+      letter-spacing: 0.4px;
+    }
+
+    .finger-pill {
+      background: rgba(0, 242, 254, 0.1);
+      border: 1px solid rgba(0, 242, 254, 0.3);
+      color: var(--cyan);
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .finger-dot-indicator {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 8px var(--cyan);
+    }
+
+    .thai-alert {
+      background: rgba(255, 77, 109, 0.18);
+      border: 1px solid var(--rose);
+      color: #fda4af;
+      padding: 4px 14px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      display: none;
+      animation: shake 0.35s ease;
+    }
+
+    .thai-alert.show {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* CODE DISPLAY ARENA */
+    .code-arena-box {
+      width: 100%;
+      max-width: 850px;
+      min-height: 125px;
+      max-height: 155px;
+      padding: 18px 30px;
+      border-radius: 18px;
+      background: rgba(10, 15, 28, 0.78);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 16px 36px rgba(0, 0, 0, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      position: relative;
+      overflow-y: auto;
+      flex-shrink: 0;
+    }
+
+    .code-arena-box.active-focus {
+      border-color: rgba(0, 242, 254, 0.35);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55), 0 0 22px rgba(0, 242, 254, 0.1);
+    }
+
+    .code-content {
+      font-family: 'Fira Code', monospace;
+      font-size: 20px;
+      line-height: 1.7;
+      letter-spacing: 0.6px;
+      white-space: pre-wrap;
+      word-break: break-all;
+      width: 100%;
+    }
+
+    .c-char {
+      position: relative;
+      color: #475569;
+      transition: color 0.08s;
+      border-radius: 3px;
+    }
+
+    .c-char.space-dot::before {
+      content: '·';
+      color: rgba(148, 163, 184, 0.22);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+
+    .c-char.newline-sym::before {
+      content: '↵';
+      font-size: 14px;
+      color: #475569;
+      margin-left: 2px;
+    }
+
+    .c-char.correct {
+      color: #2dd4bf;
+      text-shadow: 0 0 10px rgba(45, 212, 191, 0.25);
+    }
+
+    .c-char.wrong {
+      color: #ffffff !important;
+      background: rgba(255, 77, 109, 0.85) !important;
+      box-shadow: 0 0 10px rgba(255, 77, 109, 0.6);
+    }
+
+    .c-char.current {
+      color: #040811 !important;
+      background: var(--cyan) !important;
+      box-shadow: 0 0 14px var(--cyan);
+      font-weight: 700;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-5px); }
+      75% { transform: translateX(5px); }
+    }
+
+    /* 3D DARK CYBER KEYBOARD + 3D ARTICULATED HANDS */
+    .kb-3d-stage {
+      position: relative;
+      width: 100%;
+      max-width: 830px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      perspective: 1050px;
+      margin-top: 4px;
+      flex-shrink: 0;
+    }
+
+    .kb-3d-case {
+      width: 100%;
+      background: linear-gradient(180deg, #111827 0%, #090d16 100%);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      padding: 13px 15px 17px 15px;
+      transform: rotateX(18deg);
+      transform-style: preserve-3d;
+      box-shadow: 
+        0 14px 0 #04070d,
+        0 15px 0 rgba(0, 242, 254, 0.22),
+        0 28px 48px rgba(0, 0, 0, 0.85),
+        inset 0 1px 1px rgba(255, 255, 255, 0.12);
+      transition: opacity 0.25s, transform 0.25s;
+    }
+
+    .kb-plate {
+      background: #050811;
+      border-radius: 13px;
+      padding: 9px;
+      box-shadow: inset 0 4px 10px rgba(0, 0, 0, 0.9);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      border: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    .kb-row {
+      display: flex;
+      justify-content: center;
+      gap: 6.5px;
+    }
+
+    /* TALL SCULPTED 3D DARK CYBER KEYCAPS (like image_4e03e1.png) */
+    .key-3d {
+      height: 40px;
+      min-width: 42px;
+      padding: 0 7px;
+      background: linear-gradient(180deg, #192338 0%, #101726 100%);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-top-color: rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      color: #94a3b8;
+      font-family: 'Fira Code', 'Plus Jakarta Sans', monospace;
+      font-size: 12.5px;
+      font-weight: 700;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.05;
+      position: relative;
+      transform: translateY(0);
+      box-shadow: 
+        0 6px 0 #070b14,
+        0 7px 0 rgba(255, 255, 255, 0.04),
+        0 9px 12px rgba(0, 0, 0, 0.65);
+      transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.12s, color 0.12s;
+    }
+
+    .key-3d .sub-sym {
+      font-size: 9px;
+      color: #475569;
+      margin-bottom: 1px;
+    }
+
+    .key-3d.mod {
+      background: linear-gradient(180deg, #131c2e 0%, #0c121e 100%);
       color: #64748b;
+      font-size: 11px;
     }
 
-    .dropdown-item:hover, .dropdown-item.active {
-      background: rgba(0, 242, 254, 0.12);
-      color: var(--accent-cyan);
+    .key-3d.home-bump::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      width: 11px;
+      height: 2px;
+      background: rgba(0, 242, 254, 0.45);
+      border-radius: 2px;
     }
 
-    .lang-pills {
+    .key-3d.w-125 { min-width: 54px; }
+    .key-3d.w-150 { min-width: 66px; }
+    .key-3d.w-175 { min-width: 78px; }
+    .key-3d.w-200 { min-width: 90px; }
+    .key-3d.w-225 { min-width: 102px; }
+    .key-3d.w-space { min-width: 265px; letter-spacing: 2px; font-size: 11px; }
+
+    /* TARGET KEY CYAN GLOW (matches image_4e03e1.png) */
+    .key-3d.target-glow {
+      background: linear-gradient(180deg, rgba(0, 242, 254, 0.28) 0%, rgba(12, 34, 52, 0.95) 100%) !important;
+      color: #ffffff !important;
+      border: 1.5px solid var(--cyan) !important;
+      box-shadow: 
+        0 6px 0 #008891,
+        0 0 18px rgba(0, 242, 254, 0.75),
+        inset 0 0 10px rgba(0, 242, 254, 0.35) !important;
+      text-shadow: 0 0 8px var(--cyan);
+      z-index: 2;
+    }
+
+    .key-3d.target-glow .sub-sym {
+      color: #a5f3fc;
+    }
+
+    /* KEY DEPRESSION WHEN USER PRESSES PHYSICAL KEY */
+    .key-3d.pressed {
+      transform: translateY(5px) !important;
+      box-shadow: 
+        0 1px 0 #070b14,
+        0 2px 4px rgba(0, 0, 0, 0.5) !important;
+      background: linear-gradient(180deg, #00f2fe 0%, #0284c7 100%) !important;
+      color: #030712 !important;
+      border-color: #ffffff !important;
+    }
+
+    .key-3d.wrong-flash {
+      transform: translateY(5px) !important;
+      background: linear-gradient(180deg, #ff4d6d 0%, #be123c 100%) !important;
+      color: #ffffff !important;
+      border-color: #fda4af !important;
+      box-shadow: 0 1px 0 #881337, 0 0 20px rgba(255, 77, 109, 0.8) !important;
+    }
+
+    /* 3D ARTICULATED REALISTIC HAND MODEL OVERLAY */
+    .hands-3d-overlay {
+      position: absolute;
+      top: 28px;
+      left: 0;
+      right: 0;
+      height: 235px;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      gap: 78px;
+      z-index: 25;
+      transition: opacity 0.25s ease;
+    }
+
+    .hand-model-svg {
+      width: 245px;
+      height: 245px;
+      overflow: visible;
+      filter: drop-shadow(0 14px 20px rgba(0, 0, 0, 0.65));
+    }
+
+    .finger-bone {
+      transition: transform 0.12s cubic-bezier(0.22, 1, 0.36, 1), filter 0.12s ease;
+      transform-origin: center bottom;
+    }
+
+    .finger-bone.active-finger {
+      transform: translateY(-7px) scale(1.02);
+      filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.9));
+    }
+
+    .finger-bone.pressing-finger {
+      transform: translateY(5px) scale(0.98) !important;
+    }
+
+    .finger-bone.active-finger .f-mesh {
+      fill: url(#activeFingerGrad) !important;
+      stroke: #00f2fe !important;
+      stroke-width: 2px !important;
+    }
+
+    .finger-bone.active-finger .f-nail {
+      fill: rgba(0, 242, 254, 0.5) !important;
+      stroke: #ffffff !important;
+    }
+
+    .finger-tip-beacon {
+      fill: #00f2fe;
+      opacity: 0;
+      transition: opacity 0.12s;
+    }
+
+    .finger-bone.active-finger .finger-tip-beacon {
+      opacity: 1;
+    }
+
+    /* BOTTOM CONTROLS (TOGGLE KB, TOGGLE HANDS, RESET) */
+    .bottom-bar-controls {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 12px;
+      z-index: 35;
+    }
+
+    .round-ctrl-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: #141c2e;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #94a3b8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.45);
+    }
+
+    .round-ctrl-btn:hover {
+      background: #1e293b;
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .round-ctrl-btn.active {
+      background: rgba(0, 242, 254, 0.14);
+      color: var(--cyan);
+      border-color: rgba(0, 242, 254, 0.45);
+      box-shadow: 0 0 14px rgba(0, 242, 254, 0.2);
+    }
+
+    /* RIGHT SIDEBAR HUD STACK */
+    .hud-sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: rgba(13, 20, 36, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: 14px 12px;
+      border-radius: 22px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
+    }
+
+    .hud-box {
+      background: rgba(20, 29, 49, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 15px;
+      padding: 12px 8px;
+      text-align: center;
+    }
+
+    .hud-lbl {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      display: block;
+    }
+
+    .hud-val {
+      font-size: 21px;
+      font-weight: 800;
+      font-variant-numeric: tabular-nums;
+      color: #ffffff;
+    }
+
+    .hud-val.cyan { color: var(--cyan); }
+    .hud-val.emerald { color: var(--emerald); }
+    .hud-val.rose { color: var(--rose); }
+
+    /* EXIT / CLOSE WINDOW BUTTON AT BOTTOM OF RIGHT SIDEBAR */
+    .btn-exit-window {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: rgba(255, 77, 109, 0.12);
+      border: 1px solid rgba(255, 77, 109, 0.3);
+      color: #fda4af;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 4px auto 0 auto;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .btn-exit-window:hover {
+      background: var(--rose);
+      color: #ffffff;
+      border-color: var(--rose);
+      box-shadow: 0 0 16px rgba(255, 77, 109, 0.5);
+      transform: scale(1.06);
+    }
+
+    /* COMPLETION MODAL (MATCHES image_4e7ba7.png 100%) */
+    .result-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(4, 6, 14, 0.84);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 300;
+      padding: 20px;
+    }
+
+    .result-backdrop.show {
+      display: flex;
+    }
+
+    .result-modal-card {
+      width: 100%;
+      max-width: 500px;
+      background: #131129;
+      border: 1px solid rgba(167, 139, 250, 0.22);
+      border-radius: 28px;
+      padding: 28px 32px 26px 32px;
+      position: relative;
+      text-align: center;
+      box-shadow: 
+        0 28px 65px rgba(0, 0, 0, 0.85),
+        0 0 40px rgba(139, 92, 246, 0.15);
+      animation: popModal 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes popModal {
+      from { opacity: 0; transform: scale(0.92) translateY(10px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+
+    .modal-close-x {
+      position: absolute;
+      top: 18px;
+      right: 18px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #cbd5e1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .modal-close-x:hover {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .confetti-svg-wrap {
+      width: 72px;
+      height: 72px;
+      margin: 0 auto 8px auto;
+    }
+
+    .result-heading {
+      font-size: 28px;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+      letter-spacing: -0.3px;
+    }
+
+    .stars-combo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 22px;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--amber);
+    }
+
+    .star-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .star-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* DASHED STAT BOXES */
+    .dashed-stats-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .dashed-stat-box {
+      position: relative;
+      background: rgba(24, 21, 52, 0.7);
+      border: 1.5px dashed rgba(148, 163, 184, 0.28);
+      border-radius: 20px;
+      padding: 24px 14px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .goal-pill-badge {
+      position: absolute;
+      top: -12px;
+      background: #191636;
+      border: 1px solid rgba(167, 139, 250, 0.35);
+      color: #e2e8f0;
+      font-size: 11.5px;
+      font-weight: 700;
+      padding: 3px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .big-stat-num {
+      font-size: 46px;
+      font-weight: 800;
+      line-height: 1.05;
+      margin-bottom: 8px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .big-stat-num.blue { color: #38bdf8; }
+    .big-stat-num.mint { color: #2dd4bf; }
+
+    .stat-meta-sub {
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #94a3b8;
+      line-height: 1.45;
+    }
+
+    .guest-notice {
+      font-size: 12.5px;
+      color: #a78bfa;
+      margin-bottom: 6px;
+    }
+
+    .login-save-link {
+      display: inline-block;
+      font-size: 13.5px;
+      font-weight: 700;
+      color: #c4b5fd;
+      text-decoration: underline;
+      text-underline-offset: 4px;
+      margin-bottom: 18px;
+      cursor: pointer;
+    }
+
+    .login-save-link:hover {
+      color: #ffffff;
+    }
+
+    /* WEAK KEYS BAR */
+    .weak-keys-box {
+      background: rgba(34, 30, 68, 0.75);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 16px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .weak-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #cbd5e1;
+    }
+
+    .weak-key-badges {
       display: flex;
       align-items: center;
       gap: 6px;
     }
 
-    .lang-pill {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 8px 16px;
-      border-radius: 9999px;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .lang-pill:hover {
+    .wk-cap {
+      background: #110f24;
+      border: 1px solid rgba(255, 255, 255, 0.14);
       color: #ffffff;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .lang-pill.active {
-      background: rgba(255, 255, 255, 0.12);
-      color: #ffffff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-    }
-
-    .timer-dropdown {
-      position: relative;
-    }
-
-    .timer-menu {
-      position: absolute;
-      top: 50px;
-      right: 0;
-      background: #111827;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 14px;
-      padding: 6px;
-      min-width: 140px;
-      display: none;
-      box-shadow: 0 16px 36px rgba(0,0,0,0.6);
-      z-index: 60;
-    }
-
-    .timer-menu.show {
-      display: block;
-    }
-
-    .fullscreen-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-muted);
-      padding: 8px;
-      border-radius: 9999px;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.2s;
-    }
-
-    .fullscreen-btn:hover {
-      color: #ffffff;
-      background: rgba(255, 255, 255, 0.08);
-    }
-
-    /* CURRENT BADGE */
-    .lang-indicator {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 24px;
-      font-size: 14px;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-    }
-
-    .lang-indicator svg {
-      width: 18px;
-      height: 18px;
-      fill: #e44d26;
-    }
-
-    /* CODE TYPING DISPLAY BOX */
-    .typing-box {
-      width: 100%;
-      max-width: 820px;
-      min-height: 170px;
-      padding: 24px 36px;
-      border-radius: 20px;
-      background: rgba(13, 20, 36, 0.65);
-      border: 1px solid var(--border-card);
-      box-shadow: 0 16px 40px -10px rgba(0,0,0,0.4);
       font-family: 'Fira Code', monospace;
-      font-size: 20px;
-      line-height: 1.8;
-      letter-spacing: 0.5px;
-      color: #64748b;
-      position: relative;
-      outline: none;
-      cursor: text;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
+      font-size: 12.5px;
+      font-weight: 700;
+      padding: 3px 9px;
+      border-radius: 7px;
     }
 
-    .typing-box:focus {
-      border-color: rgba(0, 242, 254, 0.4);
-      box-shadow: 0 0 25px rgba(0, 242, 254, 0.15);
-    }
-
-    .typing-text-wrap {
-      white-space: pre-wrap;
-      word-break: break-all;
-    }
-
-    .char {
-      position: relative;
-      transition: color 0.1s;
-    }
-
-    .char.correct {
-      color: #38ef7d;
-    }
-
-    .char.wrong {
-      color: #ff4b4b;
-      background: rgba(255, 75, 75, 0.2);
-      border-radius: 2px;
-    }
-
-    .char.current {
-      color: #ffffff;
-      background: rgba(0, 242, 254, 0.25);
-      border-bottom: 2px solid var(--accent-cyan);
-      animation: pulseCursor 1.2s infinite;
-    }
-
-    @keyframes pulseCursor {
-      0%, 100% { border-color: var(--accent-cyan); box-shadow: 0 0 10px var(--accent-cyan-glow); }
-      50% { border-color: transparent; box-shadow: none; }
-    }
-
-    /* 3D KEYBOARD STAGE */
-    .keyboard-workspace {
-      margin-top: 36px;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100%;
-      max-width: 780px;
-    }
-
-    /* 3D CREAM CHASSIS */
-    .kb-3d-chassis {
-      background: linear-gradient(180deg, #ece7df 0%, #dbd4c8 100%);
-      padding: 16px 18px 22px 18px;
-      border-radius: 22px;
-      box-shadow: 
-        0 1px 0 rgba(255,255,255,0.8) inset,
-        0 14px 0 #aba394,
-        0 24px 35px rgba(0, 0, 0, 0.6);
-      width: 100%;
-      position: relative;
-      transform: perspective(900px) rotateX(10deg);
-      transform-style: preserve-3d;
-      transition: transform 0.2s ease;
-    }
-
-    /* FEET SCREWS UNDER CHASSIS */
-    .kb-feet {
-      position: absolute;
-      bottom: -18px;
-      left: 0;
-      right: 0;
-      display: flex;
-      justify-content: space-around;
-      padding: 0 40px;
-      pointer-events: none;
-    }
-
-    .foot-cyl {
-      width: 18px;
-      height: 10px;
-      background: linear-gradient(90deg, #94a3b8 0%, #e2e8f0 50%, #64748b 100%);
-      border-radius: 3px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.5);
-    }
-
-    .kb-inner-plate {
-      background: #c3bbb0;
-      padding: 10px;
-      border-radius: 14px;
-      box-shadow: inset 0 3px 6px rgba(0,0,0,0.3);
-      display: flex;
-      flex-direction: column;
-      gap: 7px;
-    }
-
-    .kb-row {
-      display: flex;
-      gap: 6.5px;
-      justify-content: center;
-    }
-
-    /* 3D KEYCAP */
-    .keycap {
-      height: 42px;
-      min-width: 40px;
-      padding: 0 10px;
-      background: var(--kb-cap-cream);
-      color: #334155;
-      font-family: 'Plus Jakarta Sans', sans-serif;
+    .train-weak-link {
+      background: none;
+      border: none;
+      color: #c4b5fd;
       font-size: 13px;
       font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 7px;
-      border: 1px solid rgba(255,255,255,0.7);
-      box-shadow: 0 4.5px 0 var(--kb-cap-cream-shadow), 0 6px 8px rgba(0,0,0,0.25);
-      position: relative;
       cursor: pointer;
-      transition: transform 0.05s ease, box-shadow 0.05s ease, background 0.15s ease;
+      transition: color 0.2s;
     }
 
-    .keycap.dark {
-      background: #788596;
+    .train-weak-link:hover {
       color: #ffffff;
-      box-shadow: 0 4.5px 0 #4f5a67, 0 6px 8px rgba(0,0,0,0.3);
-      border-color: rgba(255,255,255,0.25);
     }
 
-    .keycap.space {
-      min-width: 250px;
-    }
-
-    .keycap.w-125 { min-width: 52px; }
-    .keycap.w-150 { min-width: 62px; }
-    .keycap.w-175 { min-width: 72px; }
-    .keycap.w-200 { min-width: 82px; }
-    .keycap.w-225 { min-width: 94px; }
-
-    /* PHYSICAL DEPRESSION EFFECT */
-    .keycap.pressed, .keycap:active {
-      transform: translateY(4px);
-      box-shadow: 0 0.5px 0 var(--kb-cap-cream-shadow), 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    .keycap.dark.pressed, .keycap.dark:active {
-      transform: translateY(4px);
-      box-shadow: 0 0.5px 0 #4f5a67, 0 2px 4px rgba(0,0,0,0.2);
-    }
-
-    /* TARGET KEY GLOW */
-    .keycap.target {
-      background: #e0faff !important;
-      color: #007799 !important;
-      border-color: var(--accent-cyan) !important;
-      box-shadow: 0 4.5px 0 #7dd3fc, 0 0 16px rgba(0, 242, 254, 0.7) !important;
-      animation: keyPulse 1.2s infinite alternate;
-    }
-
-    @keyframes keyPulse {
-      0% { box-shadow: 0 4.5px 0 #7dd3fc, 0 0 12px rgba(0, 242, 254, 0.5); }
-      100% { box-shadow: 0 4.5px 0 #7dd3fc, 0 0 24px rgba(0, 242, 254, 0.9); }
-    }
-
-    /* GHOST HANDS OVERLAY ("มือร่างๆ") */
-    .hands-overlay {
-      position: absolute;
-      top: 30px;
-      left: 0;
-      right: 0;
-      bottom: -20px;
-      pointer-events: none;
-      display: flex;
-      justify-content: center;
-      gap: 110px;
-      z-index: 20;
-      transition: opacity 0.3s;
-    }
-
-    .hand-ghost {
-      width: 210px;
-      height: 290px;
-      opacity: 0.52;
-      filter: drop-shadow(0 10px 15px rgba(0,0,0,0.4));
-      transition: transform 0.1s ease;
-    }
-
-    .ghost-skin {
-      fill: rgba(247, 198, 166, 0.5);
-      stroke: rgba(255, 230, 215, 0.85);
-      stroke-width: 1.5;
-    }
-
-    .finger-guide-dot {
-      fill: var(--accent-cyan);
-      filter: drop-shadow(0 0 6px var(--accent-cyan));
-      display: none;
-    }
-
-    .finger-guide-dot.active {
-      display: block;
-      animation: dotBlink 0.8s infinite alternate;
-    }
-
-    @keyframes dotBlink {
-      from { r: 6px; opacity: 0.7; }
-      to { r: 9px; opacity: 1; }
-    }
-
-    /* BOTTOM TOGGLES (KEYBOARD / HANDS) */
-    .bottom-toggles {
+    /* MODAL BOTTOM ACTION ROW */
+    .modal-bottom-row {
       display: flex;
       align-items: center;
-      gap: 14px;
-      margin-top: 28px;
+      gap: 12px;
     }
 
-    .circle-toggle-btn {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: #ffffff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .circle-toggle-btn:hover {
-      background: rgba(255, 255, 255, 0.16);
-      transform: translateY(-2px);
-    }
-
-    .circle-toggle-btn.active {
-      background: rgba(0, 242, 254, 0.2);
-      border-color: var(--accent-cyan);
-      color: var(--accent-cyan);
-      box-shadow: 0 0 14px rgba(0, 242, 254, 0.3);
-    }
-
-    .circle-toggle-btn svg {
-      width: 20px;
-      height: 20px;
-      fill: currentColor;
-    }
-
-    /* RIGHT HUD STATS STACK */
-    .hud-stack {
-      width: 130px;
-      display: flex;
-      flex-direction: column;
-      gap: 16px;
-      padding-top: 50px;
-    }
-
-    .stat-card {
-      background: rgba(18, 25, 41, 0.75);
-      border: 1px solid var(--border-card);
-      border-radius: 18px;
-      padding: 18px 12px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.25);
-      transition: transform 0.2s;
-    }
-
-    .stat-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(255,255,255,0.15);
-    }
-
-    .stat-label {
-      font-size: 11px;
-      font-weight: 800;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      text-transform: uppercase;
-    }
-
-    .stat-value {
-      font-size: 22px;
-      font-weight: 800;
-      color: #ffffff;
-      font-variant-numeric: tabular-nums;
-    }
-
-    .stat-value.cyan { color: var(--accent-cyan); text-shadow: 0 0 12px var(--accent-cyan-glow); }
-    .stat-value.green { color: #38ef7d; }
-    .stat-value.red { color: #ff5252; }
-
-    /* RESET / RELOAD BUTTON */
-    .btn-reset-circle {
+    .sq-modal-btn {
       width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: rgba(18, 25, 41, 0.8);
-      border: 1px solid rgba(255, 255, 255, 0.12);
-      color: var(--text-muted);
+      height: 50px;
+      border-radius: 15px;
+      background: #1b1838;
+      border: 1.5px solid rgba(167, 139, 250, 0.35);
+      color: #e2e8f0;
       display: flex;
       align-items: center;
       justify-content: center;
-      margin: 8px auto 0 auto;
       cursor: pointer;
-      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.3);
-    }
-
-    .btn-reset-circle:hover {
-      background: #1e293b;
-      color: #ffffff;
-      border-color: rgba(255, 255, 255, 0.3);
-      transform: rotate(90deg) scale(1.08);
-    }
-
-    .btn-reset-circle svg {
-      width: 24px;
-      height: 24px;
-      fill: currentColor;
-    }
-
-    /* COMPLETION MODAL */
-    .modal-backdrop {
-      position: fixed;
-      inset: 0;
-      background: rgba(4, 7, 13, 0.85);
-      backdrop-filter: blur(12px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 200;
-    }
-
-    .modal-backdrop.show {
-      display: flex;
-    }
-
-    .modal-box {
-      background: #0f172a;
-      border: 1px solid rgba(255,255,255,0.15);
-      border-radius: 24px;
-      padding: 36px 40px;
-      width: 100%;
-      max-width: 460px;
-      text-align: center;
-      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
-      animation: modalPop 0.3s ease-out;
-    }
-
-    @keyframes modalPop {
-      from { opacity: 0; transform: scale(0.92); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    .modal-title {
-      font-size: 24px;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 8px;
-    }
-
-    .modal-sub {
-      font-size: 14px;
-      color: var(--text-muted);
-      margin-bottom: 24px;
-    }
-
-    .modal-metrics {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 28px;
-    }
-
-    .metric-card {
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 14px;
-    }
-
-    .metric-card .num {
-      font-size: 26px;
-      font-weight: 800;
-      color: var(--accent-cyan);
-    }
-
-    .metric-card .lbl {
-      font-size: 11px;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      margin-top: 4px;
-    }
-
-    .modal-actions {
-      display: flex;
-      gap: 12px;
-    }
-
-    .btn-modal {
-      flex: 1;
-      padding: 12px;
-      border-radius: 12px;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      border: none;
       transition: all 0.2s;
+      flex-shrink: 0;
+      text-decoration: none;
     }
 
-    .btn-modal.primary {
-      background: var(--accent-cyan);
-      color: #040812;
-    }
-
-    .btn-modal.primary:hover {
-      background: #38ef7d;
+    .sq-modal-btn:hover {
+      background: #27234d;
+      border-color: #a78bfa;
       transform: translateY(-2px);
     }
 
-    .btn-modal.secondary {
-      background: rgba(255,255,255,0.08);
-      color: #ffffff;
+    .btn-next-lesson {
+      flex: 1;
+      height: 50px;
+      border-radius: 15px;
+      background: #a78bfa;
+      border: none;
+      color: #0f0d26;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans Thai', sans-serif;
+      font-size: 15.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      box-shadow: 0 8px 22px rgba(167, 139, 250, 0.35);
     }
 
-    .btn-modal.secondary:hover {
-      background: rgba(255,255,255,0.15);
+    .btn-next-lesson:hover {
+      background: #c4b5fd;
+      transform: translateY(-2px);
     }
   </style>
 </head>
 <body>
 
-  <!-- TOP NAVBAR -->
+  <!-- TOP NAVIGATION -->
   <nav class="navbar">
     <a href="index.html" class="brand">
-      Typing Code Trainer<span class="cursor-blink"></span>
+      Typing Code Trainer<span class="brand-cursor"></span>
     </a>
 
-    <ul class="nav-menu">
-      <li><a href="index.html" class="nav-link">Home</a></li>
-      <li><a href="practice.html" class="nav-link active">Practice</a></li>
-      <li><a href="party.html" class="nav-link">Party</a></li>
-      <li><a href="ranking.html" class="nav-link">Ranking</a></li>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="practice.html" class="active">Practice</a></li>
+      <li><a href="party.html">Party</a></li>
+      <li><a href="ranking.html">Ranking</a></li>
     </ul>
 
-    <div class="nav-right">
-      <button class="btn-signin" onclick="alert('Sign In modal')">Sign In</button>
+    <div class="nav-actions">
+      <button class="btn-sound" id="btnSoundToggle" onclick="toggleAudio(this)" title="เปิด/ปิดเสียงคีย์บอร์ด">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+        </svg>
+      </button>
+      <button class="btn-signin" onclick="alert('ระบบเข้าสู่ระบบ (Sign In)')">Sign In</button>
     </div>
   </nav>
 
-  <!-- MAIN STUDIO CONTAINER -->
-  <main class="studio-container">
+  <!-- SINGLE-SCREEN WORKSPACE -->
+  <main class="studio-layout">
     
-    <!-- CENTER PRACTICE STAGE -->
-    <div class="center-stage">
+    <!-- CENTER STAGE -->
+    <section class="center-arena">
       
-      <!-- FLOATING PILL TOOLBAR -->
-      <div class="top-toolbar">
-        <!-- LEVEL SELECTOR DROPDOWN -->
-        <div style="position: relative;">
-          <button class="toolbar-dropdown-btn" id="btnLevelDropdown" onclick="toggleDropdown('levelDropdown')">
-            <span id="lblCurrentLevel">L1 Key Starter</span>
+      <!-- TOP PILL CONTROL BAR -->
+      <div class="top-pill-bar">
+        
+        <!-- LEVEL DROPDOWN -->
+        <div class="dropdown-wrap">
+          <button class="pill-select-btn" onclick="toggleMenu('levelMenu', this)">
+            <span id="currentLevelText">L1 Key Starter</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
           </button>
-          <div class="dropdown-menu" id="levelDropdown">
-            <div class="dropdown-item active" onclick="selectLevel('L1', 'L1 Key Starter')">
-              L1 Key Starter
-              <span class="desc">แป้นพื้นฐานและตำแหน่งนิ้ว</span>
+          <div class="dropdown-panel" id="levelMenu">
+            <div class="dd-option selected" onclick="changeLevel('L1', 'L1 Key Starter', this)">
+              <span class="dd-title">L1 Key Starter</span>
+              <span class="dd-sub">แป้นพื้นฐานและตำแหน่งนิ้ว</span>
             </div>
-            <div class="dropdown-item" onclick="selectLevel('L2', 'L2 Syntax Builder')">
-              L2 Syntax Builder
-              <span class="desc">คำสั่งและแท็กสั้น ๆ</span>
+            <div class="dd-option" onclick="changeLevel('L2', 'L2 Syntax Builder', this)">
+              <span class="dd-title">L2 Syntax Builder</span>
+              <span class="dd-sub">คำสั่งและแท็กสั้น ๆ</span>
             </div>
-            <div class="dropdown-item" onclick="selectLevel('L3', 'L3 Code Builder')">
-              L3 Code Builder
-              <span class="desc">ประโยคโค้ดจริงหลายบรรทัด</span>
+            <div class="dd-option" onclick="changeLevel('L3', 'L3 Code Builder', this)">
+              <span class="dd-title">L3 Code Builder</span>
+              <span class="dd-sub">ประโยคโค้ดจริงหลายบรรทัด</span>
             </div>
           </div>
         </div>
 
-        <!-- LANGUAGE PILLS -->
-        <div class="lang-pills">
-          <button class="lang-pill active" onclick="setLanguage('html', this)">HTML &amp; CSS</button>
-          <button class="lang-pill" onclick="setLanguage('js', this)">JavaScript</button>
-          <button class="lang-pill" onclick="setLanguage('php', this)">PHP</button>
-          <button class="lang-pill" onclick="setLanguage('py', this)">Python</button>
-          <button class="lang-pill" onclick="setLanguage('symbols', this)">Symbols &amp; Brackets</button>
+        <!-- LANGUAGE TABS -->
+        <div class="lang-group">
+          <button class="lang-tab active" data-lang="html" onclick="changeLang('html', 'HTML & CSS', this)">HTML &amp; CSS</button>
+          <button class="lang-tab" data-lang="js" onclick="changeLang('js', 'JavaScript', this)">JavaScript</button>
+          <button class="lang-tab" data-lang="php" onclick="changeLang('php', 'PHP', this)">PHP</button>
+          <button class="lang-tab" data-lang="py" onclick="changeLang('py', 'Python', this)">Python</button>
+          <button class="lang-tab" data-lang="symbols" onclick="changeLang('symbols', 'Symbols & Brackets', this)">Symbols &amp; Brackets</button>
         </div>
 
-        <!-- TIMER DROPDOWN -->
-        <div class="timer-dropdown">
-          <button class="toolbar-dropdown-btn" id="btnTimerDropdown" onclick="toggleDropdown('timerDropdown')">
-            <span id="lblCurrentTimeMode">TIME</span>
+        <!-- TIME DROPDOWN -->
+        <div class="dropdown-wrap">
+          <button class="pill-select-btn" onclick="toggleMenu('timeMenu', this)">
+            <span id="currentTimeText">TIME: Free</span>
             <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M7 10l5 5 5-5z"/></svg>
           </button>
-          <div class="timer-menu" id="timerDropdown">
-            <div class="dropdown-item active" onclick="setTimeMode(0, 'Free Time')">Free Time</div>
-            <div class="dropdown-item" onclick="setTimeMode(15, '15s')">15 Seconds</div>
-            <div class="dropdown-item" onclick="setTimeMode(30, '30s')">30 Seconds</div>
-            <div class="dropdown-item" onclick="setTimeMode(60, '60s')">60 Seconds</div>
+          <div class="dropdown-panel right" id="timeMenu">
+            <div class="dd-option selected" onclick="changeTimeMode(0, 'TIME: Free', this)">
+              <span class="dd-title">Free Practice</span>
+              <span class="dd-sub">ไม่จำกัดเวลา</span>
+            </div>
+            <div class="dd-option" onclick="changeTimeMode(30, 'TIME: 30s', this)">
+              <span class="dd-title">30 Seconds</span>
+              <span class="dd-sub">จับเวลา 30 วินาที</span>
+            </div>
+            <div class="dd-option" onclick="changeTimeMode(60, 'TIME: 60s', this)">
+              <span class="dd-title">60 Seconds</span>
+              <span class="dd-sub">จับเวลา 1 นาที</span>
+            </div>
           </div>
         </div>
 
         <!-- FULLSCREEN BUTTON -->
-        <button class="fullscreen-btn" onclick="toggleFullScreen()" title="Full Screen">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+        <button class="icon-action-btn" onclick="toggleFullScreen(this)" title="ขยายเต็มจอ">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor">
             <path d="M7 14H5v5h5v-2H7v-3zm-2-4h2V7h3V5H5v5zm12 7h-3v2h5v-5h-2v3zM14 5v2h3v3h2V5h-5z"/>
           </svg>
         </button>
       </div>
 
-      <!-- ACTIVE LANGUAGE BADGE -->
-      <div class="lang-indicator" id="langBadge">
-        <svg viewBox="0 0 24 24"><path d="M12 2L2 5v14l10 3 10-3V5L12 2zm0 2.2l7.7 2.3-2.1 11.4L12 19.3l-5.6-1.4L4.3 6.5 12 4.2z"/></svg>
-        <span id="langBadgeText">HTML &amp; CSS</span>
+      <!-- LANGUAGE & FINGER PLACEMENT HINT BAR -->
+      <div class="status-strip">
+        <div class="lang-badge-Tag">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#00f2fe" stroke-width="2.2">
+            <polyline points="16 18 22 12 16 6"></polyline>
+            <polyline points="8 6 2 12 8 18"></polyline>
+          </svg>
+          <span id="activeLangLabel">HTML &amp; CSS</span>
+        </div>
+
+        <div class="finger-pill" id="fingerGuidePill">
+          <span class="finger-dot-indicator"></span>
+          <span id="fingerHintText">วางนิ้วที่แป้นเหย้า ASDF และ JKL;</span>
+        </div>
+
+        <div class="thai-alert" id="thaiAlertBadge">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <span>ตรวจพบแป้นพิมพ์ภาษาไทย กรุณาสลับเป็นภาษาอังกฤษ (EN)</span>
+        </div>
       </div>
 
       <!-- CODE TYPING BOX -->
-      <div class="typing-box" id="typingBox" tabindex="0">
-        <div class="typing-text-wrap" id="typingTextContainer"></div>
+      <div class="code-arena-box active-focus" id="codeArenaBox">
+        <div class="code-content" id="codeDisplay"></div>
       </div>
 
-      <!-- 3D KEYBOARD & TRANSLUCENT GHOST HANDS STAGE -->
-      <div class="keyboard-workspace" id="kbWorkspace">
+      <!-- 3D DARK CYBER KEYBOARD + 3D ARTICULATED HANDS -->
+      <div class="kb-3d-stage">
         
-        <!-- 3D CREAM CHASSIS -->
-        <div class="kb-3d-chassis" id="kbChassis">
-          
-          <div class="kb-inner-plate">
-            <!-- Row 1 -->
+        <div class="kb-3d-case" id="kb3dCase">
+          <div class="kb-plate">
+            
+            <!-- ROW 1 -->
             <div class="kb-row">
-              <div class="keycap" data-key="`">`</div>
-              <div class="keycap" data-key="1">1</div>
-              <div class="keycap" data-key="2">2</div>
-              <div class="keycap" data-key="3">3</div>
-              <div class="keycap" data-key="4">4</div>
-              <div class="keycap" data-key="5">5</div>
-              <div class="keycap" data-key="6">6</div>
-              <div class="keycap" data-key="7">7</div>
-              <div class="keycap" data-key="8">8</div>
-              <div class="keycap" data-key="9">9</div>
-              <div class="keycap" data-key="0">0</div>
-              <div class="keycap" data-key="-">-</div>
-              <div class="keycap" data-key="=">=</div>
-              <div class="keycap dark w-150" data-key="Backspace">Bksp</div>
+              <div class="key-3d" data-key="`" data-shift="~"><span class="sub-sym">~</span>`</div>
+              <div class="key-3d" data-key="1" data-shift="!"><span class="sub-sym">!</span>1</div>
+              <div class="key-3d" data-key="2" data-shift="@"><span class="sub-sym">@</span>2</div>
+              <div class="key-3d" data-key="3" data-shift="#"><span class="sub-sym">#</span>3</div>
+              <div class="key-3d" data-key="4" data-shift="$"><span class="sub-sym">$</span>4</div>
+              <div class="key-3d" data-key="5" data-shift="%"><span class="sub-sym">%</span>5</div>
+              <div class="key-3d" data-key="6" data-shift="^"><span class="sub-sym">^</span>6</div>
+              <div class="key-3d" data-key="7" data-shift="&"><span class="sub-sym">&amp;</span>7</div>
+              <div class="key-3d" data-key="8" data-shift="*"><span class="sub-sym">*</span>8</div>
+              <div class="key-3d" data-key="9" data-shift="("><span class="sub-sym">(</span>9</div>
+              <div class="key-3d" data-key="0" data-shift=")"><span class="sub-sym">)</span>0</div>
+              <div class="key-3d" data-key="-" data-shift="_"><span class="sub-sym">_</span>-</div>
+              <div class="key-3d" data-key="=" data-shift="+"><span class="sub-sym">+</span>=</div>
+              <div class="key-3d mod w-150" data-key="backspace">BKSP</div>
             </div>
 
-            <!-- Row 2 -->
+            <!-- ROW 2 -->
             <div class="kb-row">
-              <div class="keycap dark w-125" data-key="Tab">Tab</div>
-              <div class="keycap" data-key="q">Q</div>
-              <div class="keycap" data-key="w">W</div>
-              <div class="keycap" data-key="e">E</div>
-              <div class="keycap" data-key="r">R</div>
-              <div class="keycap" data-key="t">T</div>
-              <div class="keycap" data-key="y">Y</div>
-              <div class="keycap" data-key="u">U</div>
-              <div class="keycap" data-key="i">I</div>
-              <div class="keycap" data-key="o">O</div>
-              <div class="keycap" data-key="p">P</div>
-              <div class="keycap" data-key="[">[</div>
-              <div class="keycap" data-key="]">]</div>
-              <div class="keycap" data-key="\">\</div>
+              <div class="key-3d mod w-125" data-key="tab">TAB</div>
+              <div class="key-3d" data-key="q">Q</div>
+              <div class="key-3d" data-key="w">W</div>
+              <div class="key-3d" data-key="e">E</div>
+              <div class="key-3d" data-key="r">R</div>
+              <div class="key-3d" data-key="t">T</div>
+              <div class="key-3d" data-key="y">Y</div>
+              <div class="key-3d" data-key="u">U</div>
+              <div class="key-3d" data-key="i">I</div>
+              <div class="key-3d" data-key="o">O</div>
+              <div class="key-3d" data-key="p">P</div>
+              <div class="key-3d" data-key="[" data-shift="{"><span class="sub-sym">{</span>[</div>
+              <div class="key-3d" data-key="]" data-shift="}"><span class="sub-sym">}</span>]</div>
+              <div class="key-3d" data-key="\" data-shift="|"><span class="sub-sym">|</span>\</div>
             </div>
 
-            <!-- Row 3 -->
+            <!-- ROW 3 -->
             <div class="kb-row">
-              <div class="keycap dark w-150" data-key="CapsLock">Caps</div>
-              <div class="keycap" data-key="a">A</div>
-              <div class="keycap" data-key="s">S</div>
-              <div class="keycap" data-key="d">D</div>
-              <div class="keycap" data-key="f">F</div>
-              <div class="keycap" data-key="g">G</div>
-              <div class="keycap" data-key="h">H</div>
-              <div class="keycap" data-key="j">J</div>
-              <div class="keycap" data-key="k">K</div>
-              <div class="keycap" data-key="l">L</div>
-              <div class="keycap" data-key=";">;</div>
-              <div class="keycap" data-key="'">'</div>
-              <div class="keycap dark w-175" data-key="Enter">Enter</div>
+              <div class="key-3d mod w-150" data-key="capslock">CAPS</div>
+              <div class="key-3d" data-key="a">A</div>
+              <div class="key-3d" data-key="s">S</div>
+              <div class="key-3d" data-key="d">D</div>
+              <div class="key-3d home-bump" data-key="f">F</div>
+              <div class="key-3d" data-key="g">G</div>
+              <div class="key-3d" data-key="h">H</div>
+              <div class="key-3d home-bump" data-key="j">J</div>
+              <div class="key-3d" data-key="k">K</div>
+              <div class="key-3d" data-key="l">L</div>
+              <div class="key-3d" data-key=";" data-shift=":"><span class="sub-sym">:</span>;</div>
+              <div class="key-3d" data-key="'" data-shift="&quot;"><span class="sub-sym">"</span>'</div>
+              <div class="key-3d mod w-175" data-key="enter">ENTER ↵</div>
             </div>
 
-            <!-- Row 4 -->
+            <!-- ROW 4 -->
             <div class="kb-row">
-              <div class="keycap dark w-200" data-key="ShiftLeft">Shift</div>
-              <div class="keycap" data-key="z">Z</div>
-              <div class="keycap" data-key="x">X</div>
-              <div class="keycap" data-key="c">C</div>
-              <div class="keycap" data-key="v">V</div>
-              <div class="keycap" data-key="b">B</div>
-              <div class="keycap" data-key="n">N</div>
-              <div class="keycap" data-key="m">M</div>
-              <div class="keycap" data-key=",">,</div>
-              <div class="keycap" data-key=".">.</div>
-              <div class="keycap" data-key="/">/</div>
-              <div class="keycap dark w-225" data-key="ShiftRight">Shift</div>
+              <div class="key-3d mod w-200" data-key="shiftleft">SHIFT</div>
+              <div class="key-3d" data-key="z">Z</div>
+              <div class="key-3d" data-key="x">X</div>
+              <div class="key-3d" data-key="c">C</div>
+              <div class="key-3d" data-key="v">V</div>
+              <div class="key-3d" data-key="b">B</div>
+              <div class="key-3d" data-key="n">N</div>
+              <div class="key-3d" data-key="m">M</div>
+              <div class="key-3d" data-key="," data-shift="<"><span class="sub-sym">&lt;</span>,</div>
+              <div class="key-3d" data-key="." data-shift=">"><span class="sub-sym">&gt;</span>.</div>
+              <div class="key-3d" data-key="/" data-shift="?"><span class="sub-sym">?</span>/</div>
+              <div class="key-3d mod w-225" data-key="shiftright">SHIFT</div>
             </div>
 
-            <!-- Row 5 -->
+            <!-- ROW 5 -->
             <div class="kb-row">
-              <div class="keycap dark w-125">Ctrl</div>
-              <div class="keycap dark w-125">Alt</div>
-              <div class="keycap space" data-key=" ">SPACEBAR</div>
-              <div class="keycap dark w-125">Alt</div>
-              <div class="keycap dark w-125">Ctrl</div>
+              <div class="key-3d mod w-125" data-key="control">CTRL</div>
+              <div class="key-3d mod w-125" data-key="alt">ALT</div>
+              <div class="key-3d w-space" data-key=" ">SPACEBAR</div>
+              <div class="key-3d mod w-125" data-key="alt">ALT</div>
+              <div class="key-3d mod w-125" data-key="control">CTRL</div>
             </div>
-          </div>
 
-          <!-- 5 Metallic Cylinders (Under Chassis) -->
-          <div class="kb-feet">
-            <div class="foot-cyl"></div>
-            <div class="foot-cyl"></div>
-            <div class="foot-cyl"></div>
-            <div class="foot-cyl"></div>
-            <div class="foot-cyl"></div>
           </div>
         </div>
 
-        <!-- TRANSLUCENT GHOST HANDS ("มือร่างๆ") -->
-        <div class="hands-overlay" id="handsOverlay">
+        <!-- 3D ARTICULATED REALISTIC HAND MODEL OVERLAY -->
+        <div class="hands-3d-overlay" id="hands3dOverlay">
           
-          <!-- LEFT GHOST HAND -->
-          <svg class="hand-ghost" id="leftHand" viewBox="0 0 200 300">
-            <g class="ghost-skin">
-              <!-- Wrist -->
-              <path d="M 60 290 L 60 210 Q 55 170 45 130 Q 42 110 52 110 Q 62 110 65 140 L 70 90 Q 72 70 82 70 Q 92 70 92 100 L 96 60 Q 98 40 108 40 Q 118 40 118 75 L 122 80 Q 125 65 135 65 Q 145 65 142 95 L 140 140 Q 155 150 162 170 Q 170 190 155 205 Q 140 210 135 240 L 135 290 Z" />
-            </g>
-            <!-- Finger Indicators -->
-            <circle class="finger-guide-dot" id="dot-left-pinky" cx="50" cy="115" r="7"/>
-            <circle class="finger-guide-dot" id="dot-left-ring" cx="77" cy="75" r="7"/>
-            <circle class="finger-guide-dot" id="dot-left-middle" cx="103" cy="45" r="7"/>
-            <circle class="finger-guide-dot" id="dot-left-index" cx="130" cy="70" r="7"/>
-            <circle class="finger-guide-dot" id="dot-left-thumb" cx="160" cy="180" r="7"/>
+          <!-- SHARED SVG DEFINITIONS FOR 3D HAND SKIN & CYAN HOLOGRAM SHADING -->
+          <svg width="0" height="0" style="position:absolute">
+            <defs>
+              <linearGradient id="skin3dGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="rgba(245, 203, 178, 0.46)" />
+                <stop offset="50%" stop-color="rgba(224, 172, 142, 0.38)" />
+                <stop offset="100%" stop-color="rgba(168, 114, 86, 0.34)" />
+              </linearGradient>
+              <linearGradient id="palm3dGrad" x1="50%" y1="0%" x2="50%" y2="100%">
+                <stop offset="0%" stop-color="rgba(235, 186, 158, 0.38)" />
+                <stop offset="100%" stop-color="rgba(140, 92, 68, 0.22)" />
+              </linearGradient>
+              <linearGradient id="activeFingerGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                <stop offset="0%" stop-color="rgba(0, 242, 254, 0.65)" />
+                <stop offset="100%" stop-color="rgba(0, 140, 255, 0.28)" />
+              </linearGradient>
+            </defs>
           </svg>
 
-          <!-- RIGHT GHOST HAND -->
-          <svg class="hand-ghost" id="rightHand" viewBox="0 0 200 300">
-            <g class="ghost-skin">
-              <!-- Wrist -->
-              <path d="M 140 290 L 140 210 Q 145 170 155 130 Q 158 110 148 110 Q 138 110 135 140 L 130 90 Q 128 70 118 70 Q 108 70 108 100 L 104 60 Q 102 40 92 40 Q 82 40 82 75 L 78 80 Q 75 65 65 65 Q 55 65 58 95 L 60 140 Q 45 150 38 170 Q 30 190 45 205 Q 60 210 65 240 L 65 290 Z" />
+          <!-- LEFT 3D ARTICULATED HAND -->
+          <svg class="hand-model-svg" viewBox="0 0 240 250">
+            <!-- Palm & Wrist Base -->
+            <path d="M 42 135 C 40 112, 162 108, 166 135 L 172 182 C 174 205, 155 225, 148 248 L 62 248 C 56 222, 38 190, 42 135 Z" 
+                  fill="url(#palm3dGrad)" stroke="rgba(255,228,210,0.45)" stroke-width="1.4" />
+            <!-- Left Pinky -->
+            <g class="finger-bone" id="bone-l-pinky">
+              <rect class="f-mesh" x="34" y="56" width="24" height="86" rx="12" transform="rotate(-9 46 135)" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="39" y="61" width="14" height="15" rx="6" transform="rotate(-9 46 135)" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="40" cy="68" r="4.5"/>
             </g>
-            <!-- Finger Indicators -->
-            <circle class="finger-guide-dot" id="dot-right-thumb" cx="40" cy="180" r="7"/>
-            <circle class="finger-guide-dot" id="dot-right-index" cx="70" cy="70" r="7"/>
-            <circle class="finger-guide-dot" id="dot-right-middle" cx="97" cy="45" r="7"/>
-            <circle class="finger-guide-dot" id="dot-right-ring" cx="123" cy="75" r="7"/>
-            <circle class="finger-guide-dot" id="dot-right-pinky" cx="150" cy="115" r="7"/>
+            <!-- Left Ring -->
+            <g class="finger-bone" id="bone-l-ring">
+              <rect class="f-mesh" x="66" y="30" width="26" height="106" rx="13" transform="rotate(-3 79 135)" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="71" y="35" width="16" height="17" rx="7" transform="rotate(-3 79 135)" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="77" cy="43" r="4.5"/>
+            </g>
+            <!-- Left Middle -->
+            <g class="finger-bone" id="bone-l-middle">
+              <rect class="f-mesh" x="100" y="18" width="27" height="116" rx="13.5" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="105.5" y="23" width="16" height="17" rx="7" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="113.5" cy="31" r="4.5"/>
+            </g>
+            <!-- Left Index -->
+            <g class="finger-bone" id="bone-l-index">
+              <rect class="f-mesh" x="135" y="34" width="26" height="102" rx="13" transform="rotate(5 148 135)" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="140" y="39" width="16" height="17" rx="7" transform="rotate(5 148 135)" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="151" cy="47" r="4.5"/>
+            </g>
+            <!-- Left Thumb -->
+            <g class="finger-bone" id="bone-l-thumb">
+              <rect class="f-mesh" x="168" y="118" width="28" height="78" rx="14" transform="rotate(38 175 165)" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="174" y="123" width="16" height="16" rx="7" transform="rotate(38 175 165)" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="198" cy="132" r="4.5"/>
+            </g>
+          </svg>
+
+          <!-- RIGHT 3D ARTICULATED HAND -->
+          <svg class="hand-model-svg" viewBox="0 0 240 250">
+            <!-- Palm & Wrist Base -->
+            <path d="M 74 135 C 78 108, 200 112, 198 135 C 202 190, 184 222, 178 248 L 92 248 C 85 225, 66 205, 68 182 Z" 
+                  fill="url(#palm3dGrad)" stroke="rgba(255,228,210,0.45)" stroke-width="1.4" />
+            <!-- Right Thumb -->
+            <g class="finger-bone" id="bone-r-thumb">
+              <rect class="f-mesh" x="44" y="118" width="28" height="78" rx="14" transform="rotate(-38 65 165)" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="50" y="123" width="16" height="16" rx="7" transform="rotate(-38 65 165)" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="42" cy="132" r="4.5"/>
+            </g>
+            <!-- Right Index -->
+            <g class="finger-bone" id="bone-r-index">
+              <rect class="f-mesh" x="79" y="34" width="26" height="102" rx="13" transform="rotate(-5 92 135)" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="84" y="39" width="16" height="17" rx="7" transform="rotate(-5 92 135)" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="89" cy="47" r="4.5"/>
+            </g>
+            <!-- Right Middle -->
+            <g class="finger-bone" id="bone-r-middle">
+              <rect class="f-mesh" x="113" y="18" width="27" height="116" rx="13.5" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="118.5" y="23" width="16" height="17" rx="7" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="126.5" cy="31" r="4.5"/>
+            </g>
+            <!-- Right Ring -->
+            <g class="finger-bone" id="bone-r-ring">
+              <rect class="f-mesh" x="148" y="30" width="26" height="106" rx="13" transform="rotate(3 161 135)" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="153" y="35" width="16" height="17" rx="7" transform="rotate(3 161 135)" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="163" cy="43" r="4.5"/>
+            </g>
+            <!-- Right Pinky -->
+            <g class="finger-bone" id="bone-r-pinky">
+              <rect class="f-mesh" x="182" y="56" width="24" height="86" rx="12" transform="rotate(9 194 135)" fill="url(#skin3dGrad)" stroke="rgba(255,228,210,0.55)" stroke-width="1.4"/>
+              <rect class="f-nail" x="187" y="61" width="14" height="15" rx="6" transform="rotate(9 194 135)" fill="rgba(255,245,240,0.35)" stroke="rgba(255,255,255,0.4)" stroke-width="0.8"/>
+              <circle class="finger-tip-beacon" cx="200" cy="68" r="4.5"/>
+            </g>
           </svg>
 
         </div>
 
-        <!-- TOGGLE BUTTONS BELOW KEYBOARD -->
-        <div class="bottom-toggles">
-          <button class="circle-toggle-btn active" id="btnToggleKb" onclick="toggleKeyboard()" title="Show/Hide Keyboard">
-            <svg viewBox="0 0 24 24"><path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/></svg>
+        <!-- BOTTOM ROUND TOGGLE & RESET CONTROLS -->
+        <div class="bottom-bar-controls">
+          <!-- Toggle Keyboard -->
+          <button class="round-ctrl-btn active" id="btnToggleKb" onclick="toggleKbVisibility(this)" title="แสดง/ซ่อนคีย์บอร์ด 3D">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M20 5H4c-1.1 0-1.99.9-1.99 2L2 17c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm-9 3h2v2h-2V8zm0 3h2v2h-2v-2zM8 8h2v2H8V8zm0 3h2v2H8v-2zm-1 2H5v-2h2v2zm0-3H5V8h2v2zm9 7H8v-2h8v2zm0-4h-2v-2h2v2zm0-3h-2V8h2v2zm3 3h-2v-2h2v2zm0-3h-2V8h2v2z"/>
+            </svg>
           </button>
-          <button class="circle-toggle-btn active" id="btnToggleHands" onclick="toggleHands()" title="Show/Hide Hands">
-            <svg viewBox="0 0 24 24"><path d="M21 7c-.55 0-1 .45-1 1v4.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V4c0-.55-.45-1-1-1s-1 .45-1 1v7.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V2c0-.55-.45-1-1-1s-1 .45-1 1v9.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V4.5c0-.55-.45-1-1-1s-1 .45-1 1V16.3c-1.07-.6-2.12-.9-3-.9-1.74 0-3.41.88-4.22 2.37l-.78 1.43c-.39.73-.24 1.63.36 2.19l5.96 5.56c.74.69 1.71 1.05 2.68 1.05H18c2.76 0 5-2.24 5-5V8c0-.55-.45-1-1-1z"/></svg>
+
+          <!-- Toggle 3D Hands -->
+          <button class="round-ctrl-btn active" id="btnToggleHands" onclick="toggleHandsVisibility(this)" title="แสดง/ซ่อนมือ 3D">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M21 7c-.55 0-1 .45-1 1v4.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V4c0-.55-.45-1-1-1s-1 .45-1 1v7.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V2c0-.55-.45-1-1-1s-1 .45-1 1v9.5c0 .28-.22.5-.5.5s-.5-.22-.5-.5V4.5c0-.55-.45-1-1-1s-1 .45-1 1V16.3c-1.07-.6-2.12-.9-3-.9-1.74 0-3.41.88-4.22 2.37l-.78 1.43c-.39.73-.24 1.63.36 2.19l5.96 5.56c.74.69 1.71 1.05 2.68 1.05H18c2.76 0 5-2.24 5-5V8c0-.55-.45-1-1-1z"/>
+            </svg>
+          </button>
+
+          <!-- Single-Arrow Circular Reset Button (matches image_4e6503.png) -->
+          <button class="round-ctrl-btn" onclick="restartCurrentLesson(this)" title="เริ่มพิมพ์บทนี้ใหม่ (Reset)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 1 1-3-6.7"/>
+              <polyline points="21 3 21 9 15 9"/>
+            </svg>
           </button>
         </div>
 
       </div>
 
-    </div>
+    </section>
 
-    <!-- RIGHT HUD STATS STACK -->
-    <aside class="hud-stack">
-      <div class="stat-card">
-        <span class="stat-label">TIME</span>
-        <span class="stat-value" id="hudTime">00:00</span>
+    <!-- RIGHT HUD STATS SIDEBAR -->
+    <aside class="hud-sidebar">
+      <div class="hud-box">
+        <span class="hud-lbl">TIME</span>
+        <span class="hud-val" id="statTime">00:00</span>
       </div>
 
-      <div class="stat-card">
-        <span class="stat-label">WPM</span>
-        <span class="stat-value cyan" id="hudWpm">0</span>
+      <div class="hud-box">
+        <span class="hud-lbl">WPM</span>
+        <span class="hud-val cyan" id="statWpm">0</span>
       </div>
 
-      <div class="stat-card">
-        <span class="stat-label">ACCURACY</span>
-        <span class="stat-value green" id="hudAccuracy">100%</span>
+      <div class="hud-box">
+        <span class="hud-lbl">ACCURACY</span>
+        <span class="hud-val emerald" id="statAcc">100%</span>
       </div>
 
-      <div class="stat-card">
-        <span class="stat-label">WRONG</span>
-        <span class="stat-value red" id="hudWrong">0</span>
+      <div class="hud-box">
+        <span class="hud-lbl">WRONG</span>
+        <span class="hud-val rose" id="statWrong">0</span>
       </div>
 
-      <!-- RESET / RELOAD BUTTON -->
-      <button class="btn-reset-circle" onclick="resetPractice()" title="Restart Practice">
-        <svg viewBox="0 0 24 24">
-          <path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
+      <!-- CLOSE / EXIT TO HOME BUTTON -->
+      <a href="index.html" class="btn-exit-window" title="ปิดหน้าต่างกลับหน้าแรก">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round">
+          <circle cx="12" cy="12" r="9"/>
+          <line x1="9" y1="9" x2="15" y2="15"/>
+          <line x1="15" y1="9" x2="9" y2="15"/>
         </svg>
-      </button>
+      </a>
     </aside>
 
   </main>
 
-  <!-- COMPLETION MODAL -->
-  <div class="modal-backdrop" id="completionModal">
-    <div class="modal-box">
-      <h2 class="modal-title">Session Complete!</h2>
-      <p class="modal-sub">ยอดเยี่ยมมาก คุณพัฒนาทักษะการพิมพ์โค้ดขึ้นอีกระดับ</p>
+  <!-- RICH COMPLETION MODAL (MATCHES image_4e7ba7.png) -->
+  <div class="result-backdrop" id="resultModal">
+    <div class="result-modal-card">
       
-      <div class="modal-metrics">
-        <div class="metric-card">
-          <div class="num" id="modalWpm">0</div>
-          <div class="lbl">Final WPM</div>
+      <!-- Top Right Close X -->
+      <button class="modal-close-x" onclick="closeResultModal()" title="ปิดหน้าต่างนี้">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <!-- Custom Party Popper Vector Graphic (NO EMOJI) -->
+      <div class="confetti-svg-wrap">
+        <svg viewBox="0 0 100 100" width="100%" height="100%">
+          <!-- Confetti Ribbons & Dots -->
+          <circle cx="38" cy="16" r="3.5" fill="#fbbf24"/>
+          <circle cx="78" cy="24" r="3.5" fill="#38bdf8"/>
+          <circle cx="84" cy="52" r="3" fill="#a78bfa"/>
+          <path d="M52 28 C54 16, 62 12, 68 8" stroke="#38bdf8" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M62 36 C74 30, 82 32, 90 26" stroke="#f43f5e" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M34 36 C28 26, 22 24, 16 26" stroke="#a855f7" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <path d="M64 48 C74 46, 82 52, 86 60" stroke="#2dd4bf" stroke-width="4" stroke-linecap="round" fill="none"/>
+          <!-- Cone Body -->
+          <path d="M18 84 L42 36 L68 62 Z" fill="#f59e0b"/>
+          <path d="M26 68 L48 42 L54 48 L30 76 Z" fill="#3b82f6"/>
+          <path d="M34 76 L56 50 L62 56 L42 80 Z" fill="#ec4899"/>
+          <ellipse cx="55" cy="49" rx="18" ry="8" transform="rotate(45 55 49)" fill="#1e1b4b" stroke="#f59e0b" stroke-width="2.5"/>
+        </svg>
+      </div>
+
+      <h2 class="result-heading" id="resHeading">ยอดเยี่ยม!</h2>
+
+      <!-- Stars & Max Combo Row -->
+      <div class="stars-combo-row">
+        <div class="star-group" id="resStarsGroup"></div>
+        <span>·</span>
+        <span id="resMaxCombo">Combo สูงสุด 0</span>
+      </div>
+
+      <!-- Dashed Stat Cards -->
+      <div class="dashed-stats-grid">
+        <div class="dashed-stat-box">
+          <div class="goal-pill-badge" id="resGoalBadge">เป้าหมาย: 10 WPM ✓</div>
+          <div class="big-stat-num blue" id="resNetWpm">0</div>
+          <div class="stat-meta-sub" id="resWpmBreakdown">Net WPM · Gross 0 · ดีที่สุด 0</div>
         </div>
-        <div class="metric-card">
-          <div class="num" id="modalAccuracy">100%</div>
-          <div class="lbl">Accuracy</div>
+
+        <div class="dashed-stat-box">
+          <div class="big-stat-num mint" id="resAccuracy">100%</div>
+          <div class="stat-meta-sub">ความแม่นยำ</div>
         </div>
       </div>
 
-      <div class="modal-actions">
-        <button class="btn-modal secondary" onclick="resetPractice()">ฝึกอีกรอบ</button>
-        <button class="btn-modal primary" onclick="nextSnippet()">บทเรียนถัดไป</button>
+      <p class="guest-notice">ผลนี้ไม่ถูกบันทึก (ผู้เยี่ยมชม) · ดูผลได้ แต่ระบบจะไม่จำว่าทำบทไหนไปแล้ว</p>
+      <a class="login-save-link" onclick="alert('เปิดหน้าต่างเข้าสู่ระบบเพื่อบันทึกสถิติ')">เข้าสู่ระบบเพื่อบันทึกผลนี้</a>
+
+      <!-- Weak Keys Analysis Bar -->
+      <div class="weak-keys-box">
+        <div class="weak-left">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fbbf24" stroke-width="2.2">
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+            <line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+          </svg>
+          <span>ปุ่มที่อ่อนแอ:</span>
+          <div class="weak-key-badges" id="weakKeysList">
+            <span class="wk-cap">ไม่มี</span>
+          </div>
+        </div>
+        <button class="train-weak-link" id="btnTrainWeak" onclick="practiceWeakKeys()">ฝึกคีย์เหล่านี้ →</button>
       </div>
+
+      <!-- Bottom Buttons -->
+      <div class="modal-bottom-row">
+        <a href="index.html" class="sq-modal-btn" title="กลับหน้าแรก">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M3 10.5L12 3L21 10.5V20C21 20.55 20.55 21 20 21H4C3.45 21 3 20.55 3 20V10.5Z" fill="#f59e0b" stroke="#fbbf24" stroke-width="1.5"/>
+            <path d="M9 21V14H15V21" fill="#38bdf8"/>
+            <path d="M2 11L12 2.5L22 11" stroke="#ef4444" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </a>
+
+        <button class="sq-modal-btn" onclick="restartCurrentLesson()" title="พิมพ์ซ้ำอีกครั้ง">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12a9 9 0 1 1-3-6.7"/>
+            <polyline points="21 3 21 9 15 9"/>
+          </svg>
+        </button>
+
+        <button class="btn-next-lesson" onclick="goNextLesson()">
+          <span>บทเรียนถัดไป (Enter)</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z"/>
+          </svg>
+        </button>
+      </div>
+
     </div>
   </div>
 
   <script>
-    // LESSON CURRICULUM
-    const LESSON_DATABASE = {
+    // CURRICULUM SNIPPETS FOR ALL LANGUAGES & LEVELS
+    const CURRICULUM = {
       html: {
-        L1: ["fff jjj fff jjj < > /", "aaa sss ddd fff <div >", "< > / = \" \" class"],
-        L2: ["<div class=\"box\">", "<h1 class=\"title\">Code</h1>", "<button type=\"submit\">"],
+        L1: [
+          "fff jjj ddd kkk sss lll aaa ;;;",
+          "aaa sss ddd fff < > / = \" \"",
+          "<div> </div> <h1> </h1> <p> </p>"
+        ],
+        L2: [
+          "<div class=\"card\">Content</div>",
+          "<button type=\"submit\">Run Code</button>",
+          "<input type=\"text\" placeholder=\"Name\">"
+        ],
         L3: [
 `<div class="container flex justify-between">
   <h1 class="text-xl font-bold">Typing Code</h1>
   <button type="submit">Run</button>
-</div>`
+</div>`,
+`<section class="hero-card">
+  <h2>Master Syntax Fast</h2>
+  <a href="practice.html">Start Now</a>
+</section>`
         ]
       },
       js: {
-        L1: ["fff jjj ; ; ; { } ( )", "let const var = ; ( )", "function () { return ; }"],
-        L2: ["const sum = (a, b) => a + b;", "console.log(\"Hello Developer\");", "document.querySelector(\"#app\");"],
+        L1: [
+          "fff jjj ddd kkk const let = ;",
+          "( ) { } [ ] => === !== && ||",
+          "let count = 0; const max = 100;"
+        ],
+        L2: [
+          "const sum = (a, b) => a + b;",
+          "console.log(\"Speed:\", wpm);",
+          "const items = data.filter(x => x.active);"
+        ],
         L3: [
-`async function fetchData(url) {
-  const response = await fetch(url);
-  const data = await response.json();
-  return data;
+`async function fetchUser(id) {
+  const res = await fetch(url);
+  return await res.json();
+}`,
+`function calcWPM(chars, seconds) {
+  const words = chars / 5;
+  return Math.round((words / seconds) * 60);
 }`
         ]
       },
       php: {
-        L1: ["$ $ $ ; ; ; -> =>", "<?php echo $val; ?>", "$arr = ['key' => $val];"],
-        L2: ["public function index() {", "$user = User::find($id);", "echo json_encode($result);"],
+        L1: [
+          "$ $ $ -> => ; ; ( ) { }",
+          "$name = \"Developer\"; echo $name;",
+          "<?php echo $score; ?>"
+        ],
+        L2: [
+          "$user = User::where('id', $id)->first();",
+          "public function index(Request $req)",
+          "return response()->json(['ok' => true]);"
+        ],
         L3: [
-`class UserController extends Controller {
-  public function show($id) {
-    return view('user.profile', ['user' => $id]);
+`class ScoreController extends Controller {
+  public function store($wpm) {
+    return Score::create(['wpm' => $wpm]);
   }
 }`
         ]
       },
       py: {
-        L1: ["def def : : [ ] { }", "for in range(10):", "import math as np"],
-        L2: ["print(f\"Result: {score}\")", "def calculate_speed(wpm):", "numbers = [x * 2 for x in items]"],
+        L1: [
+          "def : [ ] ( ) { } # import",
+          "for i in range(10): print(i)",
+          "x = 42; y = \"Python\""
+        ],
+        L2: [
+          "squares = [x * x for x in range(8)]",
+          "def get_accuracy(correct, total):",
+          "print(f\"WPM: {wpm}, Acc: {acc}%\")"
+        ],
         L3: [
 `def fibonacci(n):
-    if n <= 1:
-        return n
-    return fibonacci(n - 1) + fibonacci(n - 2)`
+  if n <= 1:
+    return n
+  return fibonacci(n - 1) + fibonacci(n - 2)`
         ]
       },
       symbols: {
-        L1: ["{ } [ ] ( ) < >", "! @ # $ % ^ & *", "== === != !== && ||"],
-        L2: ["const [a, b] = [1, 2];", "{ ...state, loading: false }", "arr.map(x => x?.id ?? 0)"],
+        L1: [
+          "{ } [ ] ( ) < > / \\ |",
+          "! @ # $ % ^ & * - _ = +",
+          "=== !== => -> :: && || ??"
+        ],
+        L2: [
+          "const { id, name = 'dev' } = user ?? {};",
+          "arr?.map((item, idx) => item[idx] * 2);",
+          "if (a >= 0 && b !== null) { return true; }"
+        ],
         L3: [
-`const regex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$/;
-const isValid = regex.test(email);`
+`const pattern = /^[a-z0-9._-]+@[a-z0-9.-]+\\.[a-z]{2,4}$/;
+const valid = pattern.test(input?.trim() ?? "");`
         ]
       }
     };
 
-    // FINGER PLACEMENT MAPPING
-    const FINGER_MAP = {
-      // Left Hand
-      '`': 'left-pinky', '1': 'left-pinky', 'q': 'left-pinky', 'a': 'left-pinky', 'z': 'left-pinky',
-      '2': 'left-ring', 'w': 'left-ring', 's': 'left-ring', 'x': 'left-ring',
-      '3': 'left-middle', 'e': 'left-middle', 'd': 'left-middle', 'c': 'left-middle',
-      '4': 'left-index', '5': 'left-index', 'r': 'left-index', 't': 'left-index', 
-      'f': 'left-index', 'g': 'left-index', 'v': 'left-index', 'b': 'left-index',
-      // Right Hand
-      '6': 'right-index', '7': 'right-index', 'y': 'right-index', 'u': 'right-index',
-      'h': 'right-index', 'j': 'right-index', 'n': 'right-index', 'm': 'right-index',
-      '8': 'right-middle', 'i': 'right-middle', 'k': 'right-middle', ',': 'right-middle', '<': 'right-middle',
-      '9': 'right-ring', 'o': 'right-ring', 'l': 'right-ring', '.': 'right-ring', '>': 'right-ring',
-      '0': 'right-pinky', '-': 'right-pinky', '=': 'right-pinky', 'p': 'right-pinky',
-      '[': 'right-pinky', ']': 'right-pinky', ';': 'right-pinky', '\'': 'right-pinky',
-      '/': 'right-pinky', '?': 'right-pinky', 'Enter': 'right-pinky',
-      ' ': 'right-thumb'
+    // FINGER ANATOMY MAPPING (Maps every character to exact 3D finger bone + Thai instruction)
+    const FINGER_GUIDE = {
+      '`': { bone: 'bone-l-pinky', label: 'นิ้วก้อยซ้าย (Left Pinky)' },
+      '~': { bone: 'bone-l-pinky', label: 'นิ้วก้อยซ้าย (Left Pinky)' },
+      '1': { bone: 'bone-l-pinky', label: 'นิ้วก้อยซ้าย (Left Pinky)' },
+      '!': { bone: 'bone-l-pinky', label: 'นิ้วก้อยซ้าย (Left Pinky)' },
+      'q': { bone: 'bone-l-pinky', label: 'นิ้วก้อยซ้าย (Left Pinky)' },
+      'a': { bone: 'bone-l-pinky', label: 'นิ้วก้อยซ้าย (Left Pinky)' },
+      'z': { bone: 'bone-l-pinky', label: 'นิ้วก้อยซ้าย (Left Pinky)' },
+
+      '2': { bone: 'bone-l-ring', label: 'นิ้วนางซ้าย (Left Ring)' },
+      '@': { bone: 'bone-l-ring', label: 'นิ้วนางซ้าย (Left Ring)' },
+      'w': { bone: 'bone-l-ring', label: 'นิ้วนางซ้าย (Left Ring)' },
+      's': { bone: 'bone-l-ring', label: 'นิ้วนางซ้าย (Left Ring)' },
+      'x': { bone: 'bone-l-ring', label: 'นิ้วนางซ้าย (Left Ring)' },
+
+      '3': { bone: 'bone-l-middle', label: 'นิ้วกลางซ้าย (Left Middle)' },
+      '#': { bone: 'bone-l-middle', label: 'นิ้วกลางซ้าย (Left Middle)' },
+      'e': { bone: 'bone-l-middle', label: 'นิ้วกลางซ้าย (Left Middle)' },
+      'd': { bone: 'bone-l-middle', label: 'นิ้วกลางซ้าย (Left Middle)' },
+      'c': { bone: 'bone-l-middle', label: 'นิ้วกลางซ้าย (Left Middle)' },
+
+      '4': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      '$': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      '5': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      '%': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      'r': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      't': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      'f': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      'g': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      'v': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+      'b': { bone: 'bone-l-index', label: 'นิ้วชี้ซ้าย (Left Index)' },
+
+      '6': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      '^': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      '7': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      '&': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      'y': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      'u': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      'h': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      'j': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      'n': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+      'm': { bone: 'bone-r-index', label: 'นิ้วชี้ขวา (Right Index)' },
+
+      '8': { bone: 'bone-r-middle', label: 'นิ้วกลางขวา (Right Middle)' },
+      '*': { bone: 'bone-r-middle', label: 'นิ้วกลางขวา (Right Middle)' },
+      'i': { bone: 'bone-r-middle', label: 'นิ้วกลางขวา (Right Middle)' },
+      'k': { bone: 'bone-r-middle', label: 'นิ้วกลางขวา (Right Middle)' },
+      ',': { bone: 'bone-r-middle', label: 'นิ้วกลางขวา (Right Middle)' },
+      '<': { bone: 'bone-r-middle', label: 'นิ้วกลางขวา (Right Middle)' },
+
+      '9': { bone: 'bone-r-ring', label: 'นิ้วนางขวา (Right Ring)' },
+      '(': { bone: 'bone-r-ring', label: 'นิ้วนางขวา (Right Ring)' },
+      'o': { bone: 'bone-r-ring', label: 'นิ้วนางขวา (Right Ring)' },
+      'l': { bone: 'bone-r-ring', label: 'นิ้วนางขวา (Right Ring)' },
+      '.': { bone: 'bone-r-ring', label: 'นิ้วนางขวา (Right Ring)' },
+      '>': { bone: 'bone-r-ring', label: 'นิ้วนางขวา (Right Ring)' },
+
+      '0': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      ')': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '-': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '_': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '=': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '+': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      'p': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '[': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '{': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      ']': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '}': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '\\': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '|': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      ';': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      ':': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '\'': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '"': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '/': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '?': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา (Right Pinky)' },
+      '\n': { bone: 'bone-r-pinky', label: 'นิ้วก้อยขวา กดปุ่ม Enter ↵' },
+      ' ': { bone: 'bone-r-thumb', label: 'นิ้วโป้งขวา กดปุ่ม Spacebar' }
     };
 
-    // APPLICATION STATE
+    const SHIFT_CHARS = '~!@#$%^&*()_+{}|:"<>?ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+    // STATE VARIABLES
     let currentLang = 'html';
-    let currentLevel = 'L3';
-    let snippetIndex = 0;
-    let targetText = "";
-    let currentIndex = 0;
-    let errorsCount = 0;
-    let totalKeystrokes = 0;
-    let startTime = null;
-    let timerInterval = null;
-    let timeLimit = 0; // 0 = free
-    let timeRemaining = 0;
+    let currentLevel = 'L1';
+    let snippetIdx = 0;
+    let targetCode = '';
+    let charPos = 0;
+    let wrongCount = 0;
+    let totalPressed = 0;
+    let currentCombo = 0;
+    let maxCombo = 0;
+    let missedCharMap = {};
+    let startTimestamp = null;
+    let timerLoop = null;
+    let timeModeSeconds = 0;
+    let remainingSeconds = 0;
+    let isSessionDone = false;
+    let soundEnabled = true;
 
-    // AUDIO CONTEXT
+    // SYNTHESIZED MECHANICAL SWITCH SOUND
     let audioCtx = null;
-    function initAudio() {
-      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    function playSwitchSound(type) {
+      if (!soundEnabled) return;
+      try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        const now = audioCtx.currentTime;
+        if (type === 'error') {
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(145, now);
+          osc.frequency.exponentialRampToValueAtTime(75, now + 0.09);
+          gain.gain.setValueAtTime(0.22, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.09);
+          osc.start(now);
+          osc.stop(now + 0.09);
+        } else if (type === 'space') {
+          osc.type = 'triangle';
+          osc.frequency.setValueAtTime(240, now);
+          osc.frequency.exponentialRampToValueAtTime(110, now + 0.055);
+          gain.gain.setValueAtTime(0.2, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.055);
+          osc.start(now);
+          osc.stop(now + 0.055);
+        } else {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(520 + Math.random() * 90, now);
+          osc.frequency.exponentialRampToValueAtTime(210, now + 0.045);
+          gain.gain.setValueAtTime(0.15, now);
+          gain.gain.linearRampToValueAtTime(0.01, now + 0.045);
+          osc.start(now);
+          osc.stop(now + 0.045);
+        }
+      } catch (e) {}
     }
 
-    function playKeySound(isSpace, isError) {
-      if (!audioCtx) return;
-      const osc = audioCtx.createOscillator();
-      const gain = audioCtx.createGain();
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-
-      if (isError) {
-        osc.frequency.setValueAtTime(140, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(70, audioCtx.currentTime + 0.1);
-        gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.1);
-      } else {
-        const freq = isSpace ? 280 : 540 + Math.random() * 80;
-        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-        gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.05);
-      }
+    function toggleAudio(btn) {
+      soundEnabled = !soundEnabled;
+      btn.classList.toggle('muted', !soundEnabled);
+      btn.blur();
     }
 
-    // INIT
+    // INITIALIZATION
     window.addEventListener('DOMContentLoaded', () => {
-      // Check query param from index.html (e.g. practice.html?lang=py)
-      const urlParams = new URLSearchParams(window.location.search);
-      const paramLang = urlParams.get('lang');
-      if (paramLang && LESSON_DATABASE[paramLang]) {
-        currentLang = paramLang;
-        document.querySelectorAll('.lang-pill').forEach(pill => {
-          if (pill.getAttribute('onclick').includes(paramLang)) {
-            document.querySelectorAll('.lang-pill').forEach(p => p.classList.remove('active'));
-            pill.classList.add('active');
-          }
-        });
+      const params = new URLSearchParams(window.location.search);
+      const qLang = params.get('lang');
+      if (qLang && CURRICULUM[qLang]) {
+        const tabBtn = document.querySelector(`.lang-tab[data-lang="${qLang}"]`);
+        if (tabBtn) {
+          changeLang(qLang, tabBtn.textContent.trim(), tabBtn);
+          return;
+        }
       }
-
-      loadSnippet();
-      setupKeyListeners();
-
-      // Focus typing box on click anywhere on stage
-      document.getElementById('typingBox').focus();
+      loadLesson();
     });
 
-    function loadSnippet() {
-      const list = LESSON_DATABASE[currentLang][currentLevel];
-      targetText = list[snippetIndex % list.length];
-      currentIndex = 0;
-      errorsCount = 0;
-      totalKeystrokes = 0;
-      startTime = null;
-      clearInterval(timerInterval);
-      timerInterval = null;
+    function loadLesson(customString = null) {
+      clearInterval(timerLoop);
+      timerLoop = null;
+      startTimestamp = null;
+      charPos = 0;
+      wrongCount = 0;
+      totalPressed = 0;
+      currentCombo = 0;
+      maxCombo = 0;
+      missedCharMap = {};
+      isSessionDone = false;
 
-      if (timeLimit > 0) {
-        timeRemaining = timeLimit;
-        document.getElementById('hudTime').innerText = `00:${timeRemaining < 10 ? '0' : ''}${timeRemaining}`;
+      if (customString) {
+        targetCode = customString;
       } else {
-        document.getElementById('hudTime').innerText = "00:00";
+        const pool = CURRICULUM[currentLang][currentLevel];
+        targetCode = pool[snippetIdx % pool.length];
       }
 
-      document.getElementById('hudWpm').innerText = "0";
-      document.getElementById('hudAccuracy').innerText = "100%";
-      document.getElementById('hudWrong').innerText = "0";
+      // Reset HUD
+      if (timeModeSeconds > 0) {
+        remainingSeconds = timeModeSeconds;
+        document.getElementById('statTime').textContent = formatMMSS(remainingSeconds);
+      } else {
+        document.getElementById('statTime').textContent = '00:00';
+      }
+      document.getElementById('statWpm').textContent = '0';
+      document.getElementById('statAcc').textContent = '100%';
+      document.getElementById('statWrong').textContent = '0';
+      document.getElementById('resultModal').classList.remove('show');
 
-      renderText();
-      highlightTargetKey();
-      document.getElementById('completionModal').classList.remove('show');
+      renderCodeCharacters();
+      updateTargetKeyAndFinger();
     }
 
-    function renderText() {
-      const container = document.getElementById('typingTextContainer');
+    function renderCodeCharacters() {
+      const container = document.getElementById('codeDisplay');
       container.innerHTML = '';
 
-      for (let i = 0; i < targetText.length; i++) {
+      for (let i = 0; i < targetCode.length; i++) {
+        const ch = targetCode[i];
         const span = document.createElement('span');
-        span.className = 'char';
-        span.id = `char-${i}`;
-        span.textContent = targetText[i];
+        span.className = 'c-char';
+        span.id = `ch-${i}`;
+
+        if (ch === ' ') {
+          span.classList.add('space-dot');
+          span.textContent = ' ';
+        } else if (ch === '\n') {
+          span.classList.add('newline-sym');
+          span.textContent = '\n';
+        } else {
+          span.textContent = ch;
+        }
+
         if (i === 0) span.classList.add('current');
         container.appendChild(span);
       }
     }
 
-    function highlightTargetKey() {
-      document.querySelectorAll('.keycap').forEach(k => k.classList.remove('target'));
-      document.querySelectorAll('.finger-guide-dot').forEach(d => d.classList.remove('active'));
+    function updateTargetKeyAndFinger() {
+      document.querySelectorAll('.key-3d').forEach(k => k.classList.remove('target-glow'));
+      document.querySelectorAll('.finger-bone').forEach(b => b.classList.remove('active-finger'));
 
-      if (currentIndex >= targetText.length) return;
-      const char = targetText[currentIndex];
-      let keyToFind = char.toLowerCase();
-      if (char === ' ') keyToFind = ' ';
-      if (char === '\n') keyToFind = 'Enter';
+      if (charPos >= targetCode.length) return;
 
-      const keyEl = document.querySelector(`.keycap[data-key="${keyToFind}"]`);
-      if (keyEl) keyEl.classList.add('target');
+      const expected = targetCode[charPos];
+      const lower = expected.toLowerCase();
 
-      // Highlight finger
-      const finger = FINGER_MAP[keyToFind] || FINGER_MAP[char];
-      if (finger) {
-        const dot = document.getElementById(`dot-${finger}`);
-        if (dot) dot.classList.add('active');
+      // Find keycap on 3D keyboard
+      let keyEl = null;
+      if (expected === '\n') {
+        keyEl = document.querySelector('.key-3d[data-key="enter"]');
+      } else if (expected === ' ') {
+        keyEl = document.querySelector('.key-3d[data-key=" "]');
+      } else {
+        keyEl = document.querySelector(`.key-3d[data-key="${CSS.escape(lower)}"]`) ||
+                document.querySelector(`.key-3d[data-shift="${CSS.escape(expected)}"]`);
+      }
+
+      if (keyEl) keyEl.classList.add('target-glow');
+
+      // Highlight Shift if uppercase or shifted symbol
+      if (SHIFT_CHARS.includes(expected)) {
+        const shiftKey = document.querySelector('.key-3d[data-key="shiftleft"]');
+        if (shiftKey) shiftKey.classList.add('target-glow');
+      }
+
+      // Highlight 3D Finger Bone & Text Guide
+      const guide = FINGER_GUIDE[lower] || FINGER_GUIDE[expected];
+      const hintEl = document.getElementById('fingerHintText');
+      if (guide) {
+        const boneEl = document.getElementById(guide.bone);
+        if (boneEl) boneEl.classList.add('active-finger');
+        const displayChar = expected === ' ' ? 'Spacebar' : (expected === '\n' ? 'Enter ↵' : expected);
+        hintEl.textContent = `${guide.label} → กด [ ${displayChar} ]`;
       }
     }
 
-    function setupKeyListeners() {
-      const box = document.getElementById('typingBox');
+    // GLOBAL KEYBOARD INTERCEPTOR (Bulletproof: works everywhere without losing focus)
+    window.addEventListener('keydown', (e) => {
+      // Close dropdowns on Escape
+      if (e.key === 'Escape') {
+        closeAllDropdowns();
+        return;
+      }
 
-      box.addEventListener('keydown', (e) => {
-        initAudio();
+      // If Completion Modal is open, pressing Enter goes to next lesson immediately
+      if (isSessionDone) {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          goNextLesson();
+        }
+        return;
+      }
 
-        if (e.key === 'Tab') e.preventDefault();
+      // Ignore Pure Modifier keys
+      if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock'].includes(e.key)) {
+        animate3dKeyPress(e.code, e.key, true, true);
+        return;
+      }
 
-        // 3D Keycap Press Effect
-        animateKeycap(e.key, true);
+      // Prevent browser quick-find or page scroll on Space, ', /, Tab, Enter
+      if ([' ', '\'', '/', 'Tab', 'Enter', 'Backspace'].includes(e.key)) {
+        e.preventDefault();
+      }
 
-        if (currentIndex >= targetText.length) return;
+      // Detect Thai keyboard layout
+      if (/[\u0E00-\u0E7F]/.test(e.key)) {
+        document.getElementById('thaiAlertBadge').classList.add('show');
+        playSwitchSound('error');
+        return;
+      } else {
+        document.getElementById('thaiAlertBadge').classList.remove('show');
+      }
 
-        // Ignore modifier-only presses
-        if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock'].includes(e.key)) return;
+      // Handle Backspace
+      if (e.key === 'Backspace') {
+        animate3dKeyPress(e.code, 'backspace', true, true);
+        playSwitchSound('key');
+        if (charPos > 0) {
+          const curSpan = document.getElementById(`ch-${charPos}`);
+          if (curSpan) curSpan.classList.remove('current', 'wrong');
+          charPos--;
+          const prevSpan = document.getElementById(`ch-${charPos}`);
+          if (prevSpan) {
+            prevSpan.className = 'c-char current';
+            if (targetCode[charPos] === ' ') prevSpan.classList.add('space-dot');
+            if (targetCode[charPos] === '\n') prevSpan.classList.add('newline-sym');
+          }
+          updateTargetKeyAndFinger();
+        }
+        return;
+      }
 
-        totalKeystrokes++;
+      // Ignore other non-printable function keys
+      if (e.key.length > 1 && e.key !== 'Enter') return;
 
-        if (!startTime) {
-          startTime = new Date();
-          startTimer();
+      // Start Timer on first keystroke
+      if (!startTimestamp) {
+        startTimestamp = Date.now();
+        startSessionTimer();
+      }
+
+      totalPressed++;
+      const expected = targetCode[charPos];
+      let matched = false;
+
+      if (expected === '\n') {
+        // Allow either Enter or Spacebar at the end of a line
+        if (e.key === 'Enter' || e.key === ' ') matched = true;
+      } else if (e.key === expected) {
+        matched = true;
+      }
+
+      const charSpan = document.getElementById(`ch-${charPos}`);
+
+      if (matched) {
+        playSwitchSound(e.key === ' ' ? 'space' : 'key');
+        animate3dKeyPress(e.code, e.key, true, true);
+        currentCombo++;
+        if (currentCombo > maxCombo) maxCombo = currentCombo;
+
+        charSpan.classList.remove('current', 'wrong');
+        charSpan.classList.add('correct');
+        charPos++;
+
+        // Auto-skip indentation spaces after newline so user doesn't get stuck counting spaces
+        if (expected === '\n') {
+          while (charPos < targetCode.length && targetCode[charPos] === ' ') {
+            const indentSpan = document.getElementById(`ch-${charPos}`);
+            if (indentSpan) indentSpan.classList.add('correct');
+            charPos++;
+          }
         }
 
-        const currentChar = targetText[currentIndex];
-        let isCorrect = false;
-
-        if (e.key === currentChar || (currentChar === '\n' && e.key === 'Enter')) {
-          isCorrect = true;
-        }
-
-        const charEl = document.getElementById(`char-${currentIndex}`);
-
-        if (isCorrect) {
-          playKeySound(e.key === ' ', false);
-          charEl.className = 'char correct';
-          currentIndex++;
+        if (charPos < targetCode.length) {
+          const nextSpan = document.getElementById(`ch-${charPos}`);
+          if (nextSpan) nextSpan.classList.add('current');
+          updateTargetKeyAndFinger();
         } else {
-          playKeySound(false, true);
-          errorsCount++;
-          charEl.className = 'char wrong';
-          currentIndex++;
+          completeSession();
         }
+      } else {
+        // Mistake: Mark current character red & record weak key without cascading red across all text
+        playSwitchSound('error');
+        animate3dKeyPress(e.code, e.key, true, false);
+        wrongCount++;
+        currentCombo = 0;
 
-        if (currentIndex < targetText.length) {
-          const nextEl = document.getElementById(`char-${currentIndex}`);
-          if (nextEl) nextEl.classList.add('current');
-        }
+        const weakChar = expected === ' ' ? 'Space' : (expected === '\n' ? 'Enter' : expected);
+        missedCharMap[weakChar] = (missedCharMap[weakChar] || 0) + 1;
 
-        updateHUD();
-        highlightTargetKey();
-
-        if (currentIndex >= targetText.length) {
-          finishPractice();
-        }
-      });
-
-      box.addEventListener('keyup', (e) => {
-        animateKeycap(e.key, false);
-      });
-    }
-
-    function animateKeycap(keyVal, isDown) {
-      let k = keyVal.toLowerCase();
-      if (keyVal === ' ') k = ' ';
-      if (keyVal === 'Enter') k = 'Enter';
-      if (keyVal === 'Backspace') k = 'Backspace';
-      if (keyVal === 'Tab') k = 'Tab';
-
-      const el = document.querySelector(`.keycap[data-key="${k}"]`);
-      if (el) {
-        if (isDown) el.classList.add('pressed');
-        else el.classList.remove('pressed');
+        charSpan.classList.add('wrong');
       }
+
+      refreshLiveStats();
+    });
+
+    window.addEventListener('keyup', (e) => {
+      animate3dKeyPress(e.code, e.key, false, true);
+    });
+
+    function animate3dKeyPress(code, keyVal, isDown, isCorrect) {
+      let k = keyVal.toLowerCase();
+      if (code === 'ShiftLeft') k = 'shiftleft';
+      if (code === 'ShiftRight') k = 'shiftright';
+
+      const keyEl = document.querySelector(`.key-3d[data-key="${CSS.escape(k)}"]`) ||
+                    document.querySelector(`.key-3d[data-shift="${CSS.escape(keyVal)}"]`);
+
+      if (keyEl) {
+        if (isDown) {
+          keyEl.classList.add(isCorrect ? 'pressed' : 'wrong-flash');
+        } else {
+          keyEl.classList.remove('pressed', 'wrong-flash');
+        }
+      }
+
+      // Animate active 3D finger pressing down
+      document.querySelectorAll('.finger-bone.active-finger').forEach(b => {
+        if (isDown) b.classList.add('pressing-finger');
+        else b.classList.remove('pressing-finger');
+      });
     }
 
-    function startTimer() {
-      if (timerInterval) clearInterval(timerInterval);
-
-      timerInterval = setInterval(() => {
-        if (timeLimit > 0) {
-          timeRemaining--;
-          const sec = timeRemaining < 10 ? '0' + timeRemaining : timeRemaining;
-          document.getElementById('hudTime').innerText = `00:${sec}`;
-          if (timeRemaining <= 0) {
-            clearInterval(timerInterval);
-            finishPractice();
+    function startSessionTimer() {
+      timerLoop = setInterval(() => {
+        const elapsedSec = Math.floor((Date.now() - startTimestamp) / 1000);
+        if (timeModeSeconds > 0) {
+          remainingSeconds = Math.max(0, timeModeSeconds - elapsedSec);
+          document.getElementById('statTime').textContent = formatMMSS(remainingSeconds);
+          if (remainingSeconds <= 0) {
+            completeSession();
           }
         } else {
-          const elapsed = Math.floor((new Date() - startTime) / 1000);
-          const m = String(Math.floor(elapsed / 60)).padStart(2, '0');
-          const s = String(elapsed % 60).padStart(2, '0');
-          document.getElementById('hudTime').innerText = `${m}:${s}`;
+          document.getElementById('statTime').textContent = formatMMSS(elapsedSec);
         }
-        updateHUD();
-      }, 1000);
+        refreshLiveStats();
+      }, 250);
     }
 
-    function updateHUD() {
-      if (!startTime) return;
-      const elapsedSec = Math.max((new Date() - startTime) / 1000, 1);
-      const minutes = elapsedSec / 60;
-      
-      const words = (currentIndex / 5);
-      const wpm = Math.max(0, Math.round(words / minutes));
-      const accuracy = totalKeystrokes > 0 ? Math.max(0, Math.round(((totalKeystrokes - errorsCount) / totalKeystrokes) * 100)) : 100;
+    function refreshLiveStats() {
+      if (!startTimestamp) return;
+      const elapsedMin = Math.max((Date.now() - startTimestamp) / 60000, 0.02);
+      const grossWpm = Math.round((totalPressed / 5) / elapsedMin);
+      const netWpm = Math.max(0, Math.round(((totalPressed - wrongCount) / 5) / elapsedMin));
+      const acc = totalPressed > 0 ? Math.max(0, Math.round(((totalPressed - wrongCount) / totalPressed) * 100)) : 100;
 
-      document.getElementById('hudWpm').innerText = wpm;
-      document.getElementById('hudAccuracy').innerText = `${accuracy}%`;
-      document.getElementById('hudWrong').innerText = errorsCount;
+      document.getElementById('statWpm').textContent = netWpm;
+      document.getElementById('statAcc').textContent = `${acc}%`;
+      document.getElementById('statWrong').textContent = wrongCount;
+      return { netWpm, grossWpm, acc };
     }
 
-    function finishPractice() {
-      clearInterval(timerInterval);
-      document.querySelectorAll('.keycap').forEach(k => k.classList.remove('target'));
-      document.querySelectorAll('.finger-guide-dot').forEach(d => d.classList.remove('active'));
+    function completeSession() {
+      isSessionDone = true;
+      clearInterval(timerLoop);
+      const stats = refreshLiveStats() || { netWpm: 0, grossWpm: 0, acc: 100 };
 
-      const finalWpm = document.getElementById('hudWpm').innerText;
-      const finalAcc = document.getElementById('hudAccuracy').innerText;
+      // Save Best WPM in localStorage
+      const bestKey = `tct_best_wpm_${currentLang}_${currentLevel}`;
+      const prevBest = parseInt(localStorage.getItem(bestKey) || '0', 10);
+      const bestWpm = Math.max(prevBest, stats.netWpm);
+      localStorage.setItem(bestKey, bestWpm);
 
-      document.getElementById('modalWpm').innerText = finalWpm;
-      document.getElementById('modalAccuracy').innerText = finalAcc;
-      document.getElementById('completionModal').classList.add('show');
-    }
+      // Populate Modal
+      document.getElementById('resNetWpm').textContent = stats.netWpm;
+      document.getElementById('resAccuracy').textContent = `${stats.acc}%`;
+      document.getElementById('resWpmBreakdown').textContent = `Net WPM · Gross ${stats.grossWpm} · ดีที่สุด ${bestWpm}`;
+      document.getElementById('resMaxCombo').textContent = `Combo สูงสุด ${maxCombo}`;
 
-    function resetPractice() {
-      loadSnippet();
-      document.getElementById('typingBox').focus();
-    }
+      const goalTarget = currentLevel === 'L1' ? 10 : (currentLevel === 'L2' ? 25 : 35);
+      const passedGoal = stats.netWpm >= goalTarget;
+      document.getElementById('resGoalBadge').textContent = `เป้าหมาย: ${goalTarget} WPM ${passedGoal ? '✓' : ''}`;
+      document.getElementById('resHeading').textContent = stats.acc >= 90 ? 'ยอดเยี่ยม!' : 'ฝึกฝนได้ดีมาก!';
 
-    function nextSnippet() {
-      snippetIndex++;
-      loadSnippet();
-      document.getElementById('typingBox').focus();
-    }
+      // Render 3 Stars SVG
+      let starCount = 1;
+      if (stats.netWpm >= goalTarget && stats.acc >= 85) starCount = 2;
+      if (stats.netWpm >= goalTarget + 15 && stats.acc >= 95) starCount = 3;
 
-    // DROPDOWN & SELECTION CONTROLS
-    function toggleDropdown(id) {
-      const el = document.getElementById(id);
-      const isVisible = el.classList.contains('show');
-      document.querySelectorAll('.dropdown-menu, .timer-menu').forEach(m => m.classList.remove('show'));
-      if (!isVisible) el.classList.add('show');
-    }
-
-    window.onclick = function(e) {
-      if (!e.target.closest('.top-toolbar')) {
-        document.querySelectorAll('.dropdown-menu, .timer-menu').forEach(m => m.classList.remove('show'));
+      const starContainer = document.getElementById('resStarsGroup');
+      starContainer.innerHTML = '';
+      for (let s = 1; s <= 3; s++) {
+        const filled = s <= starCount;
+        starContainer.innerHTML += `
+          <svg class="star-icon" viewBox="0 0 24 24" fill="${filled ? '#fbbf24' : 'none'}" stroke="#fbbf24" stroke-width="2">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>`;
       }
-    };
 
-    function selectLevel(lvl, label) {
+      // Render Weak Keys List
+      const weakKeysContainer = document.getElementById('weakKeysList');
+      const sortedWeak = Object.entries(missedCharMap)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 4)
+        .map(item => item[0]);
+
+      if (sortedWeak.length === 0) {
+        weakKeysContainer.innerHTML = '<span class="wk-cap">ไม่มีที่ผิด!</span>';
+        document.getElementById('btnTrainWeak').style.display = 'none';
+      } else {
+        weakKeysContainer.innerHTML = sortedWeak.map(k => `<span class="wk-cap">${k}</span>`).join('');
+        document.getElementById('btnTrainWeak').style.display = 'inline-block';
+      }
+
+      document.getElementById('resultModal').classList.add('show');
+    }
+
+    function practiceWeakKeys() {
+      const weakChars = Object.keys(missedCharMap).filter(k => k !== 'Space' && k !== 'Enter');
+      if (weakChars.length === 0) {
+        restartCurrentLesson();
+        return;
+      }
+      // Build custom drill focusing on weak keys
+      let drillParts = [];
+      for (let i = 0; i < 6; i++) {
+        const ch = weakChars[i % weakChars.length];
+        drillParts.push(`${ch}${ch}${ch}`);
+      }
+      loadLesson(drillParts.join(' '));
+    }
+
+    function closeResultModal() {
+      document.getElementById('resultModal').classList.remove('show');
+    }
+
+    function restartCurrentLesson(btn) {
+      if (btn) btn.blur();
+      loadLesson();
+    }
+
+    function goNextLesson() {
+      snippetIdx++;
+      loadLesson();
+    }
+
+    // TOOLBAR CONTROLS
+    function toggleMenu(menuId, btn) {
+      if (btn) btn.blur();
+      const menu = document.getElementById(menuId);
+      const isOpen = menu.classList.contains('open');
+      closeAllDropdowns();
+      if (!isOpen) menu.classList.add('open');
+    }
+
+    function closeAllDropdowns() {
+      document.querySelectorAll('.dropdown-panel').forEach(p => p.classList.remove('open'));
+    }
+
+    window.addEventListener('click', (e) => {
+      if (!e.target.closest('.dropdown-wrap')) {
+        closeAllDropdowns();
+      }
+    });
+
+    function changeLevel(lvl, title, el) {
       currentLevel = lvl;
-      document.getElementById('lblCurrentLevel').innerText = label;
-      document.querySelectorAll('#levelDropdown .dropdown-item').forEach(i => i.classList.remove('active'));
-      event.currentTarget.classList.add('active');
-      document.getElementById('levelDropdown').classList.remove('show');
-      resetPractice();
+      snippetIdx = 0;
+      document.getElementById('currentLevelText').textContent = title;
+      document.querySelectorAll('#levelMenu .dd-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      closeAllDropdowns();
+      loadLesson();
     }
 
-    function setLanguage(lang, btn) {
+    function changeLang(lang, label, btn) {
+      btn.blur();
       currentLang = lang;
-      document.querySelectorAll('.lang-pill').forEach(b => b.classList.remove('active'));
+      snippetIdx = 0;
+      document.querySelectorAll('.lang-tab').forEach(t => t.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('langBadgeText').innerText = btn.innerText;
-      resetPractice();
+      document.getElementById('activeLangLabel').textContent = label;
+      loadLesson();
     }
 
-    function setTimeMode(seconds, label) {
-      timeLimit = seconds;
-      document.getElementById('lblCurrentTimeMode').innerText = label;
-      document.getElementById('timerDropdown').classList.remove('show');
-      resetPractice();
+    function changeTimeMode(sec, label, el) {
+      timeModeSeconds = sec;
+      document.getElementById('currentTimeText').textContent = label;
+      document.querySelectorAll('#timeMenu .dd-option').forEach(o => o.classList.remove('selected'));
+      el.classList.add('selected');
+      closeAllDropdowns();
+      loadLesson();
     }
 
-    function toggleFullScreen() {
+    function toggleKbVisibility(btn) {
+      btn.blur();
+      const kb = document.getElementById('kb3dCase');
+      const hidden = kb.style.opacity === '0';
+      kb.style.opacity = hidden ? '1' : '0';
+      kb.style.pointerEvents = hidden ? 'auto' : 'none';
+      btn.classList.toggle('active', hidden);
+    }
+
+    function toggleHandsVisibility(btn) {
+      btn.blur();
+      const hands = document.getElementById('hands3dOverlay');
+      const hidden = hands.style.opacity === '0';
+      hands.style.opacity = hidden ? '1' : '0';
+      btn.classList.toggle('active', hidden);
+    }
+
+    function toggleFullScreen(btn) {
+      if (btn) btn.blur();
       if (!document.fullscreenElement) {
         document.documentElement.requestFullscreen().catch(() => {});
       } else {
-        if (document.exitFullscreen) document.exitFullscreen();
+        document.exitFullscreen();
       }
     }
 
-    // VISIBILITY TOGGLES (KEYBOARD / HANDS)
-    function toggleKeyboard() {
-      const kb = document.getElementById('kbChassis');
-      const btn = document.getElementById('btnToggleKb');
-      if (kb.style.display === 'none') {
-        kb.style.display = 'block';
-        btn.classList.add('active');
-      } else {
-        kb.style.display = 'none';
-        btn.classList.remove('active');
-      }
-    }
-
-    function toggleHands() {
-      const hands = document.getElementById('handsOverlay');
-      const btn = document.getElementById('btnToggleHands');
-      if (hands.style.display === 'none') {
-        hands.style.display = 'flex';
-        btn.classList.add('active');
-      } else {
-        hands.style.display = 'none';
-        btn.classList.remove('active');
-      }
+    function formatMMSS(totalSeconds) {
+      const m = String(Math.floor(totalSeconds / 60)).padStart(2, '0');
+      const s = String(totalSeconds % 60).padStart(2, '0');
+      return `${m}:${s}`;
     }
   </script>
 </body>
