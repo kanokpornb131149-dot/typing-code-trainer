@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Practice Studio | Typing Code Trainer_</title>
+    <title>Practice | Typing Code Trainer_</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -28,9 +28,9 @@
                         sans: ['Inter', 'system-ui', 'sans-serif']
                     },
                     boxShadow: {
-                        'neon-cyan': '0 0 30px -4px rgba(0, 242, 254, 0.45)',
-                        'neon-purple': '0 0 30px -4px rgba(139, 92, 246, 0.45)',
-                        'glow-lg': '0 0 60px -15px rgba(0, 242, 254, 0.3)'
+                        'neon-cyan': '0 0 25px -4px rgba(0, 242, 254, 0.45)',
+                        'neon-purple': '0 0 25px -4px rgba(139, 92, 246, 0.45)',
+                        'glow-lg': '0 0 60px -15px rgba(0, 242, 254, 0.25)'
                     }
                 }
             }
@@ -46,13 +46,11 @@
             overflow-x: hidden;
         }
 
-        /* Ambient Grid */
         .bg-tech-grid {
             background-image: radial-gradient(rgba(30, 41, 59, 0.45) 1px, transparent 1px);
             background-size: 28px 28px;
         }
 
-        /* Cursor Blink */
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
@@ -61,8 +59,8 @@
             animation: blink 1s infinite;
         }
 
-        /* Code Character States */
-        .char-box {
+        /* ================= CODE TYPING CHARACTER STATES ================= */
+        .char-item {
             position: relative;
             transition: color 0.08s ease, background-color 0.08s ease;
             border-radius: 3px;
@@ -71,103 +69,112 @@
             color: #64748b;
         }
         .char-correct {
-            color: #e2e8f0;
-            text-shadow: 0 0 8px rgba(0, 242, 254, 0.25);
+            color: #f8fafc;
+            text-shadow: 0 0 10px rgba(0, 242, 254, 0.35);
         }
-        .char-incorrect {
+        .char-wrong {
             color: #fda4af;
             background-color: rgba(244, 63, 94, 0.28);
             border-bottom: 2px solid #f43f5e;
         }
-        .char-active {
-            background-color: rgba(0, 242, 254, 0.2);
+        .char-current {
             color: #00f2fe !important;
+            background-color: rgba(0, 242, 254, 0.14);
         }
-        .char-active::before {
+        .char-current::before {
             content: '';
             position: absolute;
-            left: 0;
-            top: 10%;
-            bottom: 10%;
+            left: -1px;
+            top: 8%;
+            bottom: 8%;
             width: 2.5px;
             background-color: #00f2fe;
             box-shadow: 0 0 10px #00f2fe;
-            animation: blink 0.9s infinite;
+            animation: blink 0.85s infinite;
         }
 
-        /* Language Tab Active */
-        .lang-pill {
-            transition: all 0.2s ease;
+        /* ================= 3D PERSPECTIVE KEYBOARD ================= */
+        .kb-perspective-wrap {
+            perspective: 950px;
         }
-        .lang-pill.active {
-            background: rgba(0, 242, 254, 0.14);
-            border-color: #00f2fe;
-            color: #00f2fe;
-            box-shadow: 0 0 20px -4px rgba(0, 242, 254, 0.45);
+        .kb-3d-case {
+            transform: rotateX(22deg);
+            transform-style: preserve-3d;
+            background: linear-gradient(180deg, #162038 0%, #0b1120 100%);
+            border: 1px solid rgba(0, 242, 254, 0.25);
+            border-bottom: 10px solid #060913;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 0 0 35px rgba(0, 242, 254, 0.1);
         }
-
-        /* Virtual Keyboard Styles */
-        .v-key {
-            background: linear-gradient(180deg, #151f36 0%, #0c1323 100%);
-            border: 1px solid rgba(30, 43, 72, 0.9);
-            border-top: 1px solid rgba(255, 255, 255, 0.12);
-            border-bottom: 3px solid #050811;
-            border-radius: 8px;
-            transition: all 0.1s ease;
+        .key-3d {
+            background: linear-gradient(180deg, #1e2942 0%, #121a2d 100%);
+            border: 1px solid rgba(148, 163, 184, 0.18);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.16);
+            border-bottom: 4px solid #070b14;
+            border-radius: 6px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+            transition: all 0.08s ease;
             user-select: none;
         }
-        .v-key.key-target {
+        .key-3d.key-modifier {
+            background: linear-gradient(180deg, #131c31 0%, #0c1222 100%);
+            color: #94a3b8;
+        }
+        .key-3d.key-active-target {
+            background: linear-gradient(180deg, rgba(0, 242, 254, 0.35) 0%, rgba(0, 242, 254, 0.12) 100%);
             border-color: #00f2fe;
-            background: linear-gradient(180deg, rgba(0, 242, 254, 0.28) 0%, rgba(0, 242, 254, 0.08) 100%);
+            border-bottom: 3px solid #0284c7;
             color: #ffffff;
-            box-shadow: 0 3px 0 #0284c7, 0 0 20px rgba(0, 242, 254, 0.55);
-            transform: translateY(-2px);
+            box-shadow: 0 0 18px rgba(0, 242, 254, 0.6);
+            transform: translateY(1px);
         }
-        .v-key.key-shift-target {
-            border-color: #8b5cf6;
-            background: linear-gradient(180deg, rgba(139, 92, 246, 0.3) 0%, rgba(139, 92, 246, 0.1) 100%);
-            color: #ddd6fe;
-            box-shadow: 0 3px 0 #6d28d9, 0 0 18px rgba(139, 92, 246, 0.55);
+        .key-3d.key-shift-target {
+            background: linear-gradient(180deg, rgba(139, 92, 246, 0.38) 0%, rgba(139, 92, 246, 0.15) 100%);
+            border-color: #a78bfa;
+            border-bottom: 3px solid #6d28d9;
+            color: #ede9fe;
+            box-shadow: 0 0 18px rgba(139, 92, 246, 0.55);
         }
-        .v-key.key-pressed {
-            transform: translateY(2px);
-            border-bottom-width: 1px;
-            background: #00f2fe;
-            color: #070a13;
-        }
-        .v-key.key-error {
-            background: rgba(244, 63, 94, 0.45);
-            border-color: #f43f5e;
-            color: #fff;
+        .key-3d.key-wrong-flash {
+            background: rgba(244, 63, 94, 0.5) !important;
+            border-color: #f43f5e !important;
         }
 
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 7px;
-            height: 7px;
+        /* ================= HAND SVG FINGER HIGHLIGHT ================= */
+        .finger-path {
+            fill: rgba(226, 182, 146, 0.32);
+            stroke: rgba(255, 255, 255, 0.25);
+            stroke-width: 1.5;
+            transition: all 0.15s ease;
         }
-        ::-webkit-scrollbar-track {
-            background: #070a13;
+        .finger-path.active-finger {
+            fill: rgba(0, 242, 254, 0.62);
+            stroke: #00f2fe;
+            stroke-width: 2;
+            filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.8));
         }
-        ::-webkit-scrollbar-thumb {
-            background: #1e293b;
-            border-radius: 4px;
+        .finger-path.shift-finger {
+            fill: rgba(139, 92, 246, 0.62);
+            stroke: #c4b5fd;
+            stroke-width: 2;
+            filter: drop-shadow(0 0 10px rgba(139, 92, 246, 0.8));
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #334155;
+
+        /* Top Pill Button Active State */
+        .lang-pill-btn {
+            transition: all 0.2s ease;
+        }
+        .lang-pill-btn.active {
+            background: rgba(0, 242, 254, 0.16);
+            border-color: #00f2fe;
+            color: #00f2fe;
+            box-shadow: 0 0 18px -3px rgba(0, 242, 254, 0.45);
         }
     </style>
 </head>
 <body class="bg-tech-grid min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
 
-    <!-- Ambient Background Glows -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div class="absolute -top-40 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-[130px]"></div>
-        <div class="absolute bottom-10 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[130px]"></div>
-    </div>
-
     <!-- ================= NAVBAR (Synced with index.html) ================= -->
-    <header class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/85 border-b border-brand-border/60 transition-all">
+    <header id="mainNavbar" class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/85 border-b border-brand-border/70 transition-all">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <!-- Brand Logo -->
             <a href="index.html" class="flex items-center gap-2 group">
@@ -181,7 +188,7 @@
                 </div>
             </a>
 
-            <!-- Nav Links (Practice is Active) -->
+            <!-- Nav Links -->
             <nav class="hidden md:flex items-center gap-9 text-sm font-medium">
                 <a href="index.html" class="text-slate-300 hover:text-white transition-colors py-1">Home</a>
                 <a href="practice.html" class="text-white font-bold relative py-1 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-cyan-400">Practice</a>
@@ -193,386 +200,337 @@
 
             <!-- Actions: Sound Toggle + Sign In Button -->
             <div class="flex items-center gap-3">
-                <button id="soundToggleBtn" onclick="toggleAudio()" title="เปิด/ปิด เสียง Mechanical Keyboard" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 hover:bg-brand-surface text-slate-300 hover:text-cyan-400 transition-all flex items-center justify-center">
+                <button id="soundToggleBtn" onclick="toggleAudio()" title="เปิด/ปิด เสียงคีย์บอร์ด" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 hover:bg-brand-surface text-slate-300 hover:text-cyan-400 transition-all">
                     <svg id="soundIconOn" class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
                     <svg id="soundIconOff" class="w-5 h-5 hidden text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
                 </button>
 
-                <button onclick="toggleModal(true)" class="px-6 py-2.5 rounded-xl font-medium text-sm text-slate-900 bg-gradient-to-r from-slate-200 to-slate-300 hover:from-white hover:to-slate-100 shadow-md transition-all transform hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
+                <button onclick="toggleModal(true)" class="px-6 py-2.5 rounded-full font-semibold text-sm text-slate-900 bg-gradient-to-r from-slate-200 to-slate-300 hover:from-white hover:to-slate-100 shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer">
                     Sign In
                 </button>
-
-                <button onclick="toggleMobileNav()" class="md:hidden p-2 rounded-xl border border-brand-border text-slate-300 hover:text-white">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"/></svg>
-                </button>
             </div>
-        </div>
-
-        <!-- Mobile Drawer -->
-        <div id="mobileNav" class="hidden md:hidden bg-brand-surface/95 border-b border-brand-border px-6 py-4 space-y-3 font-mono text-sm">
-            <a href="index.html" class="block text-slate-300 hover:text-white py-1">Home</a>
-            <a href="practice.html" class="block text-cyan-400 font-semibold py-1">Practice</a>
-            <a href="party.html" class="block text-slate-300 hover:text-white py-1">Party (1v1)</a>
-            <a href="ranking.html" class="block text-slate-300 hover:text-white py-1">Ranking</a>
         </div>
     </header>
 
-    <!-- ================= MAIN PRACTICE STUDIO ================= -->
-    <main class="flex-grow relative z-10 py-8 sm:py-10">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+    <!-- ================= MAIN WORKSPACE (Exact Layout from Mockup 6.png) ================= -->
+    <main class="flex-grow relative flex flex-col justify-between px-4 sm:px-8 pt-6 pb-8 max-w-[1440px] w-full mx-auto">
 
-            <!-- 1. TOP CONTROL BAR: Language & Mode Selectors -->
-            <div class="flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4 p-4 rounded-2xl bg-brand-surface/80 border border-brand-border backdrop-blur-md">
+        <!-- 1. TOP PILL BAR + FULLSCREEN ICON -->
+        <div class="relative z-30 flex items-center justify-center">
+            <!-- Main Capsule Bar -->
+            <div class="inline-flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 px-3.5 py-2 rounded-full bg-brand-surface/90 border border-brand-border shadow-xl backdrop-blur-md">
+
+                <!-- Level Dropdown (L1 Key Starter / L2 Syntax Builder / L3 Code Builder) -->
+                <div class="relative" id="levelDropdownWrap">
+                    <button onclick="toggleLevelMenu(event)" class="px-4 py-1.5 rounded-full bg-brand-card border border-brand-border hover:border-cyan-400/60 text-xs font-mono font-bold text-white flex items-center gap-2 transition-all">
+                        <span id="currentLevelTag" class="text-[10px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300">L1</span>
+                        <span id="currentLevelName">Key Starter</span>
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
+                    </button>
+
+                    <!-- Level Dropdown List -->
+                    <div id="levelDropdownMenu" class="hidden absolute left-0 mt-2 w-48 rounded-2xl bg-brand-surface border border-brand-border shadow-2xl overflow-hidden z-50 font-mono text-xs">
+                        <button onclick="selectLevel('L1', 'Key Starter')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center gap-2.5 border-b border-brand-border/60 text-slate-200 hover:text-cyan-300">
+                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300">L1</span>
+                            <span>Key Starter</span>
+                        </button>
+                        <button onclick="selectLevel('L2', 'Syntax Builder')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center gap-2.5 border-b border-brand-border/60 text-slate-200 hover:text-cyan-300">
+                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300">L2</span>
+                            <span>Syntax Builder</span>
+                        </button>
+                        <button onclick="selectLevel('L3', 'Code Builder')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center gap-2.5 text-slate-200 hover:text-cyan-300">
+                            <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">L3</span>
+                            <span>Code Builder</span>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Language Pills -->
-                <div class="flex flex-wrap items-center gap-2">
-                    <button onclick="selectLanguage('html_css')" id="btn-lang-html_css" class="lang-pill active px-4 py-2 rounded-xl font-mono text-xs font-bold border border-brand-border bg-brand-card text-slate-300 hover:text-white">
-                        HTML &amp; CSS
-                    </button>
-                    <button onclick="selectLanguage('javascript')" id="btn-lang-javascript" class="lang-pill px-4 py-2 rounded-xl font-mono text-xs font-bold border border-brand-border bg-brand-card text-slate-300 hover:text-white">
-                        JavaScript
-                    </button>
-                    <button onclick="selectLanguage('php')" id="btn-lang-php" class="lang-pill px-4 py-2 rounded-xl font-mono text-xs font-bold border border-brand-border bg-brand-card text-slate-300 hover:text-white">
-                        PHP
-                    </button>
-                    <button onclick="selectLanguage('python')" id="btn-lang-python" class="lang-pill px-4 py-2 rounded-xl font-mono text-xs font-bold border border-brand-border bg-brand-card text-slate-300 hover:text-white">
-                        Python
-                    </button>
-                    <button onclick="selectLanguage('symbols')" id="btn-lang-symbols" class="lang-pill px-4 py-2 rounded-xl font-mono text-xs font-bold border border-brand-border bg-brand-card text-slate-300 hover:text-white">
-                        Symbols &amp; Brackets
-                    </button>
-                </div>
+                <button onclick="selectLanguage('html_css')" id="pill-html_css" class="lang-pill-btn active px-4 py-1.5 rounded-full bg-brand-card border border-brand-border text-xs font-mono font-bold text-slate-300 hover:text-white">
+                    HTML &amp; CSS
+                </button>
+                <button onclick="selectLanguage('javascript')" id="pill-javascript" class="lang-pill-btn px-4 py-1.5 rounded-full bg-brand-card border border-brand-border text-xs font-mono font-bold text-slate-300 hover:text-white">
+                    JavaScript
+                </button>
+                <button onclick="selectLanguage('php')" id="pill-php" class="lang-pill-btn px-4 py-1.5 rounded-full bg-brand-card border border-brand-border text-xs font-mono font-bold text-slate-300 hover:text-white">
+                    PHP
+                </button>
+                <button onclick="selectLanguage('python')" id="pill-python" class="lang-pill-btn px-4 py-1.5 rounded-full bg-brand-card border border-brand-border text-xs font-mono font-bold text-slate-300 hover:text-white">
+                    Python
+                </button>
+                <button onclick="selectLanguage('symbols')" id="pill-symbols" class="lang-pill-btn px-4 py-1.5 rounded-full bg-brand-card border border-brand-border text-xs font-mono font-bold text-slate-300 hover:text-white">
+                    Symbols &amp; Brackets
+                </button>
 
-                <!-- Right Options: Timer Mode + Custom Code + Keyboard Toggle -->
-                <div class="flex flex-wrap items-center justify-between lg:justify-end gap-2.5 border-t lg:border-t-0 pt-3 lg:pt-0 border-brand-border/60">
-                    <!-- Time Limit Selector -->
-                    <div class="flex items-center bg-brand-dark p-1 rounded-xl border border-brand-border font-mono text-xs">
-                        <button onclick="setTimerMode(0)" id="timer-0" class="timer-btn px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold transition-all">Zen (∞)</button>
-                        <button onclick="setTimerMode(60)" id="timer-60" class="timer-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">60s</button>
-                        <button onclick="setTimerMode(120)" id="timer-120" class="timer-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all">120s</button>
-                    </div>
-
-                    <!-- Custom Code Button -->
-                    <button onclick="toggleCustomCodeModal(true)" class="px-3.5 py-2 rounded-xl font-mono text-xs font-semibold border border-purple-500/40 bg-purple-500/10 text-purple-300 hover:bg-purple-500/20 transition-all flex items-center gap-1.5">
-                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                        <span>Custom Code</span>
+                <!-- TIME Dropdown Pill -->
+                <div class="relative" id="timeDropdownWrap">
+                    <button onclick="toggleTimeMenu(event)" class="px-4 py-1.5 rounded-full bg-brand-card border border-brand-border hover:border-cyan-400/60 text-xs font-mono font-bold text-white flex items-center gap-2 transition-all">
+                        <span id="timeMenuLabel">TIME</span>
+                        <svg class="w-3.5 h-3.5 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                     </button>
 
-                    <!-- Keyboard Guide Toggle -->
-                    <button onclick="toggleKeyboardGuide()" id="kbToggleBtn" class="px-3.5 py-2 rounded-xl font-mono text-xs font-semibold border border-cyan-500/40 bg-cyan-500/10 text-cyan-300 hover:bg-cyan-500/20 transition-all flex items-center gap-1.5">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-                        <span>Keyboard UI</span>
-                    </button>
-                </div>
-            </div>
-
-            <!-- 2. REAL-TIME TELEMETRY HUD (WPM, Accuracy, Progress, Streak) -->
-            <div class="grid grid-cols-2 sm:grid-cols-5 gap-3 sm:gap-4">
-                <!-- WPM -->
-                <div class="p-4 rounded-2xl bg-brand-card/75 border border-brand-border flex items-center justify-between">
-                    <div>
-                        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Speed (WPM)</div>
-                        <div id="statWpm" class="text-2xl sm:text-3xl font-black font-mono text-cyan-400 mt-0.5">0</div>
-                    </div>
-                    <div class="w-10 h-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center text-cyan-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-                    </div>
-                </div>
-
-                <!-- Accuracy -->
-                <div class="p-4 rounded-2xl bg-brand-card/75 border border-brand-border flex items-center justify-between">
-                    <div>
-                        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Accuracy</div>
-                        <div id="statAccuracy" class="text-2xl sm:text-3xl font-black font-mono text-emerald-400 mt-0.5">100%</div>
-                    </div>
-                    <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                </div>
-
-                <!-- Time -->
-                <div class="p-4 rounded-2xl bg-brand-card/75 border border-brand-border flex items-center justify-between">
-                    <div>
-                        <div id="statTimeLabel" class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Elapsed Time</div>
-                        <div id="statTimer" class="text-2xl sm:text-3xl font-black font-mono text-white mt-0.5">00:00</div>
-                    </div>
-                    <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                    </div>
-                </div>
-
-                <!-- Typos -->
-                <div class="p-4 rounded-2xl bg-brand-card/75 border border-brand-border flex items-center justify-between">
-                    <div>
-                        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Mistakes</div>
-                        <div id="statErrors" class="text-2xl sm:text-3xl font-black font-mono text-rose-400 mt-0.5">0</div>
-                    </div>
-                    <div class="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
-                    </div>
-                </div>
-
-                <!-- Combo Streak -->
-                <div class="col-span-2 sm:col-span-1 p-4 rounded-2xl bg-brand-card/75 border border-brand-border flex items-center justify-between">
-                    <div>
-                        <div class="text-[11px] font-mono uppercase tracking-wider text-slate-400">Key Combo</div>
-                        <div id="statCombo" class="text-2xl sm:text-3xl font-black font-mono text-purple-400 mt-0.5">0x</div>
-                    </div>
-                    <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-                        <span class="font-mono font-bold text-sm">🔥</span>
+                    <!-- TIME Popover Box (Matches Mockup: Timer On/Off Icons + 3 Duration Pills) -->
+                    <div id="timeDropdownMenu" class="hidden absolute right-0 mt-2 w-44 p-3 rounded-2xl bg-brand-surface border border-brand-border shadow-2xl z-50 font-mono">
+                        <!-- Top Row: Timer Mode vs Free/No-Timer Mode -->
+                        <div class="grid grid-cols-2 gap-2 mb-2.5">
+                            <button onclick="setTimerEnabled(true)" id="btnTimerOn" title="จับเวลาถอยหลัง" class="p-2 rounded-xl border border-cyan-400 bg-cyan-500/15 text-cyan-300 flex items-center justify-center transition-all">
+                                <!-- Stopwatch Icon -->
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0zM9 2h6"/></svg>
+                            </button>
+                            <button onclick="setTimerEnabled(false)" id="btnTimerOff" title="ไม่จำกัดเวลา (Zen)" class="p-2 rounded-xl border border-brand-border bg-brand-card text-slate-400 hover:text-white flex items-center justify-center transition-all">
+                                <!-- Stopwatch Slash Icon -->
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3l18 18M12 8v4m6.364 3.364A9 9 0 005.636 5.636m12.728 12.728A9 9 0 015.636 5.636"/></svg>
+                            </button>
+                        </div>
+                        <!-- Bottom Row: 3 Duration Pills (1m / 3m / 5m) -->
+                        <div id="durationPillsRow" class="grid grid-cols-3 gap-1.5 text-[11px]">
+                            <button onclick="selectDuration(60)" id="dur-60" class="dur-btn py-1.5 rounded-lg bg-cyan-400 text-slate-900 font-bold">1m</button>
+                            <button onclick="selectDuration(180)" id="dur-180" class="dur-btn py-1.5 rounded-lg bg-brand-card text-slate-300 hover:text-white border border-brand-border">3m</button>
+                            <button onclick="selectDuration(300)" id="dur-300" class="dur-btn py-1.5 rounded-lg bg-brand-card text-slate-300 hover:text-white border border-brand-border">5m</button>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- 3. INTERACTIVE CODE EDITOR ARENA -->
-            <div class="rounded-3xl border border-cyan-500/40 bg-brand-surface/95 shadow-glow-lg overflow-hidden relative">
-                <!-- Progress Bar Top -->
-                <div class="w-full h-1 bg-brand-dark">
-                    <div id="progressBar" class="h-full bg-gradient-to-r from-cyan-400 via-sky-400 to-purple-500 w-0 transition-all duration-150"></div>
+            <!-- Fullscreen Expand Button (Top-Right Corner like Mockup) -->
+            <button onclick="toggleFullscreenMode()" title="โหมดเต็มจอ (Fullscreen)" class="absolute right-0 top-1/2 -translate-y-1/2 p-2.5 rounded-xl border border-brand-border/80 bg-brand-surface/70 hover:border-cyan-400 text-slate-300 hover:text-cyan-400 transition-all">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- 2. CENTER WORKSPACE + RIGHT TELEMETRY SIDEBAR -->
+        <div class="relative flex-grow flex flex-col items-center justify-between my-4">
+
+            <!-- Active Language Header Badge (Centered above Code) -->
+            <div class="flex items-center gap-2.5 mt-2 mb-4 px-4 py-1.5 rounded-full bg-brand-surface/60 border border-brand-border/70">
+                <span id="langBadgeIcon" class="flex items-center justify-center">
+                    <!-- Default HTML5 Shield Icon -->
+                    <svg class="w-5 h-5 text-orange-500" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>
+                </span>
+                <span id="langBadgeTitle" class="font-mono font-bold text-sm tracking-wide text-slate-200">HTML &amp; CSS</span>
+                <span class="text-slate-600">|</span>
+                <span id="levelBadgeSub" class="font-mono text-xs text-cyan-400">L3 Code Builder</span>
+            </div>
+
+            <!-- Floating Code Typing Area (Clean, Frameless, Centered like Mockup) -->
+            <div onclick="focusTyping()" class="w-full max-w-3xl my-auto py-6 px-6 sm:px-10 rounded-3xl cursor-text relative flex items-center justify-center min-h-[170px]">
+                <textarea id="hiddenInput" class="opacity-0 absolute pointer-events-none w-0 h-0" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>
+
+                <pre class="font-mono text-lg sm:text-2xl leading-relaxed tracking-wide overflow-x-auto select-none"><code id="codeDisplayArea" class="block text-left"></code></pre>
+            </div>
+
+            <!-- 3. 3D KEYBOARD + HAND FINGER OVERLAY + 2 TOGGLE BUTTONS -->
+            <div class="w-full flex flex-col items-center mt-2">
+
+                <!-- Keyboard + Hands Wrapper -->
+                <div id="keyboardVisualContainer" class="relative kb-perspective-wrap flex justify-center items-center pt-2 pb-4 px-2">
+
+                    <!-- 3D Keyboard Base -->
+                    <div class="kb-3d-case p-3.5 sm:p-4 rounded-2xl space-y-1.5 font-mono text-[11px] sm:text-xs">
+                        <!-- Row 1 -->
+                        <div class="flex gap-1.5">
+                            <div data-key="`" data-shift="~" data-finger="l-pinky" class="key-3d key-modifier w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">`</div>
+                            <div data-key="1" data-shift="!" data-finger="l-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">1</div>
+                            <div data-key="2" data-shift="@" data-finger="l-ring" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">2</div>
+                            <div data-key="3" data-shift="#" data-finger="l-middle" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">3</div>
+                            <div data-key="4" data-shift="$" data-finger="l-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">4</div>
+                            <div data-key="5" data-shift="%" data-finger="l-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">5</div>
+                            <div data-key="6" data-shift="^" data-finger="r-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">6</div>
+                            <div data-key="7" data-shift="&" data-finger="r-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">7</div>
+                            <div data-key="8" data-shift="*" data-finger="r-middle" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">8</div>
+                            <div data-key="9" data-shift="(" data-finger="r-ring" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">9</div>
+                            <div data-key="0" data-shift=")" data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">0</div>
+                            <div data-key="-" data-shift="_" data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">-</div>
+                            <div data-key="=" data-shift="+" data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">=</div>
+                            <div data-key="Backspace" data-finger="r-pinky" class="key-3d key-modifier w-16 sm:w-20 h-9 sm:h-10 flex items-center justify-center text-[10px]">BKSP</div>
+                        </div>
+
+                        <!-- Row 2 -->
+                        <div class="flex gap-1.5">
+                            <div data-key="Tab" data-finger="l-pinky" class="key-3d key-modifier w-14 h-9 sm:h-10 flex items-center justify-center text-[10px]">TAB</div>
+                            <div data-key="q" data-shift="Q" data-finger="l-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">Q</div>
+                            <div data-key="w" data-shift="W" data-finger="l-ring" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">W</div>
+                            <div data-key="e" data-shift="E" data-finger="l-middle" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">E</div>
+                            <div data-key="r" data-shift="R" data-finger="l-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">R</div>
+                            <div data-key="t" data-shift="T" data-finger="l-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">T</div>
+                            <div data-key="y" data-shift="Y" data-finger="r-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">Y</div>
+                            <div data-key="u" data-shift="U" data-finger="r-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">U</div>
+                            <div data-key="i" data-shift="I" data-finger="r-middle" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">I</div>
+                            <div data-key="o" data-shift="O" data-finger="r-ring" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">O</div>
+                            <div data-key="p" data-shift="P" data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">P</div>
+                            <div data-key="[" data-shift="{" data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">[</div>
+                            <div data-key="]" data-shift="}" data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">]</div>
+                            <div data-key="\" data-shift="|" data-finger="r-pinky" class="key-3d key-modifier w-11 sm:w-14 h-9 sm:h-10 flex items-center justify-center">\</div>
+                        </div>
+
+                        <!-- Row 3 -->
+                        <div class="flex gap-1.5">
+                            <div data-key="CapsLock" data-finger="l-pinky" class="key-3d key-modifier w-16 h-9 sm:h-10 flex items-center justify-center text-[10px]">CAPS</div>
+                            <div data-key="a" data-shift="A" data-finger="l-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">A</div>
+                            <div data-key="s" data-shift="S" data-finger="l-ring" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">S</div>
+                            <div data-key="d" data-shift="D" data-finger="l-middle" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">D</div>
+                            <div data-key="f" data-shift="F" data-finger="l-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center underline decoration-cyan-400">F</div>
+                            <div data-key="g" data-shift="G" data-finger="l-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">G</div>
+                            <div data-key="h" data-shift="H" data-finger="r-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">H</div>
+                            <div data-key="j" data-shift="J" data-finger="r-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center underline decoration-cyan-400">J</div>
+                            <div data-key="k" data-shift="K" data-finger="r-middle" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">K</div>
+                            <div data-key="l" data-shift="L" data-finger="r-ring" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">L</div>
+                            <div data-key=";" data-shift=":" data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">;</div>
+                            <div data-key="'" data-shift='"' data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">'</div>
+                            <div data-key="Enter" data-finger="r-pinky" class="key-3d key-modifier flex-grow h-9 sm:h-10 flex items-center justify-center text-[10px] text-cyan-300 font-bold">ENTER</div>
+                        </div>
+
+                        <!-- Row 4 -->
+                        <div class="flex gap-1.5">
+                            <div id="shiftKeyLeft" data-key="ShiftLeft" data-finger="l-pinky" class="key-3d key-modifier w-20 h-9 sm:h-10 flex items-center justify-center text-[10px]">SHIFT</div>
+                            <div data-key="z" data-shift="Z" data-finger="l-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">Z</div>
+                            <div data-key="x" data-shift="X" data-finger="l-ring" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">X</div>
+                            <div data-key="c" data-shift="C" data-finger="l-middle" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">C</div>
+                            <div data-key="v" data-shift="V" data-finger="l-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">V</div>
+                            <div data-key="b" data-shift="B" data-finger="l-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">B</div>
+                            <div data-key="n" data-shift="N" data-finger="r-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">N</div>
+                            <div data-key="m" data-shift="M" data-finger="r-index" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">M</div>
+                            <div data-key="," data-shift="<" data-finger="r-middle" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">,</div>
+                            <div data-key="." data-shift=">" data-finger="r-ring" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">.</div>
+                            <div data-key="/" data-shift="?" data-finger="r-pinky" class="key-3d w-9 sm:w-10 h-9 sm:h-10 flex items-center justify-center">/</div>
+                            <div id="shiftKeyRight" data-key="ShiftRight" data-finger="r-pinky" class="key-3d key-modifier flex-grow h-9 sm:h-10 flex items-center justify-center text-[10px]">SHIFT</div>
+                        </div>
+
+                        <!-- Row 5 -->
+                        <div class="flex gap-1.5 justify-center">
+                            <div class="key-3d key-modifier w-14 h-9 sm:h-10 flex items-center justify-center text-[10px]">CTRL</div>
+                            <div class="key-3d key-modifier w-12 h-9 sm:h-10 flex items-center justify-center text-[10px]">ALT</div>
+                            <div data-key=" " data-finger="thumb" class="key-3d w-64 sm:w-72 h-9 sm:h-10 flex items-center justify-center text-[10px] tracking-widest text-slate-400">SPACE</div>
+                            <div class="key-3d key-modifier w-12 h-9 sm:h-10 flex items-center justify-center text-[10px]">ALT</div>
+                            <div class="key-3d key-modifier w-14 h-9 sm:h-10 flex items-center justify-center text-[10px]">CTRL</div>
+                        </div>
+                    </div>
+
+                    <!-- Translucent Hands Overlay (Exact Position over Keyboard like Mockup) -->
+                    <div id="handGuideOverlay" class="pointer-events-none absolute -bottom-5 inset-x-0 flex justify-center gap-12 sm:gap-20 z-20 transition-opacity duration-200">
+                        <!-- Left Hand SVG -->
+                        <svg class="w-44 sm:w-52 h-44 sm:h-52 drop-shadow-xl" viewBox="0 0 200 220">
+                            <!-- Left Palm -->
+                            <path d="M50 120 Q95 105 140 125 L130 215 L60 215 Z" fill="rgba(226, 182, 146, 0.25)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                            <!-- Left Pinky -->
+                            <rect id="finger-l-pinky" class="finger-path" x="32" y="52" width="20" height="72" rx="10" transform="rotate(-10 42 88)"/>
+                            <!-- Left Ring -->
+                            <rect id="finger-l-ring" class="finger-path" x="60" y="28" width="22" height="92" rx="11" transform="rotate(-4 71 74)"/>
+                            <!-- Left Middle -->
+                            <rect id="finger-l-middle" class="finger-path" x="88" y="18" width="22" height="100" rx="11"/>
+                            <!-- Left Index -->
+                            <rect id="finger-l-index" class="finger-path" x="116" y="32" width="22" height="88" rx="11" transform="rotate(5 127 76)"/>
+                            <!-- Left Thumb -->
+                            <rect id="finger-l-thumb" class="finger-path" x="142" y="96" width="24" height="65" rx="12" transform="rotate(32 154 128)"/>
+                        </svg>
+
+                        <!-- Right Hand SVG -->
+                        <svg class="w-44 sm:w-52 h-44 sm:h-52 drop-shadow-xl" viewBox="0 0 200 220">
+                            <!-- Right Palm -->
+                            <path d="M60 125 Q105 105 150 120 L140 215 L70 215 Z" fill="rgba(226, 182, 146, 0.25)" stroke="rgba(255,255,255,0.2)" stroke-width="1.5"/>
+                            <!-- Right Thumb -->
+                            <rect id="finger-r-thumb" class="finger-path" x="34" y="96" width="24" height="65" rx="12" transform="rotate(-32 46 128)"/>
+                            <!-- Right Index -->
+                            <rect id="finger-r-index" class="finger-path" x="62" y="32" width="22" height="88" rx="11" transform="rotate(-5 73 76)"/>
+                            <!-- Right Middle -->
+                            <rect id="finger-r-middle" class="finger-path" x="90" y="18" width="22" height="100" rx="11"/>
+                            <!-- Right Ring -->
+                            <rect id="finger-r-ring" class="finger-path" x="118" y="28" width="22" height="92" rx="11" transform="rotate(4 129 74)"/>
+                            <!-- Right Pinky -->
+                            <rect id="finger-r-pinky" class="finger-path" x="148" y="52" width="20" height="72" rx="10" transform="rotate(10 158 88)"/>
+                        </svg>
+                    </div>
                 </div>
 
-                <!-- IDE Window Header -->
-                <div class="px-5 py-3.5 bg-brand-dark/90 border-b border-brand-border flex flex-wrap items-center justify-between gap-3">
-                    <div class="flex items-center gap-3">
-                        <div class="flex items-center gap-1.5">
-                            <span class="w-3 h-3 rounded-full bg-rose-500/80"></span>
-                            <span class="w-3 h-3 rounded-full bg-amber-400/80"></span>
-                            <span class="w-3 h-3 rounded-full bg-emerald-500/80"></span>
-                        </div>
-                        <div class="h-4 w-[1px] bg-brand-border mx-1"></div>
-                        <div class="flex items-center gap-2 font-mono text-xs">
-                            <span id="fileBadge" class="px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30 font-bold">index.html</span>
-                            <span id="snippetTitle" class="text-slate-400 hidden sm:inline">Snippet #1: Responsive Navbar</span>
-                        </div>
-                    </div>
+                <!-- Two Circular Toggle Buttons Below Keyboard (Keyboard Icon + Hand Icon) -->
+                <div class="flex items-center gap-3 mt-3 z-30">
+                    <button id="btnToggleKeyboard" onclick="toggleKeyboardVisibility()" title="ซ่อน/แสดง คีย์บอร์ด" class="w-12 h-10 rounded-full bg-brand-card border border-cyan-400/60 text-cyan-300 shadow-neon-cyan flex items-center justify-center transition-all hover:scale-105">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <rect x="2" y="5" width="20" height="14" rx="2" stroke-width="2"/>
+                            <path stroke-linecap="round" stroke-width="2" d="M6 9h.01M10 9h.01M14 9h.01M18 9h.01M6 13h.01M18 13h.01M9 13h6"/>
+                        </svg>
+                    </button>
 
-                    <!-- Editor Controls: Snippet Selector, Next, Restart -->
-                    <div class="flex items-center gap-2.5 font-mono text-xs">
-                        <span id="snippetCounter" class="text-slate-400 mr-1">1 / 3</span>
-                        <button onclick="prevSnippet()" title="โค้ดก่อนหน้า" class="p-1.5 rounded-lg border border-brand-border bg-brand-card hover:border-cyan-400 text-slate-300 hover:text-white transition-all">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                        </button>
-                        <button onclick="nextSnippet()" title="เปลี่ยนโจทย์โค้ดถัดไป" class="px-3 py-1.5 rounded-lg border border-brand-border bg-brand-card hover:border-cyan-400 text-slate-200 hover:text-cyan-300 transition-all flex items-center gap-1">
-                            <span>Next Snippet</span>
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                        </button>
-                        <button onclick="resetPractice()" title="เริ่มพิมพ์ใหม่ (ปุ่ม Esc)" class="px-3 py-1.5 rounded-lg bg-cyan-400/15 border border-cyan-400/40 text-cyan-300 hover:bg-cyan-400 hover:text-slate-900 font-bold transition-all flex items-center gap-1.5">
-                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                            <span>Restart (Esc)</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Code Area Container (Click to Focus) -->
-                <div id="editorContainer" onclick="focusTyping()" class="relative p-6 sm:p-8 bg-[#080d1a] min-h-[240px] max-h-[380px] overflow-y-auto cursor-text select-none">
-                    <!-- Hidden Input for Mobile/IME Compatibility -->
-                    <textarea id="hiddenTypingInput" class="opacity-0 absolute pointer-events-none w-0 h-0" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>
-
-                    <!-- Unfocused Overlay Warning -->
-                    <div id="focusOverlay" class="hidden absolute inset-0 z-20 backdrop-blur-sm bg-brand-dark/70 flex flex-col items-center justify-center gap-2 transition-opacity">
-                        <div class="px-5 py-2.5 rounded-2xl bg-cyan-400 text-slate-900 font-mono font-bold text-sm shadow-neon-cyan flex items-center gap-2">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
-                            คลิกที่นี่ หรือกดปุ่มใดก็ได้เพื่อเริ่มพิมพ์ต่อ
-                        </div>
-                    </div>
-
-                    <div class="flex font-mono text-base sm:text-lg leading-relaxed">
-                        <!-- Line Numbers -->
-                        <div id="lineNumbers" class="pr-5 mr-5 border-r border-brand-border/70 text-slate-600 select-none text-right font-mono text-sm sm:text-base leading-relaxed">
-                            1
-                        </div>
-
-                        <!-- Rendered Characters -->
-                        <pre class="flex-1 overflow-x-auto font-mono whitespace-pre"><code id="codeArena" class="block"></code></pre>
-                    </div>
-                </div>
-
-                <!-- Bottom Helper Status Bar -->
-                <div class="px-5 py-2.5 bg-brand-dark/95 border-t border-brand-border flex flex-wrap items-center justify-between gap-2 text-xs font-mono text-slate-400">
-                    <div class="flex items-center gap-4">
-                        <span class="flex items-center gap-1.5">
-                            <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-                            Next Key: <strong id="nextKeyHint" class="text-cyan-300 px-1.5 py-0.5 rounded bg-cyan-500/10 border border-cyan-500/30">&lt;</strong>
-                        </span>
-                        <span class="hidden sm:inline text-slate-600">|</span>
-                        <span class="hidden sm:flex items-center gap-1.5">
-                            Finger Guide: <strong id="fingerHint" class="text-purple-300">Right Middle + Left Shift</strong>
-                        </span>
-                    </div>
-                    <div class="flex items-center gap-3 text-[11px]">
-                        <span><kbd class="px-1.5 py-0.5 rounded bg-brand-card border border-brand-border text-slate-300">Enter ↵</kbd> Auto-Indent</span>
-                        <span><kbd class="px-1.5 py-0.5 rounded bg-brand-card border border-brand-border text-slate-300">Tab</kbd> 2 Spaces</span>
-                        <span><kbd class="px-1.5 py-0.5 rounded bg-brand-card border border-brand-border text-slate-300">Esc</kbd> Reset</span>
-                    </div>
+                    <button id="btnToggleHands" onclick="toggleHandsVisibility()" title="ซ่อน/แสดง มือนำทาง" class="w-12 h-10 rounded-full bg-brand-card border border-cyan-400/60 text-cyan-300 shadow-neon-cyan flex items-center justify-center transition-all hover:scale-105">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18 8.5V4a1 1 0 10-2 0v4.5h-1V2.5a1 1 0 10-2 0V8.5h-1V1.5a1 1 0 10-2 0V8.5H9V3a1 1 0 10-2 0v8.5l-1.85-1.85a1.2 1.2 0 00-1.7 1.7L8.5 16.4c1.1 1.1 2.6 1.7 4.1 1.7h1.9c3.04 0 5.5-2.46 5.5-5.5V8.5a1 1 0 10-2 0z"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
 
-            <!-- 4. INTERACTIVE VISUAL KEYBOARD & FINGER CUES -->
-            <div id="keyboardSection" class="p-6 rounded-3xl bg-brand-surface/75 border border-brand-border backdrop-blur-md transition-all">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="flex items-center gap-2 text-xs font-mono text-slate-400">
-                        <span class="w-2.5 h-2.5 rounded-sm bg-cyan-400 inline-block shadow-neon-cyan"></span>
-                        <span>ปุ่มถัดไปที่ต้องกด</span>
-                        <span class="w-2.5 h-2.5 rounded-sm bg-purple-500 inline-block ml-3"></span>
-                        <span>กดปุ่ม Shift ค้างไว้</span>
-                    </div>
-                    <div class="text-xs font-mono text-slate-500 hidden sm:block">ANSI Standard Developer Layout</div>
+            <!-- 4. RIGHT VERTICAL STATS SIDEBAR (Exact position from Mockup) -->
+            <aside class="w-full lg:w-32 mt-6 lg:mt-0 lg:fixed lg:right-6 lg:top-1/2 lg:-translate-y-1/2 z-30 p-3 rounded-3xl bg-brand-surface/90 border border-brand-border shadow-2xl backdrop-blur-xl flex lg:flex-col items-center justify-around gap-3 font-mono">
+                <!-- TIME Card -->
+                <div class="w-full py-3 px-2 rounded-2xl bg-brand-card border border-brand-border text-center">
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">TIME</div>
+                    <div id="hudTime" class="text-lg sm:text-xl font-black text-white mt-0.5">00:00</div>
                 </div>
 
-                <!-- ANSI Keyboard Grid -->
-                <div class="space-y-2 font-mono text-xs select-none overflow-x-auto pb-1">
-                    <!-- Row 1 -->
-                    <div class="flex gap-1.5 min-w-[680px]">
-                        <div data-key="`" data-shift="~" class="v-key flex-1 h-11 flex flex-col items-center justify-center text-slate-400"><span class="text-[9px] text-slate-500">~</span><span>`</span></div>
-                        <div data-key="1" data-shift="!" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-500">!</span><span>1</span></div>
-                        <div data-key="2" data-shift="@" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-500">@</span><span>2</span></div>
-                        <div data-key="3" data-shift="#" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-500">#</span><span>3</span></div>
-                        <div data-key="4" data-shift="$" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-500">$</span><span>4</span></div>
-                        <div data-key="5" data-shift="%" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-500">%</span><span>5</span></div>
-                        <div data-key="6" data-shift="^" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-500">^</span><span>6</span></div>
-                        <div data-key="7" data-shift="&" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-500">&amp;</span><span>7</span></div>
-                        <div data-key="8" data-shift="*" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-500">*</span><span>8</span></div>
-                        <div data-key="9" data-shift="(" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-cyan-400">(</span><span>9</span></div>
-                        <div data-key="0" data-shift=")" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-cyan-400">)</span><span>0</span></div>
-                        <div data-key="-" data-shift="_" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-cyan-400">_</span><span>-</span></div>
-                        <div data-key="=" data-shift="+" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-cyan-400">+</span><span>=</span></div>
-                        <div data-key="Backspace" class="v-key w-20 h-11 flex items-center justify-center text-[10px] text-slate-400">BKSP</div>
-                    </div>
-
-                    <!-- Row 2 -->
-                    <div class="flex gap-1.5 min-w-[680px]">
-                        <div data-key="Tab" class="v-key w-16 h-11 flex items-center justify-center text-[10px] text-slate-400">TAB</div>
-                        <div data-key="q" data-shift="Q" class="v-key flex-1 h-11 flex items-center justify-center">Q</div>
-                        <div data-key="w" data-shift="W" class="v-key flex-1 h-11 flex items-center justify-center">W</div>
-                        <div data-key="e" data-shift="E" class="v-key flex-1 h-11 flex items-center justify-center">E</div>
-                        <div data-key="r" data-shift="R" class="v-key flex-1 h-11 flex items-center justify-center">R</div>
-                        <div data-key="t" data-shift="T" class="v-key flex-1 h-11 flex items-center justify-center">T</div>
-                        <div data-key="y" data-shift="Y" class="v-key flex-1 h-11 flex items-center justify-center">Y</div>
-                        <div data-key="u" data-shift="U" class="v-key flex-1 h-11 flex items-center justify-center">U</div>
-                        <div data-key="i" data-shift="I" class="v-key flex-1 h-11 flex items-center justify-center">I</div>
-                        <div data-key="o" data-shift="O" class="v-key flex-1 h-11 flex items-center justify-center">O</div>
-                        <div data-key="p" data-shift="P" class="v-key flex-1 h-11 flex items-center justify-center">P</div>
-                        <div data-key="[" data-shift="{" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-purple-400">{</span><span>[</span></div>
-                        <div data-key="]" data-shift="}" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-purple-400">}</span><span>]</span></div>
-                        <div data-key="\" data-shift="|" class="v-key w-14 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-400">|</span><span>\</span></div>
-                    </div>
-
-                    <!-- Row 3 -->
-                    <div class="flex gap-1.5 min-w-[680px]">
-                        <div data-key="CapsLock" class="v-key w-20 h-11 flex items-center justify-center text-[10px] text-slate-400">CAPS</div>
-                        <div data-key="a" data-shift="A" class="v-key flex-1 h-11 flex items-center justify-center">A</div>
-                        <div data-key="s" data-shift="S" class="v-key flex-1 h-11 flex items-center justify-center">S</div>
-                        <div data-key="d" data-shift="D" class="v-key flex-1 h-11 flex items-center justify-center">D</div>
-                        <div data-key="f" data-shift="F" class="v-key flex-1 h-11 flex items-center justify-center underline decoration-cyan-400">F</div>
-                        <div data-key="g" data-shift="G" class="v-key flex-1 h-11 flex items-center justify-center">G</div>
-                        <div data-key="h" data-shift="H" class="v-key flex-1 h-11 flex items-center justify-center">H</div>
-                        <div data-key="j" data-shift="J" class="v-key flex-1 h-11 flex items-center justify-center underline decoration-cyan-400">J</div>
-                        <div data-key="k" data-shift="K" class="v-key flex-1 h-11 flex items-center justify-center">K</div>
-                        <div data-key="l" data-shift="L" class="v-key flex-1 h-11 flex items-center justify-center">L</div>
-                        <div data-key=";" data-shift=":" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-cyan-400">:</span><span>;</span></div>
-                        <div data-key="'" data-shift='"' class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-cyan-400">"</span><span>'</span></div>
-                        <div data-key="Enter" class="v-key w-24 h-11 flex items-center justify-center text-[10px] font-bold text-cyan-300">ENTER ↵</div>
-                    </div>
-
-                    <!-- Row 4 -->
-                    <div class="flex gap-1.5 min-w-[680px]">
-                        <div id="keyShiftLeft" data-key="Shift" class="v-key w-24 h-11 flex items-center justify-center text-[10px] text-slate-400">SHIFT</div>
-                        <div data-key="z" data-shift="Z" class="v-key flex-1 h-11 flex items-center justify-center">Z</div>
-                        <div data-key="x" data-shift="X" class="v-key flex-1 h-11 flex items-center justify-center">X</div>
-                        <div data-key="c" data-shift="C" class="v-key flex-1 h-11 flex items-center justify-center">C</div>
-                        <div data-key="v" data-shift="V" class="v-key flex-1 h-11 flex items-center justify-center">V</div>
-                        <div data-key="b" data-shift="B" class="v-key flex-1 h-11 flex items-center justify-center">B</div>
-                        <div data-key="n" data-shift="N" class="v-key flex-1 h-11 flex items-center justify-center">N</div>
-                        <div data-key="m" data-shift="M" class="v-key flex-1 h-11 flex items-center justify-center">M</div>
-                        <div data-key="," data-shift="<" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-purple-400">&lt;</span><span>,</span></div>
-                        <div data-key="." data-shift=">" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-purple-400">&gt;</span><span>.</span></div>
-                        <div data-key="/" data-shift="?" class="v-key flex-1 h-11 flex flex-col items-center justify-center"><span class="text-[9px] text-slate-400">?</span><span>/</span></div>
-                        <div id="keyShiftRight" data-key="Shift" class="v-key w-24 h-11 flex items-center justify-center text-[10px] text-slate-400">SHIFT</div>
-                    </div>
-
-                    <!-- Row 5 -->
-                    <div class="flex gap-1.5 min-w-[680px] justify-center">
-                        <div data-key=" " class="v-key w-72 h-10 flex items-center justify-center text-[11px] tracking-widest text-slate-400 font-bold">SPACEBAR</div>
-                    </div>
+                <!-- WPM Card -->
+                <div class="w-full py-3 px-2 rounded-2xl bg-brand-card border border-brand-border text-center">
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">WPM</div>
+                    <div id="hudWpm" class="text-xl sm:text-2xl font-black text-cyan-400 mt-0.5">0</div>
                 </div>
-            </div>
+
+                <!-- ACCURACY Card -->
+                <div class="w-full py-3 px-2 rounded-2xl bg-brand-card border border-brand-border text-center">
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">ACCURACY</div>
+                    <div id="hudAccuracy" class="text-lg sm:text-xl font-black text-emerald-400 mt-0.5">100%</div>
+                </div>
+
+                <!-- WRONG Card -->
+                <div class="w-full py-3 px-2 rounded-2xl bg-brand-card border border-brand-border text-center">
+                    <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400">WRONG</div>
+                    <div id="hudWrong" class="text-xl sm:text-2xl font-black text-rose-400 mt-0.5">0</div>
+                </div>
+
+                <!-- Bottom Reset / Stop Button (🚫 icon like Mockup) -->
+                <button onclick="resetPractice()" title="เริ่มใหม่ / รีเซ็ต (Esc)" class="w-14 h-11 rounded-full bg-brand-card hover:bg-rose-500/20 border border-brand-border hover:border-rose-400 text-slate-300 hover:text-rose-400 flex items-center justify-center transition-all group">
+                    <svg class="w-6 h-6 transition-transform group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="9" stroke-width="2.2"/>
+                        <path stroke-linecap="round" stroke-width="2.2" d="M5.7 5.7l12.6 12.6"/>
+                    </svg>
+                </button>
+            </aside>
 
         </div>
     </main>
 
-    <!-- ================= FOOTER (Synced with index.html) ================= -->
-    <footer class="border-t border-brand-border bg-brand-dark text-slate-400 py-10 text-sm font-mono relative z-10 mt-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-6">
-            <div class="flex items-center gap-2">
-                <span class="text-cyan-400 font-bold">&lt;/&gt;</span>
-                <span class="text-white font-bold">Typing Code Trainer_</span>
-                <span class="text-xs text-slate-500 ml-2">v2.0.0</span>
-            </div>
-
-            <div class="flex flex-wrap items-center justify-center gap-6 text-xs text-slate-400">
-                <a href="index.html" class="hover:text-cyan-400 transition-colors">Home</a>
-                <a href="practice.html" class="text-cyan-400 font-bold">Practice</a>
-                <a href="party.html" class="hover:text-cyan-400 transition-colors">Party</a>
-                <a href="ranking.html" class="hover:text-cyan-400 transition-colors">Ranking</a>
-                <button onclick="toggleModal(true)" class="hover:text-cyan-400 transition-colors cursor-pointer">Sign In</button>
-            </div>
-
-            <p class="text-xs text-slate-500 text-center md:text-right">
-                Engineered for developers who love clean syntax and pro speed.
-            </p>
-        </div>
-    </footer>
-
-    <!-- ================= RESULT SUMMARY MODAL ================= -->
+    <!-- ================= SESSION COMPLETE MODAL ================= -->
     <div id="resultModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="w-full max-w-lg rounded-3xl border border-cyan-500/40 bg-brand-surface p-6 sm:p-8 shadow-glow-lg relative text-center">
-            <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-mono text-xs mb-3">
-                <span>SESSION COMPLETE</span>
-            </div>
-            <h3 id="resultRankTitle" class="text-3xl sm:text-4xl font-black text-white font-mono mb-1">S-RANK CODER</h3>
-            <p id="resultSubtext" class="text-xs text-slate-400 font-mono mb-6">ความเร็วและความแม่นยำระดับมืออาชีพ!</p>
+        <div class="w-full max-w-md rounded-3xl border border-cyan-500/40 bg-brand-surface p-7 shadow-glow-lg text-center font-mono">
+            <div class="text-xs text-cyan-400 uppercase tracking-widest mb-1">Practice Finished</div>
+            <h3 id="modalRankTitle" class="text-3xl font-black text-white mb-5">PRO SPEED!</h3>
 
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6 font-mono">
+            <div class="grid grid-cols-2 gap-3 mb-6">
                 <div class="p-3.5 rounded-2xl bg-brand-dark border border-brand-border">
-                    <div class="text-[10px] text-slate-400 uppercase">Net WPM</div>
-                    <div id="finalWpm" class="text-2xl font-black text-cyan-400 mt-1">0</div>
+                    <div class="text-[10px] text-slate-400">WPM</div>
+                    <div id="modalWpm" class="text-2xl font-black text-cyan-400 mt-0.5">0</div>
                 </div>
                 <div class="p-3.5 rounded-2xl bg-brand-dark border border-brand-border">
-                    <div class="text-[10px] text-slate-400 uppercase">Accuracy</div>
-                    <div id="finalAcc" class="text-2xl font-black text-emerald-400 mt-1">100%</div>
+                    <div class="text-[10px] text-slate-400">ACCURACY</div>
+                    <div id="modalAcc" class="text-2xl font-black text-emerald-400 mt-0.5">100%</div>
                 </div>
                 <div class="p-3.5 rounded-2xl bg-brand-dark border border-brand-border">
-                    <div class="text-[10px] text-slate-400 uppercase">Time</div>
-                    <div id="finalTime" class="text-2xl font-black text-white mt-1">0s</div>
+                    <div class="text-[10px] text-slate-400">TIME</div>
+                    <div id="modalTime" class="text-xl font-bold text-white mt-0.5">00:00</div>
                 </div>
                 <div class="p-3.5 rounded-2xl bg-brand-dark border border-brand-border">
-                    <div class="text-[10px] text-slate-400 uppercase">Mistakes</div>
-                    <div id="finalErrors" class="text-2xl font-black text-rose-400 mt-1">0</div>
+                    <div class="text-[10px] text-slate-400">WRONG</div>
+                    <div id="modalWrong" class="text-xl font-bold text-rose-400 mt-0.5">0</div>
                 </div>
             </div>
 
-            <div class="flex flex-col sm:flex-row gap-3">
-                <button onclick="closeResultAndRetry()" class="flex-1 py-3.5 rounded-xl border border-brand-border bg-brand-card hover:bg-brand-dark text-white font-mono text-xs font-bold transition-all">
-                    ↻ พิมพ์โค้ดเดิมอีกครั้ง
+            <div class="flex gap-3 text-xs">
+                <button onclick="closeResultAndRetry()" class="flex-1 py-3 rounded-xl bg-brand-card border border-brand-border text-white hover:border-cyan-400 font-bold">
+                    พิมพ์ซ้ำอีกครั้ง
                 </button>
-                <button onclick="closeResultAndNext()" class="flex-1 py-3.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-900 font-mono text-xs font-bold shadow-neon-cyan transition-all">
-                    โจทย์ถัดไป (Next Snippet) →
+                <button onclick="closeResultAndNext()" class="flex-1 py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-900 font-bold shadow-neon-cyan">
+                    โจทย์ถัดไป →
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- ================= CUSTOM CODE MODAL ================= -->
-    <div id="customCodeModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="w-full max-w-xl rounded-3xl border border-brand-border bg-brand-surface p-6 sm:p-8 shadow-2xl relative">
-            <button onclick="toggleCustomCodeModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
-            </button>
-            <h3 class="text-xl font-bold text-white font-mono mb-1">Custom Code Snippet</h3>
-            <p class="text-xs text-slate-400 mb-4">วางโค้ดที่คุณต้องการฝึกซ้อมพิมพ์ลงในช่องด้านล่าง</p>
-            <textarea id="customCodeInput" rows="7" placeholder="วางโค้ดของคุณที่นี่..." class="w-full p-4 rounded-2xl bg-brand-dark border border-brand-border text-cyan-300 font-mono text-sm focus:outline-none focus:border-cyan-400 mb-4"></textarea>
-            <div class="flex justify-end gap-3 font-mono text-xs">
-                <button onclick="toggleCustomCodeModal(false)" class="px-5 py-2.5 rounded-xl border border-brand-border text-slate-300 hover:text-white">ยกเลิก</button>
-                <button onclick="applyCustomCode()" class="px-6 py-2.5 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-900 font-bold shadow-neon-cyan">เริ่มฝึกโค้ดนี้</button>
             </div>
         </div>
     </div>
@@ -583,24 +541,20 @@
             <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
-
             <div class="text-center mb-6">
                 <div class="font-mono text-cyan-400 text-xs font-semibold mb-1 uppercase tracking-wider">Authentication</div>
                 <h3 class="text-2xl font-bold text-white">Sign In to Your Account</h3>
-                <p class="text-xs text-slate-400 mt-1">Sync your WPM, custom snippets and rankings</p>
             </div>
-
             <form onsubmit="handleAuthSubmit(event)" class="space-y-4 font-mono text-xs">
                 <div>
                     <label class="block text-slate-400 mb-1.5">Email Address</label>
-                    <input type="email" required placeholder="developer@domain.com" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 text-sm">
+                    <input type="email" required placeholder="developer@domain.com" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white focus:outline-none focus:border-cyan-400 text-sm">
                 </div>
                 <div>
                     <label class="block text-slate-400 mb-1.5">Password</label>
-                    <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 text-sm">
+                    <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white focus:outline-none focus:border-cyan-400 text-sm">
                 </div>
-
-                <button type="submit" class="w-full py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 font-bold text-slate-900 shadow-neon-cyan transition-all text-sm mt-3">
+                <button type="submit" class="w-full py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 font-bold text-slate-900 shadow-neon-cyan transition-all text-sm">
                     Sign In
                 </button>
             </form>
@@ -608,576 +562,505 @@
     </div>
 
     <!-- Notification Toast -->
-    <div id="toastMessage" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-brand-surface border border-cyan-400 text-white font-mono text-xs shadow-neon-cyan flex items-center gap-2">
+    <div id="toastMessage" class="fixed bottom-6 left-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-2.5 rounded-xl bg-brand-surface border border-cyan-400 text-white font-mono text-xs shadow-neon-cyan flex items-center gap-2">
         <span class="text-cyan-400">⚡</span>
         <span id="toastText">Notification</span>
     </div>
 
-    <!-- ================= JAVASCRIPT: TYPING ENGINE & AUDIO ================= -->
+    <!-- ================= JAVASCRIPT ENGINE ================= -->
     <script>
-        // ----------------- 1. SNIPPET DATABASE BY LANGUAGE -----------------
-        const codeDatabase = {
-            html_css: [
-                {
-                    file: "index.html",
-                    title: "Flexbox Header Component",
-                    code: `<div class="container flex items-center justify-between">\n  <h1 class="text-2xl font-bold">Typing Code Trainer</h1>\n  <button type="button" class="btn-neon">Start Test</button>\n</div>`
-                },
-                {
-                    file: "card.html",
-                    title: "Responsive Neon Card",
-                    code: `<article class="rounded-2xl border border-cyan-500 p-6">\n  <span class="badge-pro">PRO SPEED</span>\n  <p class="text-slate-400 mt-2">Build muscle memory fast.</p>\n</article>`
-                },
-                {
-                    file: "styles.css",
-                    title: "Glassmorphism Utility",
-                    code: `.glass-panel {\n  background: rgba(15, 22, 40, 0.85);\n  backdrop-filter: blur(12px);\n  border: 1px solid #00f2fe;\n}`
-                }
-            ],
-            javascript: [
-                {
-                    file: "stats.js",
-                    title: "Async Fetch Coder Stats",
-                    code: `const fetchCoderStats = async (userId) => {\n  const res = await fetch(\`/api/stats/\${userId}\`);\n  const { wpm, accuracy } = await res.json();\n  return { wpm, accuracy };\n};`
-                },
-                {
-                    file: "engine.js",
-                    title: "Calculate Real-time WPM",
-                    code: `function calculateWPM(charsTyped, seconds) {\n  if (seconds <= 0) return 0;\n  const words = charsTyped / 5;\n  return Math.round((words / seconds) * 60);\n}`
-                },
-                {
-                    file: "filter.js",
-                    title: "Array Filter & Map",
-                    code: `const topPlayers = players\n  .filter((p) => p.accuracy >= 95 && p.wpm > 60)\n  .map((p, index) => ({ rank: index + 1, ...p }));`
-                }
-            ],
-            php: [
-                {
-                    file: "ScoreService.php",
-                    title: "User Speed Calculation Class",
-                    code: `class UserSpeedScore {\n  public function calculate(int $keystrokes, float $time): float {\n    return round(($keystrokes / 5) / ($time / 60), 2);\n  }\n}`
-                },
-                {
-                    file: "AuthController.php",
-                    title: "Session Login Verification",
-                    code: `public function verifyUser(array $credentials): bool {\n  $user = $this->db->findByEmail($credentials['email']);\n  return $user && password_verify($credentials['pass'], $user->hash);\n}`
-                },
-                {
-                    file: "api.php",
-                    title: "JSON Response Helper",
-                    code: `$response = ['status' => 200, 'wpm' => $wpm, 'rank' => 'S'];\nheader('Content-Type: application/json');\necho json_encode($response);`
-                }
-            ],
-            python: [
-                {
-                    file: "ranking.py",
-                    title: "Rank Evaluator Function",
-                    code: `def calculate_rank(wpm: int, accuracy: float) -> str:\n  if wpm >= 70 and accuracy >= 97.0:\n    return "S-RANK (PRO CODER)"\n  return "TRAINING IN PROGRESS"`
-                },
-                {
-                    file: "analyzer.py",
-                    title: "List Comprehension & Dict",
-                    code: `scores = [65, 78, 92, 84, 105]\nhigh_scores = [s for s in scores if s >= 80]\nsummary = {"count": len(high_scores), "max": max(high_scores)}`
-                },
-                {
-                    file: "server.py",
-                    title: "FastAPI Endpoint",
-                    code: `@app.get("/leaderboard/{lang}")\nasync def get_top_coders(lang: str, limit: int = 10):\n  return await db.fetch_leaders(language=lang, limit=limit)`
-                }
-            ],
-            symbols: [
-                {
-                    file: "brackets.ts",
-                    title: "Pinky Finger Bracket Drill",
-                    code: `if ((token !== null && index >= 0) || !isExpired) {\n  const payload = { id: \`#\${index}\`, flags: [ ...baseFlags ] };\n}`
-                },
-                {
-                    file: "operators.js",
-                    title: "Operators & Arrow Chains",
-                    code: `const fn = (a, b) => (a?.value ?? 0) !== (b?.value ?? 1) ? [a, b] : {};\nconst regex = /^[a-zA-Z0-9_+-]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$/;`
-                },
-                {
-                    file: "pointers.cpp",
-                    title: "C++ Pointers & Scopes",
-                    code: `std::vector<int*> ptrs = { &x, &y, nullptr };\nfor (auto* p : ptrs) { if (p != nullptr) *p += (1 << 4); }`
-                }
-            ]
+        // ----------------- 1. SNIPPETS BY LANGUAGE & LEVEL (L1, L2, L3) -----------------
+        const languageMeta = {
+            html_css: {
+                name: 'HTML & CSS',
+                icon: `<svg class="w-5 h-5 text-orange-500" viewBox="0 0 24 24" fill="currentColor"><path d="M1.5 0h21l-1.91 21.563L11.977 24l-8.564-2.438L1.5 0zm7.031 9.75l-.232-2.718 10.059.003.23-2.622L5.412 4.41l.698 8.01h9.126l-.326 3.426-2.91.804-2.955-.81-.188-2.11H6.248l.33 4.171L12 19.351l5.379-1.443.744-8.157H8.531z"/></svg>`
+            },
+            javascript: {
+                name: 'JavaScript',
+                icon: `<svg class="w-5 h-5 text-yellow-400" viewBox="0 0 24 24" fill="currentColor"><path d="M0 0h24v24H0V0zm22.034 18.276c-.175-1.095-.888-2.015-3.003-2.873-.736-.345-1.554-.585-1.797-1.14-.091-.33-.105-.51-.046-.705.15-.646.915-.84 1.515-.66.39.12.75.42.976.9 1.034-.676 1.034-.676 1.755-1.125-.27-.42-.404-.601-.586-.78-.63-.705-1.469-1.065-2.834-1.034l-.705.089c-.676.165-1.32.525-1.71 1.005-1.14 1.291-.811 3.541.569 4.471 1.365 1.02 3.361 1.244 3.616 2.205.24 1.17-.87 1.545-1.966 1.41-.811-.18-1.26-.586-1.755-1.336l-1.83 1.051c.21.48.45.689.81 1.109 1.74 1.756 6.09 1.666 6.871-1.004.029-.09.24-.705.074-1.65l.046.067zm-8.983-7.245h-2.248c0 1.938-.009 3.864-.009 5.805 0 1.232.063 2.363-.138 2.711-.33.689-1.18.601-1.566.48-.396-.196-.597-.466-.83-.855-.063-.105-.11-.196-.127-.196l-1.825 1.125c.305.63.75 1.172 1.324 1.517.855.51 2.004.675 3.207.405.783-.226 1.458-.691 1.811-1.411.51-.93.402-2.07.397-3.346.012-2.054 0-4.109 0-6.179l.004-.056z"/></svg>`
+            },
+            php: {
+                name: 'PHP',
+                icon: `<span class="px-1.5 py-0.2 rounded bg-indigo-500/30 text-indigo-300 font-mono text-xs font-black">&lt;?php</span>`
+            },
+            python: {
+                name: 'Python',
+                icon: `<span class="text-sky-400 font-mono font-black text-sm">🐍</span>`
+            },
+            symbols: {
+                name: 'Symbols & Brackets',
+                icon: `<span class="text-purple-400 font-mono font-black text-sm">{ }</span>`
+            }
         };
 
-        // ----------------- 2. STATE VARIABLES -----------------
+        const snippetsDB = {
+            html_css: {
+                L1: [
+                    `<div><h1>Hello World</h1></div>`,
+                    `<button class="btn">Click</button>`
+                ],
+                L2: [
+                    `<nav class="flex items-center gap-4">\n  <a href="/home">Home</a>\n</nav>`
+                ],
+                L3: [
+                    `<div class="container flex justify-between">\n    <h1 class="text-xl font-bold">Typing Code</h1>\n    <button type="submit">Run</button>\n</div>`,
+                    `<section class="card p-6 rounded-xl">\n    <h2>Pro Speed Studio</h2>\n    <p>Master code syntax fast.</p>\n</section>`
+                ]
+            },
+            javascript: {
+                L1: [
+                    `const speed = 100;`,
+                    `let isReady = true;`
+                ],
+                L2: [
+                    `const calcWpm = (chars, min) => Math.round((chars / 5) / min);`
+                ],
+                L3: [
+                    `const fetchStats = async (id) => {\n    const res = await fetch(\`/api/user/\${id}\`);\n    return await res.json();\n};`
+                ]
+            },
+            php: {
+                L1: [
+                    `$user = "developer";`,
+                    `echo $score;`
+                ],
+                L2: [
+                    `public function getWpm(int $chars): int {\n    return $chars / 5;\n}`
+                ],
+                L3: [
+                    `class SpeedTrainer {\n    public function saveScore(int $wpm): bool {\n        return $this->db->insert(['wpm' => $wpm]);\n    }\n}`
+                ]
+            },
+            python: {
+                L1: [
+                    `scores = [75, 88, 95]`,
+                    `print("Ready to type")`
+                ],
+                L2: [
+                    `def get_rank(wpm: int) -> str:\n    return "PRO" if wpm >= 70 else "DEV"`
+                ],
+                L3: [
+                    `def analyze_session(wpm: int, acc: float) -> dict:\n    status = "PASS" if acc >= 95.0 else "RETRY"\n    return {"wpm": wpm, "status": status}`
+                ]
+            },
+            symbols: {
+                L1: [
+                    `{ [ ( < > ) ] }`,
+                    `=> !== && || ??`
+                ],
+                L2: [
+                    `const arr = [{ id: 1 }, { id: 2 }];`
+                ],
+                L3: [
+                    `if ((x !== null && y >= 0) || !flag) {\n    const obj = { list: [ ...items ], ok: true };\n}`
+                ]
+            }
+        };
+
+        // ----------------- 2. STATE -----------------
         let currentLang = 'html_css';
-        let currentSnippetIndex = 0;
-        let targetText = '';
-        let currentIndex = 0;
-        let errorsCount = 0;
-        let totalTyped = 0;
-        let comboCount = 0;
+        let currentLevel = 'L3'; // Default to L3 to match the 4-line HTML code in Mockup 6.png
+        let snippetIdx = 0;
 
-        let timerMode = 0; // 0 = Zen, 60 = 60s, 120 = 120s
-        let timerInterval = null;
-        let startTime = null;
-        let elapsedSeconds = 0;
-        let isRunning = false;
-        let isFinished = false;
+        let targetCode = '';
+        let charPos = 0;
+        let wrongCount = 0;
+        let totalKeystrokes = 0;
 
-        // Finger mapping for guide
-        const fingerMap = {
-            '`':'Left Pinky', '1':'Left Pinky', 'q':'Left Pinky', 'a':'Left Pinky', 'z':'Left Pinky',
-            '2':'Left Ring', 'w':'Left Ring', 's':'Left Ring', 'x':'Left Ring',
-            '3':'Left Middle', 'e':'Left Middle', 'd':'Left Middle', 'c':'Left Middle',
-            '4':'Left Index', '5':'Left Index', 'r':'Left Index', 't':'Left Index', 'f':'Left Index', 'g':'Left Index', 'v':'Left Index', 'b':'Left Index',
-            '6':'Right Index', '7':'Right Index', 'y':'Right Index', 'u':'Right Index', 'h':'Right Index', 'j':'Right Index', 'n':'Right Index', 'm':'Right Index',
-            '8':'Right Middle', 'i':'Right Middle', 'k':'Right Middle', ',':'Right Middle',
-            '9':'Right Ring', 'o':'Right Ring', 'l':'Right Ring', '.':'Right Ring',
-            '0':'Right Pinky', '-':'Right Pinky', '=':'Right Pinky', 'p':'Right Pinky', '[':'Right Pinky', ']':'Right Pinky', '\\':'Right Pinky', ';':'Right Pinky', '\'':'Right Pinky', '/':'Right Pinky', '\n':'Right Pinky (Enter)',
-            ' ':'Thumb (Spacebar)'
-        };
+        let isTimerMode = false; // Default stopwatch count-up (00:00) like mockup
+        let selectedDuration = 60;
+        let timerRef = null;
+        let startTimestamp = null;
+        let isTypingActive = false;
+        let isCompleted = false;
 
-        // ----------------- 3. INITIALIZATION & URL PARAMS -----------------
+        let showKeyboard = true;
+        let showHands = true;
+
+        // ----------------- 3. INIT -----------------
         window.addEventListener('DOMContentLoaded', () => {
             const params = new URLSearchParams(window.location.search);
             const langParam = params.get('lang');
-            if (langParam && codeDatabase[langParam]) {
+            if (langParam && snippetsDB[langParam]) {
                 currentLang = langParam;
             }
+            updateLevelUI('L3', 'Code Builder');
             selectLanguage(currentLang, false);
             focusTyping();
         });
 
-        function selectLanguage(langKey, playSound = true) {
-            if (playSound) playAudioClick();
-            if (!codeDatabase[langKey]) return;
+        // Close dropdowns on outside click
+        window.addEventListener('click', (e) => {
+            if (!document.getElementById('levelDropdownWrap').contains(e.target)) {
+                document.getElementById('levelDropdownMenu').classList.add('hidden');
+            }
+            if (!document.getElementById('timeDropdownWrap').contains(e.target)) {
+                document.getElementById('timeDropdownMenu').classList.add('hidden');
+            }
+        });
+
+        // ----------------- 4. TOP PILL BAR CONTROLS -----------------
+        function toggleLevelMenu(e) {
+            e.stopPropagation();
+            playAudioClick();
+            document.getElementById('levelDropdownMenu').classList.toggle('hidden');
+            document.getElementById('timeDropdownMenu').classList.add('hidden');
+        }
+
+        function selectLevel(lvlCode, lvlName) {
+            playAudioClick();
+            currentLevel = lvlCode;
+            snippetIdx = 0;
+            updateLevelUI(lvlCode, lvlName);
+            document.getElementById('levelDropdownMenu').classList.add('hidden');
+            loadCurrentSnippet();
+        }
+
+        function updateLevelUI(lvlCode, lvlName) {
+            document.getElementById('currentLevelTag').textContent = lvlCode;
+            document.getElementById('currentLevelName').textContent = lvlName;
+            document.getElementById('levelBadgeSub').textContent = `${lvlCode} ${lvlName}`;
+        }
+
+        function selectLanguage(langKey, sound = true) {
+            if (sound) playAudioClick();
+            if (!snippetsDB[langKey]) return;
 
             currentLang = langKey;
-            currentSnippetIndex = 0;
+            snippetIdx = 0;
 
-            // Update language buttons UI
-            document.querySelectorAll('.lang-pill').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            const activeBtn = document.getElementById(`btn-lang-${langKey}`);
-            if (activeBtn) activeBtn.classList.add('active');
+            document.querySelectorAll('.lang-pill-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`pill-${langKey}`)?.classList.add('active');
 
-            loadSnippet();
+            const meta = languageMeta[langKey];
+            document.getElementById('langBadgeIcon').innerHTML = meta.icon;
+            document.getElementById('langBadgeTitle').textContent = meta.name;
+
+            loadCurrentSnippet();
         }
 
-        function setTimerMode(seconds) {
+        function toggleTimeMenu(e) {
+            e.stopPropagation();
             playAudioClick();
-            timerMode = seconds;
-            document.querySelectorAll('.timer-btn').forEach(btn => {
-                btn.className = "timer-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white transition-all";
-            });
-            const activeTimer = document.getElementById(`timer-${seconds}`);
-            if (activeTimer) {
-                activeTimer.className = "timer-btn px-3 py-1.5 rounded-lg bg-cyan-500/20 text-cyan-300 font-bold transition-all";
+            document.getElementById('timeDropdownMenu').classList.toggle('hidden');
+            document.getElementById('levelDropdownMenu').classList.add('hidden');
+        }
+
+        function setTimerEnabled(enabled) {
+            playAudioClick();
+            isTimerMode = enabled;
+
+            const btnOn = document.getElementById('btnTimerOn');
+            const btnOff = document.getElementById('btnTimerOff');
+            const durRow = document.getElementById('durationPillsRow');
+
+            if (enabled) {
+                btnOn.className = "p-2 rounded-xl border border-cyan-400 bg-cyan-500/15 text-cyan-300 flex items-center justify-center transition-all";
+                btnOff.className = "p-2 rounded-xl border border-brand-border bg-brand-card text-slate-400 hover:text-white flex items-center justify-center transition-all";
+                durRow.classList.remove('opacity-40', 'pointer-events-none');
+                document.getElementById('timeMenuLabel').textContent = `TIME (${selectedDuration / 60}m)`;
+            } else {
+                btnOff.className = "p-2 rounded-xl border border-cyan-400 bg-cyan-500/15 text-cyan-300 flex items-center justify-center transition-all";
+                btnOn.className = "p-2 rounded-xl border border-brand-border bg-brand-card text-slate-400 hover:text-white flex items-center justify-center transition-all";
+                durRow.classList.add('opacity-40', 'pointer-events-none');
+                document.getElementById('timeMenuLabel').textContent = "TIME (∞)";
             }
-            document.getElementById('statTimeLabel').textContent = seconds > 0 ? "Time Remaining" : "Elapsed Time";
             resetPractice();
         }
 
-        function loadSnippet() {
-            const list = codeDatabase[currentLang];
-            const item = list[currentSnippetIndex];
+        function selectDuration(sec) {
+            playAudioClick();
+            selectedDuration = sec;
+            isTimerMode = true;
+            setTimerEnabled(true);
 
-            document.getElementById('fileBadge').textContent = item.file;
-            document.getElementById('snippetTitle').textContent = item.title;
-            document.getElementById('snippetCounter').textContent = `${currentSnippetIndex + 1} / ${list.length}`;
-
-            targetText = item.code;
+            document.querySelectorAll('.dur-btn').forEach(b => {
+                b.className = "dur-btn py-1.5 rounded-lg bg-brand-card text-slate-300 hover:text-white border border-brand-border";
+            });
+            document.getElementById(`dur-${sec}`).className = "dur-btn py-1.5 rounded-lg bg-cyan-400 text-slate-900 font-bold";
+            document.getElementById('timeMenuLabel').textContent = `TIME (${sec / 60}m)`;
             resetPractice();
         }
 
-        function prevSnippet() {
-            playAudioClick();
-            const list = codeDatabase[currentLang];
-            currentSnippetIndex = (currentSnippetIndex - 1 + list.length) % list.length;
-            loadSnippet();
+        // ----------------- 5. LOAD & RENDER CODE -----------------
+        function loadCurrentSnippet() {
+            const pool = snippetsDB[currentLang][currentLevel] || snippetsDB[currentLang]['L3'];
+            targetCode = pool[snippetIdx % pool.length];
+            resetPractice();
         }
 
-        function nextSnippet() {
-            playAudioClick();
-            const list = codeDatabase[currentLang];
-            currentSnippetIndex = (currentSnippetIndex + 1) % list.length;
-            loadSnippet();
-        }
+        function renderCodeCharacters() {
+            const container = document.getElementById('codeDisplayArea');
+            container.innerHTML = '';
 
-        // ----------------- 4. RENDER CODE & LINE NUMBERS -----------------
-        function renderCodeArena() {
-            const arena = document.getElementById('codeArena');
-            const lineNums = document.getElementById('lineNumbers');
-            arena.innerHTML = '';
-
-            const lines = targetText.split('\n');
-            lineNums.innerHTML = lines.map((_, i) => `<div>${i + 1}</div>`).join('');
-
-            for (let i = 0; i < targetText.length; i++) {
-                const char = targetText[i];
+            for (let i = 0; i < targetCode.length; i++) {
+                const ch = targetCode[i];
                 const span = document.createElement('span');
-                span.className = 'char-box char-untyped';
-                span.dataset.index = i;
-
-                if (char === '\n') {
-                    span.innerHTML = '↵\n';
-                } else {
-                    span.textContent = char;
-                }
-                arena.appendChild(span);
+                span.className = 'char-item char-untyped';
+                span.textContent = ch;
+                container.appendChild(span);
             }
-
-            updateCursorAndKeyboard();
+            updateActiveCharAndGuides();
         }
 
         function resetPractice() {
-            clearInterval(timerInterval);
-            currentIndex = 0;
-            errorsCount = 0;
-            totalTyped = 0;
-            comboCount = 0;
-            elapsedSeconds = 0;
-            startTime = null;
-            isRunning = false;
-            isFinished = false;
+            clearInterval(timerRef);
+            charPos = 0;
+            wrongCount = 0;
+            totalKeystrokes = 0;
+            startTimestamp = null;
+            isTypingActive = false;
+            isCompleted = false;
 
-            document.getElementById('statWpm').textContent = '0';
-            document.getElementById('statAccuracy').textContent = '100%';
-            document.getElementById('statErrors').textContent = '0';
-            document.getElementById('statCombo').textContent = '0x';
-            document.getElementById('progressBar').style.width = '0%';
-            document.getElementById('statTimer').textContent = timerMode > 0 ? formatTime(timerMode) : '00:00';
+            document.getElementById('hudTime').textContent = isTimerMode ? formatMMSS(selectedDuration) : '00:00';
+            document.getElementById('hudWpm').textContent = '0';
+            document.getElementById('hudAccuracy').textContent = '100%';
+            document.getElementById('hudWrong').textContent = '0';
 
-            renderCodeArena();
+            renderCodeCharacters();
             focusTyping();
         }
 
-        // ----------------- 5. REAL-TIME TYPING HANDLER -----------------
-        function focusTyping() {
-            const input = document.getElementById('hiddenTypingInput');
-            input.focus();
-            document.getElementById('focusOverlay').classList.add('hidden');
-        }
+        // ----------------- 6. KEYBOARD & HAND GUIDE HIGHLIGHTER -----------------
+        function updateActiveCharAndGuides() {
+            const spans = document.querySelectorAll('#codeDisplayArea .char-item');
+            spans.forEach(s => s.classList.remove('char-current'));
 
-        window.addEventListener('keydown', (e) => {
-            // Ignore when modals are open
-            if (!document.getElementById('authModal').classList.contains('hidden') ||
-                !document.getElementById('customCodeModal').classList.contains('hidden')) {
-                return;
-            }
-
-            if (e.key === 'Escape') {
-                e.preventDefault();
-                closeResultModal();
-                resetPractice();
-                showToast("Session Reset");
-                return;
-            }
-
-            if (isFinished) return;
-
-            // Ignore modifier-only presses
-            if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock'].includes(e.key)) {
-                return;
-            }
-
-            // Prevent default scrolling on Space, Tab, Arrow keys
-            if ([' ', 'Tab', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-                e.preventDefault();
-            }
-
-            // Start timer on first valid keystroke
-            if (!isRunning && e.key.length === 1) {
-                startSessionTimer();
-            }
-
-            const spans = document.querySelectorAll('#codeArena .char-box');
-
-            // Handle Backspace
-            if (e.key === 'Backspace') {
-                e.preventDefault();
-                if (currentIndex > 0) {
-                    playAudioClick(110);
-                    spans[currentIndex]?.classList.remove('char-active');
-                    currentIndex--;
-                    spans[currentIndex].className = 'char-box char-untyped';
-                    updateCursorAndKeyboard();
-                    updateProgress();
-                }
-                return;
-            }
-
-            // Handle Tab key (auto-type 2 spaces if target is space)
-            if (e.key === 'Tab') {
-                while (currentIndex < targetText.length && targetText[currentIndex] === ' ') {
-                    spans[currentIndex].className = 'char-box char-correct';
-                    currentIndex++;
-                    totalTyped++;
-                }
-                playAudioClick();
-                updateCursorAndKeyboard();
-                updateLiveStats();
-                checkCompletion();
-                return;
-            }
-
-            const expectedChar = targetText[currentIndex];
-            let typedChar = e.key === 'Enter' ? '\n' : e.key;
-
-            if (typedChar.length !== 1) return;
-
-            totalTyped++;
-
-            if (typedChar === expectedChar) {
-                playAudioClick();
-                spans[currentIndex].className = 'char-box char-correct';
-                currentIndex++;
-                comboCount++;
-
-                // Smart Auto-Indent on Enter: skip leading spaces on the new line automatically!
-                if (typedChar === '\n') {
-                    while (currentIndex < targetText.length && targetText[currentIndex] === ' ') {
-                        spans[currentIndex].className = 'char-box char-correct';
-                        currentIndex++;
-                    }
-                }
-            } else {
-                playErrorSound();
-                spans[currentIndex].className = 'char-box char-incorrect';
-                errorsCount++;
-                comboCount = 0;
-                currentIndex++;
-                flashKeyError(typedChar);
-            }
-
-            updateCursorAndKeyboard();
-            updateLiveStats();
-            checkCompletion();
-        });
-
-        function updateCursorAndKeyboard() {
-            const spans = document.querySelectorAll('#codeArena .char-box');
-            spans.forEach(s => s.classList.remove('char-active'));
-
-            if (currentIndex < spans.length) {
-                const activeSpan = spans[currentIndex];
-                activeSpan.classList.add('char-active');
-
-                // Auto scroll editor if cursor goes down
-                const container = document.getElementById('editorContainer');
-                const spanTop = activeSpan.offsetTop;
-                if (spanTop > container.scrollTop + container.clientHeight - 80) {
-                    container.scrollTop = spanTop - 100;
-                } else if (spanTop < container.scrollTop) {
-                    container.scrollTop = spanTop - 40;
-                }
-
-                highlightTargetKey(targetText[currentIndex]);
-            }
-        }
-
-        // ----------------- 6. VISUAL KEYBOARD HIGHLIGHTER -----------------
-        function highlightTargetKey(nextChar) {
-            document.querySelectorAll('.v-key').forEach(k => {
-                k.classList.remove('key-target', 'key-shift-target');
+            // Clear previous keyboard & finger highlights
+            document.querySelectorAll('.key-3d').forEach(k => {
+                k.classList.remove('key-active-target', 'key-shift-target');
+            });
+            document.querySelectorAll('.finger-path').forEach(f => {
+                f.classList.remove('active-finger', 'shift-finger');
             });
 
-            const hintEl = document.getElementById('nextKeyHint');
-            const fingerEl = document.getElementById('fingerHint');
+            if (charPos >= spans.length) return;
 
-            if (nextChar === '\n') {
-                hintEl.textContent = 'Enter ↵';
-            } else if (nextChar === ' ') {
-                hintEl.textContent = 'Spacebar';
-            } else {
-                hintEl.textContent = nextChar;
-            }
+            spans[charPos].classList.add('char-current');
+            const nextChar = targetCode[charPos];
 
-            let baseKey = nextChar;
+            let activeFingerId = null;
             let needsShift = false;
 
-            // Find matching key on virtual keyboard
-            document.querySelectorAll('.v-key').forEach(keyEl => {
-                const kNormal = keyEl.getAttribute('data-key');
+            document.querySelectorAll('.key-3d').forEach(keyEl => {
+                const kNorm = keyEl.getAttribute('data-key');
                 const kShift = keyEl.getAttribute('data-shift');
+                const finger = keyEl.getAttribute('data-finger');
 
-                if (nextChar === '\n' && kNormal === 'Enter') {
-                    keyEl.classList.add('key-target');
-                } else if (kNormal === nextChar) {
-                    keyEl.classList.add('key-target');
-                    baseKey = kNormal;
+                if (nextChar === '\n' && kNorm === 'Enter') {
+                    keyEl.classList.add('key-active-target');
+                    activeFingerId = finger;
+                } else if (kNorm === nextChar) {
+                    keyEl.classList.add('key-active-target');
+                    activeFingerId = finger;
                 } else if (kShift === nextChar) {
-                    keyEl.classList.add('key-target');
-                    baseKey = kNormal;
+                    keyEl.classList.add('key-active-target');
+                    activeFingerId = finger;
                     needsShift = true;
                 }
             });
 
-            if (needsShift) {
-                document.getElementById('keyShiftLeft')?.classList.add('key-shift-target');
-                document.getElementById('keyShiftRight')?.classList.add('key-shift-target');
+            // Highlight active finger on SVG hands
+            if (activeFingerId === 'thumb') {
+                document.getElementById('finger-r-thumb')?.classList.add('active-finger');
+            } else if (activeFingerId) {
+                document.getElementById(`finger-${activeFingerId}`)?.classList.add('active-finger');
             }
 
-            const fingerText = fingerMap[ (baseKey || '').toLowerCase() ] || 'Index / Pinky';
-            fingerEl.textContent = needsShift ? `${fingerText} + Shift` : fingerText;
-        }
-
-        function flashKeyError(pressedChar) {
-            document.querySelectorAll('.v-key').forEach(keyEl => {
-                if (keyEl.getAttribute('data-key') === pressedChar.toLowerCase() || keyEl.getAttribute('data-shift') === pressedChar) {
-                    keyEl.classList.add('key-error');
-                    setTimeout(() => keyEl.classList.remove('key-error'), 250);
-                }
-            });
-        }
-
-        function toggleKeyboardGuide() {
-            playAudioClick();
-            const kb = document.getElementById('keyboardSection');
-            kb.classList.toggle('hidden');
-        }
-
-        // ----------------- 7. TELEMETRY & TIMER ENGINE -----------------
-        function startSessionTimer() {
-            isRunning = true;
-            startTime = Date.now();
-
-            timerInterval = setInterval(() => {
-                elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-
-                if (timerMode > 0) {
-                    const remaining = Math.max(0, timerMode - elapsedSeconds);
-                    document.getElementById('statTimer').textContent = formatTime(remaining);
-                    if (remaining <= 0) {
-                        finishSession();
-                    }
+            // Highlight opposite Shift key & pinky if uppercase/shifted symbol
+            if (needsShift && activeFingerId) {
+                if (activeFingerId.startsWith('l-')) {
+                    document.getElementById('shiftKeyRight')?.classList.add('key-shift-target');
+                    document.getElementById('finger-r-pinky')?.classList.add('shift-finger');
                 } else {
-                    document.getElementById('statTimer').textContent = formatTime(elapsedSeconds);
+                    document.getElementById('shiftKeyLeft')?.classList.add('key-shift-target');
+                    document.getElementById('finger-l-pinky')?.classList.add('shift-finger');
                 }
-                updateLiveStats();
+            }
+        }
+
+        // ----------------- 7. REAL-TIME TYPING EVENT -----------------
+        function focusTyping() {
+            document.getElementById('hiddenInput').focus();
+        }
+
+        window.addEventListener('keydown', (e) => {
+            if (!document.getElementById('authModal').classList.contains('hidden')) return;
+
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                document.getElementById('resultModal').classList.add('hidden');
+                resetPractice();
+                return;
+            }
+
+            if (isCompleted) return;
+            if (['Shift', 'Control', 'Alt', 'Meta', 'CapsLock'].includes(e.key)) return;
+
+            if ([' ', 'Tab'].includes(e.key)) e.preventDefault();
+
+            if (!isTypingActive && (e.key.length === 1 || e.key === 'Enter')) {
+                startTimerLoop();
+            }
+
+            const spans = document.querySelectorAll('#codeDisplayArea .char-item');
+
+            if (e.key === 'Backspace') {
+                e.preventDefault();
+                if (charPos > 0) {
+                    playAudioClick(110);
+                    charPos--;
+                    spans[charPos].className = 'char-item char-untyped';
+                    updateActiveCharAndGuides();
+                }
+                return;
+            }
+
+            const expected = targetCode[charPos];
+            const typed = e.key === 'Enter' ? '\n' : e.key;
+            if (typed.length !== 1) return;
+
+            totalKeystrokes++;
+
+            if (typed === expected) {
+                playAudioClick();
+                spans[charPos].className = 'char-item char-correct';
+                charPos++;
+
+                // Smart Auto-Indent on Enter
+                if (typed === '\n') {
+                    while (charPos < targetCode.length && targetCode[charPos] === ' ') {
+                        spans[charPos].className = 'char-item char-correct';
+                        charPos++;
+                    }
+                }
+            } else {
+                playErrorSound();
+                spans[charPos].className = 'char-item char-wrong';
+                wrongCount++;
+                charPos++;
+            }
+
+            updateActiveCharAndGuides();
+            refreshMetrics();
+
+            if (charPos >= targetCode.length) {
+                completeSession();
+            }
+        });
+
+        // ----------------- 8. METRICS & TIMER -----------------
+        function startTimerLoop() {
+            isTypingActive = true;
+            startTimestamp = Date.now();
+
+            timerRef = setInterval(() => {
+                const elapsedSec = Math.floor((Date.now() - startTimestamp) / 1000);
+                if (isTimerMode) {
+                    const left = Math.max(0, selectedDuration - elapsedSec);
+                    document.getElementById('hudTime').textContent = formatMMSS(left);
+                    if (left <= 0) completeSession();
+                } else {
+                    document.getElementById('hudTime').textContent = formatMMSS(elapsedSec);
+                }
+                refreshMetrics();
             }, 250);
         }
 
-        function updateLiveStats() {
-            const timeInSeconds = startTime ? Math.max(1, (Date.now() - startTime) / 1000) : 1;
-            const correctChars = Math.max(0, currentIndex - errorsCount);
-            const wpm = startTime ? Math.round(((correctChars / 5) / timeInSeconds) * 60) : 0;
-            const acc = totalTyped > 0 ? Math.max(0, Math.round(((totalTyped - errorsCount) / totalTyped) * 100)) : 100;
+        function refreshMetrics() {
+            const elapsedSec = startTimestamp ? Math.max(1, (Date.now() - startTimestamp) / 1000) : 1;
+            const netCorrect = Math.max(0, charPos - wrongCount);
+            const wpm = startTimestamp ? Math.round(((netCorrect / 5) / elapsedSec) * 60) : 0;
+            const acc = totalKeystrokes > 0 ? Math.max(0, Math.round(((totalKeystrokes - wrongCount) / totalKeystrokes) * 100)) : 100;
 
-            document.getElementById('statWpm').textContent = wpm;
-            document.getElementById('statAccuracy').textContent = `${acc}%`;
-            document.getElementById('statErrors').textContent = errorsCount;
-            document.getElementById('statCombo').textContent = `${comboCount}x`;
-            updateProgress();
+            document.getElementById('hudWpm').textContent = wpm;
+            document.getElementById('hudAccuracy').textContent = `${acc}%`;
+            document.getElementById('hudWrong').textContent = wrongCount;
         }
 
-        function updateProgress() {
-            const pct = targetText.length > 0 ? Math.min(100, Math.round((currentIndex / targetText.length) * 100)) : 0;
-            document.getElementById('progressBar').style.width = `${pct}%`;
-        }
+        function completeSession() {
+            clearInterval(timerRef);
+            isTypingActive = false;
+            isCompleted = true;
 
-        function checkCompletion() {
-            if (currentIndex >= targetText.length) {
-                finishSession();
-            }
-        }
-
-        function finishSession() {
-            clearInterval(timerInterval);
-            isRunning = false;
-            isFinished = true;
-
-            const totalSec = startTime ? Math.max(1, Math.round((Date.now() - startTime) / 1000)) : 1;
-            const wpm = parseInt(document.getElementById('statWpm').textContent) || 0;
-            const acc = document.getElementById('statAccuracy').textContent;
-
-            document.getElementById('finalWpm').textContent = wpm;
-            document.getElementById('finalAcc').textContent = acc;
-            document.getElementById('finalTime').textContent = `${totalSec}s`;
-            document.getElementById('finalErrors').textContent = errorsCount;
-
-            const rankTitle = document.getElementById('resultRankTitle');
-            const rankSub = document.getElementById('resultSubtext');
-
-            if (wpm >= 65 && errorsCount <= 2) {
-                rankTitle.textContent = "S-RANK (PRO CODER)";
-                rankTitle.className = "text-3xl sm:text-4xl font-black text-cyan-400 font-mono mb-1";
-                rankSub.textContent = "สุดยอด! นิ้วของคุณจำตำแหน่งสัญลักษณ์โค้ดได้แม่นยำมาก";
-            } else if (wpm >= 45) {
-                rankTitle.textContent = "A-RANK (SOLID DEV)";
-                rankTitle.className = "text-3xl sm:text-4xl font-black text-emerald-400 font-mono mb-1";
-                rankSub.textContent = "ความเร็วดีเยี่ยม! ฝึกซ้อมต่อเพื่อก้าวสู่ระดับ S-Rank";
-            } else {
-                rankTitle.textContent = "B-RANK (RISING LEARNER)";
-                rankTitle.className = "text-3xl sm:text-4xl font-black text-purple-400 font-mono mb-1";
-                rankSub.textContent = "เริ่มต้นได้ดี! โฟกัสความแม่นยำก่อนแล้วความเร็วจะตามมาเอง";
-            }
+            document.getElementById('modalWpm').textContent = document.getElementById('hudWpm').textContent;
+            document.getElementById('modalAcc').textContent = document.getElementById('hudAccuracy').textContent;
+            document.getElementById('modalTime').textContent = document.getElementById('hudTime').textContent;
+            document.getElementById('modalWrong').textContent = wrongCount;
 
             document.getElementById('resultModal').classList.remove('hidden');
         }
 
-        function closeResultModal() {
-            document.getElementById('resultModal').classList.add('hidden');
-        }
-
         function closeResultAndRetry() {
-            closeResultModal();
+            document.getElementById('resultModal').classList.add('hidden');
             resetPractice();
         }
 
         function closeResultAndNext() {
-            closeResultModal();
-            nextSnippet();
+            document.getElementById('resultModal').classList.add('hidden');
+            snippetIdx++;
+            loadCurrentSnippet();
         }
 
-        function formatTime(sec) {
+        function formatMMSS(sec) {
             const m = String(Math.floor(sec / 60)).padStart(2, '0');
             const s = String(sec % 60).padStart(2, '0');
             return `${m}:${s}`;
         }
 
-        // ----------------- 8. CUSTOM CODE HANDLER -----------------
-        function toggleCustomCodeModal(show) {
+        // ----------------- 9. VISIBILITY TOGGLES (Keyboard, Hands, Fullscreen) -----------------
+        function toggleKeyboardVisibility() {
             playAudioClick();
-            const modal = document.getElementById('customCodeModal');
-            if (show) modal.classList.remove('hidden');
-            else modal.classList.add('hidden');
+            showKeyboard = !showKeyboard;
+            const container = document.getElementById('keyboardVisualContainer');
+            const btn = document.getElementById('btnToggleKeyboard');
+
+            container.classList.toggle('opacity-0', !showKeyboard);
+            container.classList.toggle('pointer-events-none', !showKeyboard);
+            btn.classList.toggle('border-cyan-400/60', showKeyboard);
+            btn.classList.toggle('text-cyan-300', showKeyboard);
+            btn.classList.toggle('text-slate-500', !showKeyboard);
         }
 
-        function applyCustomCode() {
-            const raw = document.getElementById('customCodeInput').value.trim();
-            if (!raw) {
-                showToast("กรุณาวางโค้ดก่อนกดเริ่ม");
-                return;
+        function toggleHandsVisibility() {
+            playAudioClick();
+            showHands = !showHands;
+            const hands = document.getElementById('handGuideOverlay');
+            const btn = document.getElementById('btnToggleHands');
+
+            hands.classList.toggle('opacity-0', !showHands);
+            btn.classList.toggle('border-cyan-400/60', showHands);
+            btn.classList.toggle('text-cyan-300', showHands);
+            btn.classList.toggle('text-slate-500', !showHands);
+        }
+
+        function toggleFullscreenMode() {
+            playAudioClick();
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(() => {});
+            } else {
+                document.exitFullscreen().catch(() => {});
             }
-            targetText = raw.replace(/\r\n/g, '\n').replace(/\t/g, '  ');
-            document.getElementById('fileBadge').textContent = "custom.code";
-            document.getElementById('snippetTitle').textContent = "User Custom Snippet";
-            toggleCustomCodeModal(false);
-            resetPractice();
-            showToast("โหลดโค้ดของคุณเรียบร้อยแล้ว!");
         }
 
-        // ----------------- 9. WEB AUDIO SYNTHESIZER (Synced with index.html) -----------------
+        // ----------------- 10. SOUND SYNTHESIZER & MODALS -----------------
         let audioCtx = null;
         let isAudioOn = true;
 
-        function playAudioClick(freqBase = 150) {
+        function playAudioClick(freq = 150) {
             if (!isAudioOn) return;
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 if (audioCtx.state === 'suspended') audioCtx.resume();
-
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-
                 osc.type = 'triangle';
-                osc.frequency.setValueAtTime(freqBase + Math.random() * 40, audioCtx.currentTime);
+                osc.frequency.setValueAtTime(freq + Math.random() * 35, audioCtx.currentTime);
                 osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.045);
-
                 gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.045);
-
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
-
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.045);
             } catch (e) {}
@@ -1188,20 +1071,14 @@
             try {
                 if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 if (audioCtx.state === 'suspended') audioCtx.resume();
-
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-
                 osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(95, audioCtx.currentTime);
-                osc.frequency.linearRampToValueAtTime(65, audioCtx.currentTime + 0.08);
-
+                osc.frequency.setValueAtTime(90, audioCtx.currentTime);
                 gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
-
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
-
                 osc.start();
                 osc.stop(audioCtx.currentTime + 0.08);
             } catch (e) {}
@@ -1211,35 +1088,25 @@
             isAudioOn = !isAudioOn;
             document.getElementById('soundIconOn').classList.toggle('hidden', !isAudioOn);
             document.getElementById('soundIconOff').classList.toggle('hidden', isAudioOn);
-            showToast(isAudioOn ? "Mechanical Audio: ON" : "Audio: MUTED");
-        }
-
-        // ----------------- 10. NAVIGATION & MODALS -----------------
-        function toggleMobileNav() {
-            document.getElementById('mobileNav').classList.toggle('hidden');
+            showToast(isAudioOn ? "Sound: ON" : "Sound: OFF");
         }
 
         function toggleModal(show) {
             playAudioClick();
-            const modal = document.getElementById('authModal');
-            if (show) modal.classList.remove('hidden');
-            else modal.classList.add('hidden');
+            document.getElementById('authModal').classList.toggle('hidden', !show);
         }
 
         function handleAuthSubmit(e) {
             e.preventDefault();
             toggleModal(false);
-            showToast("Welcome back! Signed in successfully.");
+            showToast("Signed in successfully!");
         }
 
-        function showToast(message) {
-            const toast = document.getElementById('toastMessage');
-            const toastText = document.getElementById('toastText');
-            toastText.textContent = message;
-            toast.classList.remove('translate-y-24', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-24', 'opacity-0');
-            }, 3000);
+        function showToast(msg) {
+            const t = document.getElementById('toastMessage');
+            document.getElementById('toastText').textContent = msg;
+            t.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => t.classList.add('translate-y-24', 'opacity-0'), 2600);
         }
     </script>
 </body>
