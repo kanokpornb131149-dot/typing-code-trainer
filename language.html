@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="th" class="scroll-smooth">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -118,21 +118,6 @@
                         <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">=</div>
                         <div class="key-cap-3d w-16 h-10 flex items-center justify-center text-[10px] text-slate-400">BKSP</div>
                     </div>
-                    <div class="flex gap-2.5">
-                        <div class="key-cap-3d w-14 h-10 flex items-center justify-center text-[10px] text-slate-400">TAB</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">Q</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">W</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-300 font-bold">E</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">R</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">T</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">Y</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">U</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">I</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">O</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">P</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">{</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">}</div>
-                    </div>
                 </div>
             </div>
         </div>
@@ -183,7 +168,7 @@
             <div class="text-center mb-10">
                 <h1 id="pageLangTitle" class="text-4xl sm:text-5xl font-extrabold text-white mb-3">HTML &amp; CSS</h1>
                 <p id="pageLangDesc" class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
-                    Tags, attributes and style rules. The brackets and quotes you type all day when building pages.
+                    Tags, attributes, and style rules. The brackets and quotes you type all day when building web pages.
                 </p>
             </div>
 
@@ -207,8 +192,8 @@
             </div>
 
             <!-- Dynamic Lesson Cards Container -->
-            <div id="lessonsContainer" class="space-y-6">
-                <!-- Content will rendered dynamically via JavaScript below -->
+            <div id="lessonsContainer" class="space-y-8">
+                <!-- Content will be rendered dynamically via JavaScript below -->
             </div>
         </div>
     </main>
@@ -222,7 +207,7 @@
         <div class="bg-brand-card border border-cyan-500/40 rounded-3xl p-8 max-w-md w-full shadow-glow-lg relative">
             <button onclick="toggleModal(false)" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl">&times;</button>
             <h3 class="text-2xl font-bold text-white mb-2 font-mono">Sign In</h3>
-            <p class="text-slate-400 text-sm mb-6">เข้าสู่ระบบเพื่อบันทึกสถิติ WPM และคะแนนฝึกซ้อมของคุณ</p>
+            <p class="text-slate-400 text-sm mb-6">Sign in to save your typing stats, WPM records, and practice progress.</p>
             <div class="space-y-4">
                 <button class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm flex items-center justify-center gap-3 border border-brand-border">
                     <span>Continue with GitHub</span>
@@ -235,71 +220,105 @@
     </div>
 
     <script>
+        // Full list of lessons matching your image design
         const langData = {
             html: {
                 title: "HTML & CSS",
-                desc: "Tags, attributes and style rules. The brackets and quotes you type all day when building pages.",
+                desc: "Tags, attributes, and style rules. Master document structures and layouts.",
                 sections: [
                     {
-                        category: "HTML tags",
-                        count: "3 lessons",
+                        category: "Document Structure",
+                        desc: "Type the skeleton every page starts from",
+                        completed: "0/10 completed",
+                        level: "Beginner",
+                        levelColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
                         items: [
-                            { id: "l1", name: "Angle Brackets < >", desc: "Practice opening and closing tags around every element", code: "<div>\n  <h1>Title</h1>\n  <p>Hello</p>\n  <button>Go</button>\n  <img src=\"a.png\" />\n</div>" },
-                            { id: "l2", name: "Attributes & Quotes \" \"", desc: "Practice attribute names with quoted values", code: "<input type=\"text\" placeholder=\"Enter username...\" class=\"form-input\" />\n<a href=\"https://github.com\" target=\"_blank\">GitHub</a>" },
-                            { id: "l3", name: "Nested Layout", desc: "Practice indenting tags inside tags", code: "<section class=\"hero-wrapper\">\n  <div class=\"container\">\n    <span class=\"badge\">New Release</span>\n  </div>\n</section>" }
+                            { id: "doctype", name: "Doctype & Skeleton", code: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>" },
+                            { id: "meta", name: "Meta Tags", code: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">\n<meta name=\"author\" content=\"CodeType\">" },
+                            { id: "title_style", name: "Title & Stylesheet Links", code: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">\n<link rel=\"icon\" type=\"image/svg+xml\" href=\"/favicon.svg\">" },
+                            { id: "script_tags", name: "Script Tags", code: "<script src=\"app.js\" defer><\/script>\n<script type=\"module\" src=\"main.js\"><\/script>" },
+                            { id: "comments", name: "Comments", code: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->" },
+                            { id: "open_graph", name: "Open Graph Tags", code: "<meta property=\"og:title\" content=\"Typing Trainer\">\n<meta property=\"og:image\" content=\"/og-cover.png\">\n<meta property=\"og:type\" content=\"website\">" },
+                            { id: "preload", name: "Preload & Prefetch", code: "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\" crossorigin>\n<link rel=\"dns-prefetch\" href=\"https://cdn.tailwindcss.com\">" },
+                            { id: "base_canonical", name: "Base & Canonical", code: "<base href=\"https://example.com/\" target=\"_blank\">\n<link rel=\"canonical\" href=\"https://example.com/page\">" },
+                            { id: "body_attrs", name: "Body & Root Attributes", code: "<html lang=\"en\" class=\"scroll-smooth dark\">\n<body class=\"bg-slate-900 text-white min-h-screen\">" },
+                            { id: "boilerplate", name: "Full Boilerplate", code: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n  <title>Typing Code Trainer</title>\n  <link rel=\"stylesheet\" href=\"style.css\">\n</head>\n<body class=\"antialiased\">\n  <div id=\"app\"></div>\n</body>\n</html>" }
                         ]
                     }
                 ]
             },
             javascript: {
                 title: "JavaScript",
-                desc: "Functions, arrow syntax, async/await, and modern ES6+ operations.",
+                desc: "Functions, async syntax, array methods, and modern ES6+ operations.",
                 sections: [
                     {
-                        category: "Core Syntax",
-                        count: "2 lessons",
+                        category: "ES6 & Async Functions",
+                        desc: "Master modern JS syntax, promises, and arrow functions",
+                        completed: "0/5 completed",
+                        level: "Intermediate",
+                        levelColor: "bg-purple-500/20 text-purple-300 border-purple-500/30",
                         items: [
-                            { id: "js1", name: "Arrow Functions () => {}", desc: "Master parameter brackets and arrow syntax", code: "const fetchData = async (id) => {\n  const res = await fetch(`/api/user/${id}`);\n  return await res.json();\n};" },
-                            { id: "js2", name: "Array Methods", desc: "Practice map, filter, reduce syntax", code: "const activeUsers = users\n  .filter(u => u.isActive)\n  .map(u => u.name);" }
+                            { id: "arrow_func", name: "Arrow Functions & Implicit Return", code: "const add = (a, b) => a + b;\nconst getUser = id => ({ id, name: \"Alice\" });" },
+                            { id: "async_await", name: "Async / Await & Fetch API", code: "const loadData = async (url) => {\n  try {\n    const res = await fetch(url);\n    return await res.json();\n  } catch (err) {\n    console.error(err);\n  }\n};" },
+                            { id: "destructuring", name: "Object & Array Destructuring", code: "const { name, age, role = 'developer' } = user;\nconst [first, second, ...rest] = items;" },
+                            { id: "array_methods", name: "Array Methods (Map, Filter, Reduce)", code: "const activeUserNames = users\n  .filter(u => u.isActive)\n  .map(u => u.name.toUpperCase());" },
+                            { id: "spread_operator", name: "Spread & Rest Operators", code: "const newObj = { ...oldObj, status: 'updated' };\nconst sum = (...args) => args.reduce((a, b) => a + b, 0);" }
                         ]
                     }
                 ]
             },
             php: {
                 title: "PHP",
-                desc: "Variables ($), syntax structure, and server-side logic handling.",
+                desc: "Variables, server-side processing, array manipulation, and OOP.",
                 sections: [
                     {
-                        category: "Basic Mechanics",
-                        count: "1 lesson",
+                        category: "PHP Core & Web",
+                        desc: "Server scripts, forms, and database interaction syntax",
+                        completed: "0/4 completed",
+                        level: "Beginner",
+                        levelColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
                         items: [
-                            { id: "php1", name: "Variables & Echo", desc: "Practice $ sign and concatenation", code: "<?php\n  $title = \"Typing Trainer\";\n  echo \"<h1>\" . $title . \"</h1>\";\n?>" }
+                            { id: "php_vars", name: "Variables & Echo Output", code: "<?php\n$title = \"Typing Code Trainer\";\n$wpm = 85;\necho \"<h1>\" . htmlspecialchars($title) . \"</h1>\";\n?>" },
+                            { id: "php_assoc", name: "Associative Arrays", code: "$user = [\n  \"id\" => 101,\n  \"username\" => \"dev_pro\",\n  \"skills\" => [\"HTML\", \"PHP\", \"JS\"]\n];" },
+                            { id: "php_post", name: "POST Request & Sanitization", code: "if ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n  $email = filter_input(INPUT_POST, 'email', FILTER_VALIDATE_EMAIL);\n}" },
+                            { id: "php_pdo", name: "PDO Database Connection", code: "$pdo = new PDO(\"mysql:host=localhost;dbname=test\", \"root\", \"\");\n$stmt = $pdo->prepare(\"SELECT * FROM users WHERE id = ?\");\n$stmt->execute([$userId]);" }
                         ]
                     }
                 ]
             },
             python: {
                 title: "Python",
-                desc: "Indentation, def statements, lists, and clean script syntax.",
+                desc: "Clean indentation, list comprehensions, classes, and logic.",
                 sections: [
                     {
-                        category: "Data Structures",
-                        count: "1 lesson",
+                        category: "Python Essentials",
+                        desc: "Practice clean syntax and Pythonic structures",
+                        completed: "0/4 completed",
+                        level: "Beginner",
+                        levelColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
                         items: [
-                            { id: "py1", name: "List Comprehension", desc: "Practice brackets and loops", code: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]\nprint(squares)" }
+                            { id: "py_comp", name: "List Comprehension", code: "numbers = [1, 2, 3, 4, 5, 6]\nsquares = [x**2 for x in numbers if x % 2 == 0]\nprint(f\"Squares: {squares}\")" },
+                            { id: "py_def", name: "Functions & Type Hints", code: "def calculate_wpm(words: int, seconds: float) -> float:\n    minutes = seconds / 60\n    return round(words / minutes, 2)" },
+                            { id: "py_class", name: "Class & Inheritance", code: "class Developer:\n    def __init__(self, name: str, speed: int):\n        self.name = name\n        self.speed = speed\n\n    def status(self):\n        return f\"{self.name} types at {self.speed} WPM\"" },
+                            { id: "py_dict", name: "Dictionary Iteration", code: "scores = {\"HTML\": 95, \"CSS\": 90, \"JS\": 88}\nfor lang, score in scores.items():\n    print(f\"{lang}: {score}%\")" }
                         ]
                     }
                 ]
             },
             symbols: {
                 title: "Symbols & Brackets",
-                desc: "Master braces {}, brackets [], parentheses (), and operators like =>.",
+                desc: "Master special characters, braces {}, and brackets [] to type code at light speed.",
                 sections: [
                     {
-                        category: "Special Characters",
-                        count: "1 lesson",
+                        category: "Symbol Speed Drills",
+                        desc: "Build muscle memory for tough keyboard characters",
+                        completed: "0/3 completed",
+                        level: "Advanced",
+                        levelColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
                         items: [
-                            { id: "sym1", name: "Brackets Speed Run", desc: "Build muscle memory for tough keyboard keys", code: "{} [] () <> => -> !== === && || ?? :: ; :" }
+                            { id: "brackets_all", name: "All Brackets {}, [], (), <>", code: "function test() { return [ (1 + 2) * <Component /> ]; }" },
+                            { id: "operators", name: "Logical Operators && || ?? !=", code: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}" },
+                            { id: "punc_quotes", name: "Quotes, Semicolons & Colons", code: "const query = `SELECT * FROM \"users\" WHERE status = 'active';`;" }
                         ]
                     }
                 ]
@@ -318,22 +337,40 @@
 
             data.sections.forEach(sec => {
                 const secEl = document.createElement('div');
-                secEl.className = 'rounded-3xl border border-brand-border/80 bg-brand-card/85 p-6 backdrop-blur-xl';
+                secEl.className = 'rounded-2xl border border-brand-border bg-[#0b101d] overflow-hidden shadow-xl';
 
-                let itemsHTML = sec.items.map((item, idx) => `
-                    <div class="border ${idx === 0 ? 'border-cyan-500/40' : 'border-brand-border'} rounded-2xl bg-brand-surface/80 overflow-hidden mb-4">
-                        <div class="p-5 flex items-center justify-between cursor-pointer" onclick="toggleAccordion('${item.id}')">
-                            <div>
-                                <h3 class="text-base sm:text-lg font-bold text-white font-mono">${item.name}</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">${item.desc}</p>
+                // Section Header (Matching Image Design)
+                let headerHTML = `
+                    <div class="p-6 border-b border-brand-border/60 bg-[#0d1424]">
+                        <div class="flex items-center justify-between mb-2">
+                            <h2 class="text-2xl font-bold text-white tracking-tight">${sec.category}</h2>
+                            <div class="flex items-center gap-3">
+                                <span class="text-xs font-mono text-slate-400">${sec.completed}</span>
+                                <span class="text-xs font-mono px-2.5 py-0.5 rounded-full border ${sec.levelColor}">${sec.level}</span>
                             </div>
-                            <svg id="arrow-${item.id}" class="w-5 h-5 text-cyan-400 transform ${idx === 0 ? 'rotate-180' : ''} transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </div>
-                        <div id="content-${item.id}" class="${idx === 0 ? '' : 'hidden'} px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
-                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>${escapeHTML(item.code)}</code></pre>
+                        <p class="text-sm text-slate-400 font-normal">${sec.desc}</p>
+                    </div>
+                `;
+
+                // Accordion items list
+                let itemsHTML = sec.items.map((item, idx) => `
+                    <div class="border-b border-brand-border/50 last:border-b-0 bg-[#0b101d] hover:bg-[#0f172a] transition-colors">
+                        <div class="p-4 sm:px-6 flex items-center justify-between cursor-pointer" onclick="toggleAccordion('${item.id}')">
+                            <span class="text-base font-bold text-slate-200 font-sans tracking-wide">${item.name}</span>
+                            <div class="flex items-center gap-4">
+                                <svg id="arrow-${item.id}" class="w-5 h-5 text-cyan-400 transform transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+                                </svg>
+                            </div>
+                        </div>
+
+                        <!-- Dropdown Code & Practice Button -->
+                        <div id="content-${item.id}" class="hidden px-4 sm:px-6 pb-5 space-y-4 pt-2 border-t border-brand-border/30 bg-[#070b14]">
+                            <pre class="bg-[#050810] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-300 border border-brand-border/60 overflow-x-auto leading-relaxed"><code>${escapeHTML(item.code)}</code></pre>
                             <div class="flex justify-end">
-                                <a href="practice.html?lesson=${item.id}" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2">
-                                    <span>ฝึกทันที</span>
+                                <a href="practice.html?lang=${langKey}&lesson=${item.id}" class="px-6 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2 transition-all transform hover:-translate-y-0.5">
+                                    <span>Start Practice</span>
                                     <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
                                 </a>
                             </div>
@@ -341,13 +378,7 @@
                     </div>
                 `).join('');
 
-                secEl.innerHTML = `
-                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-border/60 text-xs font-mono text-slate-400">
-                        <span class="text-cyan-400 font-bold uppercase tracking-wider">${sec.category}</span>
-                        <span>${sec.count}</span>
-                    </div>
-                    ${itemsHTML}
-                `;
+                secEl.innerHTML = headerHTML + `<div class="divide-y divide-brand-border/40">${itemsHTML}</div>`;
                 container.appendChild(secEl);
             });
         }
@@ -368,7 +399,7 @@
         function toggleAccordion(id) {
             const content = document.getElementById(`content-${id}`);
             const arrow = document.getElementById(`arrow-${id}`);
-            if(content && arrow) {
+            if (content && arrow) {
                 content.classList.toggle('hidden');
                 arrow.classList.toggle('rotate-180');
             }
@@ -389,7 +420,6 @@
             return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
         }
 
-        // Initialize Render
         document.addEventListener('DOMContentLoaded', () => {
             renderLessons('html');
         });
