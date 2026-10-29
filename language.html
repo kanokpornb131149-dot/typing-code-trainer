@@ -1,1 +1,436 @@
+<!DOCTYPE html>
+<html lang="th" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Languages &amp; Lessons | Typing Code Trainer_</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            cyan: '#00f2fe',
+                            blue: '#3b82f6',
+                            purple: '#8b5cf6',
+                            emerald: '#10b981',
+                            dark: '#070a13',
+                            surface: '#0f1628',
+                            card: '#131c33',
+                            border: '#1e2b48'
+                        }
+                    },
+                    fontFamily: {
+                        mono: ['"JetBrains Mono"', 'Fira Code', 'Consolas', 'monospace'],
+                        sans: ['Inter', 'system-ui', 'sans-serif']
+                    },
+                    boxShadow: {
+                        'neon-cyan': '0 0 30px -4px rgba(0, 242, 254, 0.45)',
+                        'neon-purple': '0 0 30px -4px rgba(139, 92, 246, 0.45)',
+                        'glow-lg': '0 0 60px -15px rgba(0, 242, 254, 0.3)'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #070a13;
+            color: #f1f5f9;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Grid */
+        .bg-tech-grid {
+            background-image: radial-gradient(rgba(30, 41, 59, 0.45) 1px, transparent 1px);
+            background-size: 28px 28px;
+        }
+
+        /* Cursor Blink */
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+        .blinking-cursor {
+            animation: blink 1s infinite;
+        }
+
+        /* 3D Keyboard Background */
+        .viewport-3d {
+            perspective: 1200px;
+            perspective-origin: 50% 30%;
+        }
+        .keyboard-plane {
+            transform-style: preserve-3d;
+            transform: rotateX(55deg) rotateZ(-24deg) translateY(0px);
+            will-change: transform;
+        }
+        .key-cap-3d {
+            position: relative;
+            background: linear-gradient(180deg, #162035 0%, #0d1424 100%);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 2px solid #050811;
+            border-radius: 8px;
+            box-shadow: 0 6px 0 #050811, 0 10px 18px rgba(0, 0, 0, 0.6);
+            user-select: none;
+        }
+
+        /* Glow Card Hover */
+        .glow-card {
+            position: relative;
+            background: rgba(19, 28, 51, 0.65);
+            border-radius: 1.25rem;
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(30, 43, 72, 0.8);
+            transition: all 0.25s ease;
+        }
+        .glow-card:hover {
+            border-color: rgba(0, 242, 254, 0.5);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(0, 242, 254, 0.2);
+        }
+
+        /* Language tab transition */
+        .lang-button {
+            transition: all 0.2s ease;
+        }
+        .lang-button.active {
+            background: rgba(0, 242, 254, 0.12);
+            border-color: #00f2fe;
+            color: #00f2fe;
+            box-shadow: 0 0 22px -3px rgba(0, 242, 254, 0.45);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 7px; }
+        ::-webkit-scrollbar-track { background: #070a13; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
+    </style>
+</head>
+<body class="bg-tech-grid min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
+
+    <!-- ================= 3D INTERACTIVE KEYBOARD BACKGROUND ================= -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center opacity-25">
+        <div class="viewport-3d w-full h-full flex items-center justify-center">
+            <div class="keyboard-plane relative p-6 rounded-3xl bg-[#090e1a]/90 border border-cyan-500/30 shadow-[0_30px_90px_rgba(0,0,0,0.9)]">
+                <div class="space-y-3 font-mono text-[11px] text-slate-300">
+                    <div class="flex gap-2.5">
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">~</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">1</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">2</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">3</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">4</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">5</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">6</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">7</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">8</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">9</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">0</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">-</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">=</div>
+                        <div class="key-cap-3d w-16 h-10 flex items-center justify-center text-[10px] text-slate-400">BKSP</div>
+                    </div>
+                    <div class="flex gap-2.5">
+                        <div class="key-cap-3d w-14 h-10 flex items-center justify-center text-[10px] text-slate-400">TAB</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">Q</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">W</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-300 font-bold">E</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">R</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">T</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">Y</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">U</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">I</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">O</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">P</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">{</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">}</div>
+                        <div class="key-cap-3d w-12 h-10 flex items-center justify-center">|</div>
+                    </div>
+                    <div class="flex gap-2.5">
+                        <div class="key-cap-3d w-16 h-10 flex items-center justify-center text-[10px] text-slate-400">CAPS</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">A</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-300 font-bold">S</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">D</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">F</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">G</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">H</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">J</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">K</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">L</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">;</div>
+                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">'</div>
+                        <div class="key-cap-3d w-20 h-10 flex items-center justify-center text-cyan-300 font-bold text-[10px]">ENTER ↵</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= NAVBAR ================= -->
+    <header class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/85 border-b border-brand-border/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 p-[1.5px] shadow-neon-cyan transition-transform group-hover:scale-105">
+                    <div class="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center">
+                        <span class="font-mono text-cyan-400 font-black text-lg">&lt;/&gt;</span>
+                    </div>
+                </div>
+                <div class="font-mono font-bold text-lg sm:text-xl text-white tracking-tight">
+                    Typing Code Trainer<span class="text-cyan-400 blinking-cursor">_</span>
+                </div>
+            </a>
+
+            <nav class="hidden md:flex items-center gap-9 text-sm font-medium">
+                <a href="index.html" class="text-slate-300 hover:text-white transition-colors py-1">Home</a>
+                <a href="practice.html" class="text-slate-300 hover:text-white transition-colors py-1">Practice</a>
+                <a href="language.html" class="text-white font-bold relative py-1 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-cyan-400">Language</a>
+                <a href="party.html" class="text-slate-300 hover:text-white transition-colors py-1 flex items-center gap-1.5">
+                    Party <span class="text-[10px] font-mono px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300 border border-purple-500/30">1v1</span>
+                </a>
+                <a href="ranking.html" class="text-slate-300 hover:text-white transition-colors py-1">Ranking</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <button onclick="toggleModal(true)" class="px-6 py-2.5 rounded-xl font-medium text-sm text-slate-900 bg-gradient-to-r from-slate-200 to-slate-300 hover:from-white hover:to-slate-100 shadow-md transition-all cursor-pointer">
+                    Sign In
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="flex-grow relative z-10 py-10">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <!-- Breadcrumb -->
+            <div class="mb-6">
+                <a href="index.html" class="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors">
+                    <span>&lt;</span> All languages
+                </a>
+            </div>
+
+            <!-- Header Title -->
+            <div class="text-center mb-10">
+                <h1 id="pageLangTitle" class="text-4xl sm:text-5xl font-extrabold text-white mb-3">HTML &amp; CSS</h1>
+                <p id="pageLangDesc" class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
+                    Tags, attributes and style rules. The brackets and quotes you type all day when building pages.
+                </p>
+            </div>
+
+            <!-- Language Selector Tabs -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
+                <button onclick="switchLanguage('html')" id="tab-html" class="lang-button active px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-cyan-500/60 bg-cyan-500/10 text-cyan-300 shadow-neon-cyan">
+                    HTML &amp; CSS
+                </button>
+                <button onclick="switchLanguage('javascript')" id="tab-javascript" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                    JavaScript
+                </button>
+                <button onclick="switchLanguage('php')" id="tab-php" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                    PHP
+                </button>
+                <button onclick="switchLanguage('python')" id="tab-python" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                    Python
+                </button>
+                <button onclick="switchLanguage('symbols')" id="tab-symbols" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                    Symbols &amp; Brackets
+                </button>
+                <button onclick="switchLanguage('basics')" id="tab-basics" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                    Basics
+                </button>
+            </div>
+
+            <!-- Lessons Container -->
+            <div id="lessonsContainer" class="space-y-6">
+                <!-- Section Category 1: HTML tags -->
+                <div class="rounded-3xl border border-brand-border/80 bg-brand-card/85 p-6 backdrop-blur-xl">
+                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-border/60 text-xs font-mono text-slate-400">
+                        <span class="text-cyan-400 font-bold uppercase tracking-wider">HTML tags</span>
+                        <span>3 lessons</span>
+                    </div>
+
+                    <!-- Lesson Item 1 (Expanded) -->
+                    <div class="border border-cyan-500/40 rounded-2xl bg-brand-surface/90 overflow-hidden mb-4 shadow-lg">
+                        <div class="p-5 flex items-center justify-between cursor-pointer" onclick="toggleAccordion('lesson1')">
+                            <div>
+                                <h3 class="text-lg font-bold text-white font-mono flex items-center gap-2">
+                                    Angle Brackets &lt; &gt;
+                                </h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Practice opening and closing tags around every element</p>
+                            </div>
+                            <svg id="arrow-lesson1" class="w-5 h-5 text-cyan-400 transform rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </div>
+                        <div id="content-lesson1" class="px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
+                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>&lt;div&gt;
+  &lt;h1&gt;Title&lt;/h1&gt;
+  &lt;p&gt;Hello&lt;/p&gt;
+  &lt;button&gt;Go&lt;/button&gt;
+  &lt;img src="a.png" /&gt;
+&lt;/div&gt;</code></pre>
+                            <div class="flex justify-end">
+                                <a href="practice.html?lesson=angle_brackets" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2 transition-all">
+                                    <span>ฝึกทันที</span>
+                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lesson Item 2 -->
+                    <div class="border border-brand-border rounded-2xl bg-brand-surface/60 overflow-hidden mb-4">
+                        <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-brand-surface transition-colors" onclick="toggleAccordion('lesson2')">
+                            <div>
+                                <h3 class="text-base font-bold text-white font-mono">Attributes &amp; Quotes " "</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Practice attribute names with quoted values</p>
+                            </div>
+                            <svg id="arrow-lesson2" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </div>
+                        <div id="content-lesson2" class="hidden px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
+                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>&lt;input type="text" placeholder="Enter username..." class="form-input" /&gt;
+&lt;a href="https://github.com" target="_blank" rel="noopener"&gt;GitHub&lt;/a&gt;</code></pre>
+                            <div class="flex justify-end">
+                                <a href="practice.html?lesson=attributes" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2">
+                                    <span>ฝึกทันที</span>
+                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lesson Item 3 -->
+                    <div class="border border-brand-border rounded-2xl bg-brand-surface/60 overflow-hidden">
+                        <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-brand-surface transition-colors" onclick="toggleAccordion('lesson3')">
+                            <div>
+                                <h3 class="text-base font-bold text-white font-mono">Nested Layout</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Practice indenting tags inside tags</p>
+                            </div>
+                            <svg id="arrow-lesson3" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </div>
+                        <div id="content-lesson3" class="hidden px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
+                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>&lt;section class="hero-wrapper"&gt;
+  &lt;div class="container"&gt;
+    &lt;span class="badge"&gt;New Release&lt;/span&gt;
+  &lt;/div&gt;
+&lt;/section&gt;</code></pre>
+                            <div class="flex justify-end">
+                                <a href="practice.html?lesson=nested_layout" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2">
+                                    <span>ฝึกทันที</span>
+                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section Category 2: CSS rules -->
+                <div class="rounded-3xl border border-brand-border/80 bg-brand-card/85 p-6 backdrop-blur-xl">
+                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-border/60 text-xs font-mono text-slate-400">
+                        <span class="text-indigo-400 font-bold uppercase tracking-wider">CSS rules</span>
+                        <span>2 lessons</span>
+                    </div>
+
+                    <div class="border border-brand-border rounded-2xl bg-brand-surface/60 overflow-hidden">
+                        <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-brand-surface transition-colors" onclick="toggleAccordion('lesson4')">
+                            <div>
+                                <h3 class="text-base font-bold text-white font-mono">Flexbox &amp; Grid Properties</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">Practice colons, semicolons, and layout properties</p>
+                            </div>
+                            <svg id="arrow-lesson4" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </div>
+                        <div id="content-lesson4" class="hidden px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
+                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}</code></pre>
+                            <div class="flex justify-end">
+                                <a href="practice.html?lesson=css_flexbox" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2">
+                                    <span>ฝึกทันที</span>
+                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-10 border-t border-brand-border/40 text-center text-xs text-slate-500 font-mono">
+        <p>Typing Code Trainer_ &copy; 2026. Built for developers &amp; CS students.</p>
+    </footer>
+
+    <!-- Sign In Modal -->
+    <div id="authModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
+        <div class="bg-brand-card border border-cyan-500/40 rounded-3xl p-8 max-w-md w-full shadow-glow-lg relative">
+            <button onclick="toggleModal(false)" class="absolute top-5 right-5 text-slate-400 hover:text-white">&times;</button>
+            <h3 class="text-2xl font-bold text-white mb-2 font-mono">Sign In</h3>
+            <p class="text-slate-400 text-sm mb-6">เข้าสู่ระบบเพื่อบันทึกสถิติ WPM และคะแนนฝึกซ้อมของคุณ</p>
+            <div class="space-y-4">
+                <button class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm flex items-center justify-center gap-3 border border-brand-border">
+                    <span>Continue with GitHub</span>
+                </button>
+                <button class="w-full py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm flex items-center justify-center gap-3">
+                    <span>Sign in with Google</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Interactions -->
+    <script>
+        // Switch Language function
+        const langData = {
+            html: { title: "HTML & CSS", desc: "Tags, attributes and style rules. The brackets and quotes you type all day when building pages." },
+            javascript: { title: "JavaScript", desc: "Functions, arrow syntax, async/await, and modern ES6+ operations." },
+            php: { title: "PHP", desc: "Variables ($), syntax structure, and server-side logic handling." },
+            python: { title: "Python", desc: "Indentation, def statements, lists, and clean script syntax." },
+            symbols: { title: "Symbols & Brackets", desc: "Master braces {}, brackets [], parentheses (), and operators like =>." },
+            basics: { title: "Basics", desc: "Home row keys, punctuation speed drills, and finger dexterity." }
+        };
+
+        function switchLanguage(lang) {
+            document.querySelectorAll('.lang-button').forEach(btn => {
+                btn.classList.remove('active', 'border-cyan-500/60', 'bg-cyan-500/10', 'text-cyan-300', 'shadow-neon-cyan');
+                btn.classList.add('border-brand-border', 'bg-brand-card/70', 'text-slate-300');
+            });
+            const activeBtn = document.getElementById(`tab-${lang}`);
+            activeBtn.classList.add('active', 'border-cyan-500/60', 'bg-cyan-500/10', 'text-cyan-300', 'shadow-neon-cyan');
+            activeBtn.classList.remove('border-brand-border', 'bg-brand-card/70', 'text-slate-300');
+
+            if(langData[lang]) {
+                document.getElementById('pageLangTitle').textContent = langData[lang].title;
+                document.getElementById('pageLangDesc').textContent = langData[lang].desc;
+            }
+        }
+
+        // Accordion Toggle
+        function toggleAccordion(id) {
+            const content = document.getElementById(`content-${id}`);
+            const arrow = document.getElementById(`arrow-${id}`);
+            content.classList.toggle('hidden');
+            arrow.classList.toggle('rotate-180');
+        }
+
+        // Modal Toggle
+        function toggleModal(show) {
+            const modal = document.getElementById('authModal');
+            if (show) {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            } else {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }
+        }
+    </script>
+</body>
+</html>
