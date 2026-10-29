@@ -46,13 +46,11 @@
             overflow-x: hidden;
         }
 
-        /* Ambient Grid */
         .bg-tech-grid {
             background-image: radial-gradient(rgba(30, 41, 59, 0.45) 1px, transparent 1px);
             background-size: 28px 28px;
         }
 
-        /* Cursor Blink */
         @keyframes blink {
             0%, 100% { opacity: 1; }
             50% { opacity: 0; }
@@ -61,7 +59,6 @@
             animation: blink 1s infinite;
         }
 
-        /* 3D Keyboard Background */
         .viewport-3d {
             perspective: 1200px;
             perspective-origin: 50% 30%;
@@ -82,21 +79,6 @@
             user-select: none;
         }
 
-        /* Glow Card Hover */
-        .glow-card {
-            position: relative;
-            background: rgba(19, 28, 51, 0.65);
-            border-radius: 1.25rem;
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(30, 43, 72, 0.8);
-            transition: all 0.25s ease;
-        }
-        .glow-card:hover {
-            border-color: rgba(0, 242, 254, 0.5);
-            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.7), 0 0 30px -5px rgba(0, 242, 254, 0.2);
-        }
-
-        /* Language tab transition */
         .lang-button {
             transition: all 0.2s ease;
         }
@@ -107,7 +89,6 @@
             box-shadow: 0 0 22px -3px rgba(0, 242, 254, 0.45);
         }
 
-        /* Custom scrollbar */
         ::-webkit-scrollbar { width: 7px; }
         ::-webkit-scrollbar-track { background: #070a13; }
         ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
@@ -116,8 +97,8 @@
 </head>
 <body class="bg-tech-grid min-h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black">
 
-    <!-- ================= 3D INTERACTIVE KEYBOARD BACKGROUND ================= -->
-    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center opacity-25">
+    <!-- 3D KEYBOARD BACKGROUND -->
+    <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center opacity-20">
         <div class="viewport-3d w-full h-full flex items-center justify-center">
             <div class="keyboard-plane relative p-6 rounded-3xl bg-[#090e1a]/90 border border-cyan-500/30 shadow-[0_30px_90px_rgba(0,0,0,0.9)]">
                 <div class="space-y-3 font-mono text-[11px] text-slate-300">
@@ -151,29 +132,13 @@
                         <div class="key-cap-3d w-10 h-10 flex items-center justify-center">P</div>
                         <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">{</div>
                         <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">}</div>
-                        <div class="key-cap-3d w-12 h-10 flex items-center justify-center">|</div>
-                    </div>
-                    <div class="flex gap-2.5">
-                        <div class="key-cap-3d w-16 h-10 flex items-center justify-center text-[10px] text-slate-400">CAPS</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">A</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-300 font-bold">S</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">D</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">F</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">G</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">H</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">J</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">K</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center">L</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">;</div>
-                        <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">'</div>
-                        <div class="key-cap-3d w-20 h-10 flex items-center justify-center text-cyan-300 font-bold text-[10px]">ENTER ↵</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- ================= NAVBAR ================= -->
+    <!-- NAVBAR -->
     <header class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/85 border-b border-brand-border/60">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <a href="index.html" class="flex items-center gap-2 group">
@@ -205,18 +170,16 @@
         </div>
     </header>
 
-    <!-- ================= MAIN CONTENT ================= -->
+    <!-- MAIN CONTENT -->
     <main class="flex-grow relative z-10 py-10">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             
-            <!-- Breadcrumb -->
             <div class="mb-6">
                 <a href="index.html" class="inline-flex items-center gap-2 text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors">
                     <span>&lt;</span> All languages
                 </a>
             </div>
 
-            <!-- Header Title -->
             <div class="text-center mb-10">
                 <h1 id="pageLangTitle" class="text-4xl sm:text-5xl font-extrabold text-white mb-3">HTML &amp; CSS</h1>
                 <p id="pageLangDesc" class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto">
@@ -224,7 +187,7 @@
                 </p>
             </div>
 
-            <!-- Language Selector Tabs -->
+            <!-- Language Switch Tabs -->
             <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
                 <button onclick="switchLanguage('html')" id="tab-html" class="lang-button active px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-cyan-500/60 bg-cyan-500/10 text-cyan-300 shadow-neon-cyan">
                     HTML &amp; CSS
@@ -241,137 +204,23 @@
                 <button onclick="switchLanguage('symbols')" id="tab-symbols" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
                     Symbols &amp; Brackets
                 </button>
-                <button onclick="switchLanguage('basics')" id="tab-basics" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
-                    Basics
-                </button>
             </div>
 
-            <!-- Lessons Container -->
+            <!-- Dynamic Lesson Cards Container -->
             <div id="lessonsContainer" class="space-y-6">
-                <!-- Section Category 1: HTML tags -->
-                <div class="rounded-3xl border border-brand-border/80 bg-brand-card/85 p-6 backdrop-blur-xl">
-                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-border/60 text-xs font-mono text-slate-400">
-                        <span class="text-cyan-400 font-bold uppercase tracking-wider">HTML tags</span>
-                        <span>3 lessons</span>
-                    </div>
-
-                    <!-- Lesson Item 1 (Expanded) -->
-                    <div class="border border-cyan-500/40 rounded-2xl bg-brand-surface/90 overflow-hidden mb-4 shadow-lg">
-                        <div class="p-5 flex items-center justify-between cursor-pointer" onclick="toggleAccordion('lesson1')">
-                            <div>
-                                <h3 class="text-lg font-bold text-white font-mono flex items-center gap-2">
-                                    Angle Brackets &lt; &gt;
-                                </h3>
-                                <p class="text-xs text-slate-400 mt-0.5">Practice opening and closing tags around every element</p>
-                            </div>
-                            <svg id="arrow-lesson1" class="w-5 h-5 text-cyan-400 transform rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div id="content-lesson1" class="px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
-                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>&lt;div&gt;
-  &lt;h1&gt;Title&lt;/h1&gt;
-  &lt;p&gt;Hello&lt;/p&gt;
-  &lt;button&gt;Go&lt;/button&gt;
-  &lt;img src="a.png" /&gt;
-&lt;/div&gt;</code></pre>
-                            <div class="flex justify-end">
-                                <a href="practice.html?lesson=angle_brackets" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2 transition-all">
-                                    <span>ฝึกทันที</span>
-                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Lesson Item 2 -->
-                    <div class="border border-brand-border rounded-2xl bg-brand-surface/60 overflow-hidden mb-4">
-                        <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-brand-surface transition-colors" onclick="toggleAccordion('lesson2')">
-                            <div>
-                                <h3 class="text-base font-bold text-white font-mono">Attributes &amp; Quotes " "</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">Practice attribute names with quoted values</p>
-                            </div>
-                            <svg id="arrow-lesson2" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div id="content-lesson2" class="hidden px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
-                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>&lt;input type="text" placeholder="Enter username..." class="form-input" /&gt;
-&lt;a href="https://github.com" target="_blank" rel="noopener"&gt;GitHub&lt;/a&gt;</code></pre>
-                            <div class="flex justify-end">
-                                <a href="practice.html?lesson=attributes" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2">
-                                    <span>ฝึกทันที</span>
-                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Lesson Item 3 -->
-                    <div class="border border-brand-border rounded-2xl bg-brand-surface/60 overflow-hidden">
-                        <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-brand-surface transition-colors" onclick="toggleAccordion('lesson3')">
-                            <div>
-                                <h3 class="text-base font-bold text-white font-mono">Nested Layout</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">Practice indenting tags inside tags</p>
-                            </div>
-                            <svg id="arrow-lesson3" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div id="content-lesson3" class="hidden px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
-                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>&lt;section class="hero-wrapper"&gt;
-  &lt;div class="container"&gt;
-    &lt;span class="badge"&gt;New Release&lt;/span&gt;
-  &lt;/div&gt;
-&lt;/section&gt;</code></pre>
-                            <div class="flex justify-end">
-                                <a href="practice.html?lesson=nested_layout" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2">
-                                    <span>ฝึกทันที</span>
-                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Section Category 2: CSS rules -->
-                <div class="rounded-3xl border border-brand-border/80 bg-brand-card/85 p-6 backdrop-blur-xl">
-                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-border/60 text-xs font-mono text-slate-400">
-                        <span class="text-indigo-400 font-bold uppercase tracking-wider">CSS rules</span>
-                        <span>2 lessons</span>
-                    </div>
-
-                    <div class="border border-brand-border rounded-2xl bg-brand-surface/60 overflow-hidden">
-                        <div class="p-5 flex items-center justify-between cursor-pointer hover:bg-brand-surface transition-colors" onclick="toggleAccordion('lesson4')">
-                            <div>
-                                <h3 class="text-base font-bold text-white font-mono">Flexbox &amp; Grid Properties</h3>
-                                <p class="text-xs text-slate-400 mt-0.5">Practice colons, semicolons, and layout properties</p>
-                            </div>
-                            <svg id="arrow-lesson4" class="w-5 h-5 text-slate-400 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        </div>
-                        <div id="content-lesson4" class="hidden px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
-                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>.container {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1.5rem;
-}</code></pre>
-                            <div class="flex justify-end">
-                                <a href="practice.html?lesson=css_flexbox" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2">
-                                    <span>ฝึกทันที</span>
-                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <!-- Content will rendered dynamically via JavaScript below -->
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="py-10 border-t border-brand-border/40 text-center text-xs text-slate-500 font-mono">
         <p>Typing Code Trainer_ &copy; 2026. Built for developers &amp; CS students.</p>
     </footer>
 
-    <!-- Sign In Modal -->
+    <!-- Modal Sign In -->
     <div id="authModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
         <div class="bg-brand-card border border-cyan-500/40 rounded-3xl p-8 max-w-md w-full shadow-glow-lg relative">
-            <button onclick="toggleModal(false)" class="absolute top-5 right-5 text-slate-400 hover:text-white">&times;</button>
+            <button onclick="toggleModal(false)" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl">&times;</button>
             <h3 class="text-2xl font-bold text-white mb-2 font-mono">Sign In</h3>
             <p class="text-slate-400 text-sm mb-6">เข้าสู่ระบบเพื่อบันทึกสถิติ WPM และคะแนนฝึกซ้อมของคุณ</p>
             <div class="space-y-4">
@@ -385,17 +234,123 @@
         </div>
     </div>
 
-    <!-- Script Interactions -->
     <script>
-        // Switch Language function
         const langData = {
-            html: { title: "HTML & CSS", desc: "Tags, attributes and style rules. The brackets and quotes you type all day when building pages." },
-            javascript: { title: "JavaScript", desc: "Functions, arrow syntax, async/await, and modern ES6+ operations." },
-            php: { title: "PHP", desc: "Variables ($), syntax structure, and server-side logic handling." },
-            python: { title: "Python", desc: "Indentation, def statements, lists, and clean script syntax." },
-            symbols: { title: "Symbols & Brackets", desc: "Master braces {}, brackets [], parentheses (), and operators like =>." },
-            basics: { title: "Basics", desc: "Home row keys, punctuation speed drills, and finger dexterity." }
+            html: {
+                title: "HTML & CSS",
+                desc: "Tags, attributes and style rules. The brackets and quotes you type all day when building pages.",
+                sections: [
+                    {
+                        category: "HTML tags",
+                        count: "3 lessons",
+                        items: [
+                            { id: "l1", name: "Angle Brackets < >", desc: "Practice opening and closing tags around every element", code: "<div>\n  <h1>Title</h1>\n  <p>Hello</p>\n  <button>Go</button>\n  <img src=\"a.png\" />\n</div>" },
+                            { id: "l2", name: "Attributes & Quotes \" \"", desc: "Practice attribute names with quoted values", code: "<input type=\"text\" placeholder=\"Enter username...\" class=\"form-input\" />\n<a href=\"https://github.com\" target=\"_blank\">GitHub</a>" },
+                            { id: "l3", name: "Nested Layout", desc: "Practice indenting tags inside tags", code: "<section class=\"hero-wrapper\">\n  <div class=\"container\">\n    <span class=\"badge\">New Release</span>\n  </div>\n</section>" }
+                        ]
+                    }
+                ]
+            },
+            javascript: {
+                title: "JavaScript",
+                desc: "Functions, arrow syntax, async/await, and modern ES6+ operations.",
+                sections: [
+                    {
+                        category: "Core Syntax",
+                        count: "2 lessons",
+                        items: [
+                            { id: "js1", name: "Arrow Functions () => {}", desc: "Master parameter brackets and arrow syntax", code: "const fetchData = async (id) => {\n  const res = await fetch(`/api/user/${id}`);\n  return await res.json();\n};" },
+                            { id: "js2", name: "Array Methods", desc: "Practice map, filter, reduce syntax", code: "const activeUsers = users\n  .filter(u => u.isActive)\n  .map(u => u.name);" }
+                        ]
+                    }
+                ]
+            },
+            php: {
+                title: "PHP",
+                desc: "Variables ($), syntax structure, and server-side logic handling.",
+                sections: [
+                    {
+                        category: "Basic Mechanics",
+                        count: "1 lesson",
+                        items: [
+                            { id: "php1", name: "Variables & Echo", desc: "Practice $ sign and concatenation", code: "<?php\n  $title = \"Typing Trainer\";\n  echo \"<h1>\" . $title . \"</h1>\";\n?>" }
+                        ]
+                    }
+                ]
+            },
+            python: {
+                title: "Python",
+                desc: "Indentation, def statements, lists, and clean script syntax.",
+                sections: [
+                    {
+                        category: "Data Structures",
+                        count: "1 lesson",
+                        items: [
+                            { id: "py1", name: "List Comprehension", desc: "Practice brackets and loops", code: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]\nprint(squares)" }
+                        ]
+                    }
+                ]
+            },
+            symbols: {
+                title: "Symbols & Brackets",
+                desc: "Master braces {}, brackets [], parentheses (), and operators like =>.",
+                sections: [
+                    {
+                        category: "Special Characters",
+                        count: "1 lesson",
+                        items: [
+                            { id: "sym1", name: "Brackets Speed Run", desc: "Build muscle memory for tough keyboard keys", code: "{} [] () <> => -> !== === && || ?? :: ; :" }
+                        ]
+                    }
+                ]
+            }
         };
+
+        function renderLessons(langKey) {
+            const data = langData[langKey];
+            if (!data) return;
+
+            document.getElementById('pageLangTitle').textContent = data.title;
+            document.getElementById('pageLangDesc').textContent = data.desc;
+
+            const container = document.getElementById('lessonsContainer');
+            container.innerHTML = '';
+
+            data.sections.forEach(sec => {
+                const secEl = document.createElement('div');
+                secEl.className = 'rounded-3xl border border-brand-border/80 bg-brand-card/85 p-6 backdrop-blur-xl';
+
+                let itemsHTML = sec.items.map((item, idx) => `
+                    <div class="border ${idx === 0 ? 'border-cyan-500/40' : 'border-brand-border'} rounded-2xl bg-brand-surface/80 overflow-hidden mb-4">
+                        <div class="p-5 flex items-center justify-between cursor-pointer" onclick="toggleAccordion('${item.id}')">
+                            <div>
+                                <h3 class="text-base sm:text-lg font-bold text-white font-mono">${item.name}</h3>
+                                <p class="text-xs text-slate-400 mt-0.5">${item.desc}</p>
+                            </div>
+                            <svg id="arrow-${item.id}" class="w-5 h-5 text-cyan-400 transform ${idx === 0 ? 'rotate-180' : ''} transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        </div>
+                        <div id="content-${item.id}" class="${idx === 0 ? '' : 'hidden'} px-5 pb-5 space-y-4 border-t border-brand-border/50 pt-4">
+                            <pre class="bg-[#070b16] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-200 border border-brand-border/60 overflow-x-auto"><code>${escapeHTML(item.code)}</code></pre>
+                            <div class="flex justify-end">
+                                <a href="practice.html?lesson=${item.id}" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-900 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2">
+                                    <span>ฝึกทันที</span>
+                                    <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                secEl.innerHTML = `
+                    <div class="flex items-center justify-between pb-4 mb-4 border-b border-brand-border/60 text-xs font-mono text-slate-400">
+                        <span class="text-cyan-400 font-bold uppercase tracking-wider">${sec.category}</span>
+                        <span>${sec.count}</span>
+                    </div>
+                    ${itemsHTML}
+                `;
+                container.appendChild(secEl);
+            });
+        }
 
         function switchLanguage(lang) {
             document.querySelectorAll('.lang-button').forEach(btn => {
@@ -403,24 +358,22 @@
                 btn.classList.add('border-brand-border', 'bg-brand-card/70', 'text-slate-300');
             });
             const activeBtn = document.getElementById(`tab-${lang}`);
-            activeBtn.classList.add('active', 'border-cyan-500/60', 'bg-cyan-500/10', 'text-cyan-300', 'shadow-neon-cyan');
-            activeBtn.classList.remove('border-brand-border', 'bg-brand-card/70', 'text-slate-300');
-
-            if(langData[lang]) {
-                document.getElementById('pageLangTitle').textContent = langData[lang].title;
-                document.getElementById('pageLangDesc').textContent = langData[lang].desc;
+            if (activeBtn) {
+                activeBtn.classList.add('active', 'border-cyan-500/60', 'bg-cyan-500/10', 'text-cyan-300', 'shadow-neon-cyan');
+                activeBtn.classList.remove('border-brand-border', 'bg-brand-card/70', 'text-slate-300');
             }
+            renderLessons(lang);
         }
 
-        // Accordion Toggle
         function toggleAccordion(id) {
             const content = document.getElementById(`content-${id}`);
             const arrow = document.getElementById(`arrow-${id}`);
-            content.classList.toggle('hidden');
-            arrow.classList.toggle('rotate-180');
+            if(content && arrow) {
+                content.classList.toggle('hidden');
+                arrow.classList.toggle('rotate-180');
+            }
         }
 
-        // Modal Toggle
         function toggleModal(show) {
             const modal = document.getElementById('authModal');
             if (show) {
@@ -431,6 +384,15 @@
                 modal.classList.remove('flex');
             }
         }
+
+        function escapeHTML(str) {
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+        }
+
+        // Initialize Render
+        document.addEventListener('DOMContentLoaded', () => {
+            renderLessons('html');
+        });
     </script>
 </body>
 </html>
