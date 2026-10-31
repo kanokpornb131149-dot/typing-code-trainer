@@ -321,6 +321,107 @@
       font-size: 13px;
     }
   </style>
+
+  <!-- Firebase SDK (Modular) -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyC2cLiDQHWBMHWSsJ-0xUekm149eNo9Xbw",
+      authDomain: "typing-code-trainer.firebaseapp.com",
+      projectId: "typing-code-trainer",
+      storageBucket: "typing-code-trainer.firebasestorage.app",
+      messagingSenderId: "632730453787",
+      appId: "1:632730453787:web:d5b5c21f539bbac42c35be",
+      measurementId: "G-7RSMW8TVG8"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    async function loadLeaderboard(filterLang = 'all') {
+      const container = document.getElementById("rankingRows");
+      const emptyState = document.getElementById("emptyState");
+      container.innerHTML = "<div class='empty-state'>กำลังโหลดข้อมูลจาก Firebase...</div>";
+
+      try {
+        const querySnapshot = await getDocs(collection(db, "scores"));
+        let leaderboardData = [];
+        querySnapshot.forEach((doc) => {
+          leaderboardData.push(doc.data());
+        });
+
+        // Filter by language if needed
+        const filtered = leaderboardData.filter(item => {
+          if (filterLang === 'all') return true;
+          return item.lang === filterLang || item.lang === 'all';
+        });
+
+        // Sort by WPM descending
+        filtered.sort((a, b) => b.wpm - a.wpm);
+
+        container.innerHTML = "";
+
+        if (filtered.length === 0) {
+          emptyState.style.display = "block";
+          document.getElementById("userRankNum").textContent = "#--";
+          document.getElementById("userBestWpm").textContent = "0";
+          document.getElementById("userBestAccuracy").textContent = "0%";
+          return;
+        }
+
+        emptyState.style.display = "none";
+        const currentUserName = (localStorage.getItem("tct-user") || "Developer").toUpperCase();
+
+        filtered.forEach((player, index) => {
+          const rank = index + 1;
+          const isMe = player.name && player.name.toUpperCase() === currentUserName.replace(/@.*/, "").toUpperCase();
+          const row = document.createElement("div");
+          row.className = `player-row ${rank === 1 ? 'top-one' : ''}`;
+          
+          const initial = player.name ? player.name.charAt(0).toUpperCase() : "D";
+          
+          row.innerHTML = `
+            <span class="rank-number">#${rank}</span>
+            <div class="player-info">
+              <span class="avatar">${initial}</span>
+              <span class="player-name">${player.name || 'Anonymous'} ${isMe ? '(You)' : ''}</span>
+            </div>
+            <span class="stat wpm">${player.wpm}</span>
+            <span class="stat accuracy">${player.accuracy}%</span>
+          `;
+          container.appendChild(row);
+
+          if (isMe) {
+            document.getElementById("userRankNum").textContent = `#${rank}`;
+            document.getElementById("userBestWpm").textContent = player.wpm;
+            document.getElementById("userBestAccuracy").textContent = `${player.accuracy}%`;
+            document.getElementById("userProfileName").textContent = player.name;
+            document.getElementById("userAvatarChar").textContent = initial;
+          }
+        });
+      } catch (e) {
+        console.error("Error loading leaderboard: ", e);
+        container.innerHTML = "<div class='empty-state'>ไม่สามารถเชื่อมต่อฐานข้อมูล Firebase ได้</div>";
+      }
+    }
+
+    window.loadLeaderboard = loadLeaderboard;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadLeaderboard('all');
+
+      const filterButtons = document.querySelectorAll(".filter");
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          filterButtons.forEach((item) => item.classList.remove("active"));
+          button.classList.add("active");
+          loadLeaderboard(button.dataset.filter);
+        });
+      });
+    });
+  </script>
 </head>
 <body>
   <!-- Navigation Bar -->
@@ -330,12 +431,12 @@
       <span>Typing Code Trainer<span class="brand-cursor">_</span></span>
     </div>
 
-     <nav class="hidden md:flex items-center gap-9 text-sm font-medium">
-                <a href="index.html" class="text-slate-300 hover:text-white transition-colors py-1">Home</a>
-                <a href="practice.html" class="text-slate-300 hover:text-white transition-colors py-1">Practice</a>
-                <a href="language.html" class="text-slate-300 hover:text-white transition-colors py-1">Language</a>
-                <a href="ranking.html" class="text-white font-bold relative py-1 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-cyan-400">Ranking</a>
-            </nav>
+    <nav class="hidden md:flex items-center gap-9 text-sm font-medium nav-links">
+      <a href="index.html">Home</a>
+      <a href="practice.html">Practice</a>
+      <a href="language.html">Language</a>
+      <a href="ranking.html" class="active">Ranking</a>
+    </nav>
 
     <div class="nav-actions">
       <button class="sound-button" aria-label="Sound">
@@ -372,7 +473,7 @@
       </div>
 
       <div id="rankingRows">
-        <!-- Dynamically populated from real localStorage records -->
+        <!-- Dynamically populated from Firebase scores -->
       </div>
       <div class="empty-state" id="emptyState" style="display: none;">
         No practice records found yet. Complete a lesson or test in Practice to record your score!
@@ -393,108 +494,5 @@
       <div class="position-stat acc-stat"><strong id="userBestAccuracy">0%</strong> Acc</div>
     </section>
   </main>
-
-  <script>
-    // Real Data Leaderboard System (No fake bots)
-    function loadLeaderboard(filterLang = 'all') {
-      const container = document.getElementById("rankingRows");
-      const emptyState = document.getElementById("emptyState");
-      container.innerHTML = "";
-
-      let leaderboardData = [];
-      try {
-        const stored = localStorage.getItem("tct-real-leaderboard");
-        if (stored) leaderboardData = JSON.parse(stored);
-      } catch (e) {}
-
-      // Also gather current user's session score if available
-      try {
-        const bestScores = JSON.parse(localStorage.getItem("tct-best2") || "{}");
-        const wpmValues = Object.values(bestScores);
-        const userWpm = wpmValues.length > 0 ? Math.max(...wpmValues) : 0;
-
-        const stats = JSON.parse(localStorage.getItem("tct-stats") || "{}");
-        const accuracies = stats.ha || [100];
-        const userAcc = accuracies.length > 0 ? Math.round(accuracies.reduce((a, b) => a + b, 0) / accuracies.length) : 100;
-
-        const rawUser = localStorage.getItem("tct-user") || "Developer";
-        const userName = rawUser.includes("@") ? rawUser.split("@")[0].toUpperCase() : rawUser.toUpperCase();
-
-        if (userWpm > 0) {
-          // Check if already in leaderboardData
-          const existingIdx = leaderboardData.findIndex(p => p.name.toUpperCase() === userName);
-          const entry = { name: userName, wpm: userWpm, accuracy: userAcc, lang: "all" };
-          if (existingIdx >= 0) {
-            if (userWpm > leaderboardData[existingIdx].wpm) leaderboardData[existingIdx] = entry;
-          } else {
-            leaderboardData.push(entry);
-          }
-          localStorage.setItem("tct-real-leaderboard", JSON.stringify(leaderboardData));
-        }
-      } catch (e) {}
-
-      // Filter by language if needed
-      const filtered = leaderboardData.filter(item => {
-        if (filterLang === 'all') return true;
-        return item.lang === filterLang || item.lang === 'all';
-      });
-
-      // Sort by WPM descending
-      filtered.sort((a, b) => b.wpm - a.wpm);
-
-      if (filtered.length === 0) {
-        emptyState.style.display = "block";
-        document.getElementById("userRankNum").textContent = "#--";
-        document.getElementById("userBestWpm").textContent = "0";
-        document.getElementById("userBestAccuracy").textContent = "0%";
-        return;
-      }
-
-      emptyState.style.display = "none";
-
-      const currentUserName = (localStorage.getItem("tct-user") || "Developer").toUpperCase();
-
-      filtered.forEach((player, index) => {
-        const rank = index + 1;
-        const isMe = player.name.toUpperCase() === currentUserName.replace(/@.*/, "").toUpperCase();
-        const row = document.createElement("div");
-        row.className = `player-row ${rank === 1 ? 'top-one' : ''}`;
-        
-        const initial = player.name ? player.name.charAt(0).toUpperCase() : "D";
-        
-        row.innerHTML = `
-          <span class="rank-number">#${rank}</span>
-          <div class="player-info">
-            <span class="avatar">${initial}</span>
-            <span class="player-name">${player.name} ${isMe ? '(You)' : ''}</span>
-          </div>
-          <span class="stat wpm">${player.wpm}</span>
-          <span class="stat accuracy">${player.accuracy}%</span>
-        `;
-        container.appendChild(row);
-
-        if (isMe) {
-          document.getElementById("userRankNum").textContent = `#${rank}`;
-          document.getElementById("userBestWpm").textContent = player.wpm;
-          document.getElementById("userBestAccuracy").textContent = `${player.accuracy}%`;
-          document.getElementById("userProfileName").textContent = player.name;
-          document.getElementById("userAvatarChar").textContent = initial;
-        }
-      });
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-      loadLeaderboard('all');
-    });
-
-    const filterButtons = document.querySelectorAll(".filter");
-    filterButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        filterButtons.forEach((item) => item.classList.remove("active"));
-        button.classList.add("active");
-        loadLeaderboard(button.dataset.filter);
-      });
-    });
-  </script>
 </body>
 </html>
