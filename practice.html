@@ -103,6 +103,27 @@
             border-radius: 3px;
         }
     </style>
+
+    <!-- Firebase SDK (Modular) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+          apiKey: "AIzaSyC2cLiDQHWBMHWSsJ-0xUekm149eNo9Xbw",
+          authDomain: "typing-code-trainer.firebaseapp.com",
+          projectId: "typing-code-trainer",
+          storageBucket: "typing-code-trainer.firebasestorage.app",
+          messagingSenderId: "632730453787",
+          appId: "1:632730453787:web:d5b5c21f539bbac42c35be",
+          measurementId: "G-7RSMW8TVG8"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        window.db = getFirestore(app);
+        window.collection = collection;
+        window.addDoc = addDoc;
+    </script>
 </head>
 <body class="bg-tech-grid h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black overflow-hidden">
 
@@ -353,7 +374,7 @@
                         { id: "doctype", title: "1. Doctype & Skeleton", text: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>" },
                         { id: "meta", title: "2. Meta Viewport & Description", text: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">" },
                         { id: "title_style", title: "3. Title & Stylesheet Links", text: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">" },
-                        { id: "script_tags", title: "4. Script Tags Integration", text: "<script src=\"app.js\" defer><\/script>\n<script type=\"module\" src=\"main.js\"><\/script>" },
+                        { id: "script_tags", title: "4. Script Tags Integration", text: "<script src=\"app.js\" defer><" + "/script>\n<script type=\"module\" src=\"main.js\"><" + "/script>" },
                         { id: "comments", title: "5. HTML Comments", text: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->" },
                         { id: "open_graph", title: "6. Open Graph Social Tags", text: "<meta property=\"og:title\" content=\"Typing Trainer\">\n<meta property=\"og:image\" content=\"/og-cover.png\">" },
                         { id: "preload", title: "7. Resource Preload", text: "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\">" },
@@ -447,10 +468,8 @@
             let paramLang = urlParams.get('lang');
             let paramLessonId = urlParams.get('lesson');
 
-            // รองรับกรณีหน้า index ส่ง html_css มา
             if (paramLang === 'html_css') paramLang = 'html';
 
-            // ดึงค่าสำรองจาก localStorage หาก URL parameter ไม่ติดมา
             try {
                 if (!paramLang) paramLang = localStorage.getItem('tct_selected_lang');
                 if (!paramLessonId) paramLessonId = localStorage.getItem('tct_selected_lesson');
@@ -458,7 +477,6 @@
                 localStorage.removeItem('tct_selected_lesson');
             } catch (e) {}
 
-            // กรณีระบุเฉพาะ lesson id ก็สามารถค้นหาภาษาให้อัตโนมัติได้
             if (!paramLang && paramLessonId) {
                 for (const [key, val] of Object.entries(curriculum)) {
                     const found = val.categories[0].lessons.some(l => l.id === paramLessonId);
@@ -637,7 +655,6 @@
 
             if (charTyped === expectedChar) {
                 currentIndex++;
-                // ถ้ากดขึ้นบรรทัดใหม่ (\n) แล้วบรรทัดถัดไปมีย่อหน้า (Space) ให้ข้าม Space อัตโนมัติเพื่อความลื่นไหล หรือพิมพ์ต่อได้ทันที
                 while (charTyped === '\n' && currentIndex < targetText.length && targetText[currentIndex] === ' ') {
                     currentIndex++;
                 }
@@ -665,14 +682,12 @@
                 return;
             }
 
-            // รองรับปุ่ม Enter สำหรับการขึ้นบรรทัดใหม่ (\n)
             if (e.key === 'Enter') {
                 e.preventDefault();
                 processCharacterInput('\n');
                 return;
             }
 
-            // รองรับปุ่ม Tab ในกรณีเจอช่องว่าง
             if (e.key === 'Tab') {
                 e.preventDefault();
                 if (targetText[currentIndex] === ' ') {
@@ -710,28 +725,27 @@
         }
 
         async function saveScoreToLeaderboard() {
-    try {
-        const elapsedSeconds = Math.max(1, (Date.now() - startTime) / 1000);
-        const wpm = Math.round((currentIndex / 5) / (elapsedSeconds / 60)) || 0;
-        const accuracy = Math.max(0, Math.round(((totalTyped - errors) / Math.max(1, totalTyped)) * 100));
-        const rawUser = localStorage.getItem("tct-user") || "Developer";
-        const userName = rawUser.includes("@") ? rawUser.split("@")[0].toUpperCase() : rawUser.toUpperCase();
+            try {
+                const elapsedSeconds = Math.max(1, (Date.now() - startTime) / 1000);
+                const wpm = Math.round((currentIndex / 5) / (elapsedSeconds / 60)) || 0;
+                const accuracy = Math.max(0, Math.round(((totalTyped - errors) / Math.max(1, totalTyped)) * 100));
+                const rawUser = localStorage.getItem("tct-user") || "Developer";
+                const userName = rawUser.includes("@") ? rawUser.split("@")[0].toUpperCase() : rawUser.toUpperCase();
 
-        // บันทึกลง Firebase Firestore (Collection: scores)
-        const scoreData = {
-            name: userName,
-            wpm: wpm,
-            accuracy: accuracy,
-            lang: currentLevelKey,
-            createdAt: new Date()
-        };
+                const scoreData = {
+                    name: userName,
+                    wpm: wpm,
+                    accuracy: accuracy,
+                    lang: currentLevelKey,
+                    createdAt: new Date()
+                };
 
-        await addDoc(collection(db, "scores"), scoreData);
-        showToast("🚀 บันทึกคะแนนลง Firebase สำเร็จ!");
-    } catch (e) {
-        console.error("Error adding document: ", e);
-    }
-}
+                await window.addDoc(window.collection(window.db, "scores"), scoreData);
+                showToast("🚀 บันทึกคะแนนลง Firebase สำเร็จ!");
+            } catch (e) {
+                console.error("Error adding document: ", e);
+            }
+        }
 
         function renderTextDisplay() {
             const display = document.getElementById('typingTextDisplay');
