@@ -709,24 +709,29 @@
             document.getElementById('statAccuracy').textContent = `${accuracy}%`;
         }
 
-        function saveScoreToLeaderboard() {
-            try {
-                const elapsedSeconds = Math.max(1, (Date.now() - startTime) / 1000);
-                const wpm = Math.round((currentIndex / 5) / (elapsedSeconds / 60)) || 0;
-                const accuracy = Math.max(0, Math.round(((totalTyped - errors) / Math.max(1, totalTyped)) * 100));
-                const rawUser = localStorage.getItem("tct-user") || "Developer";
-                const userName = rawUser.includes("@") ? rawUser.split("@")[0].toUpperCase() : rawUser.toUpperCase();
+        async function saveScoreToLeaderboard() {
+    try {
+        const elapsedSeconds = Math.max(1, (Date.now() - startTime) / 1000);
+        const wpm = Math.round((currentIndex / 5) / (elapsedSeconds / 60)) || 0;
+        const accuracy = Math.max(0, Math.round(((totalTyped - errors) / Math.max(1, totalTyped)) * 100));
+        const rawUser = localStorage.getItem("tct-user") || "Developer";
+        const userName = rawUser.includes("@") ? rawUser.split("@")[0].toUpperCase() : rawUser.toUpperCase();
 
-                let leaderboard = JSON.parse(localStorage.getItem("tct-real-leaderboard") || "[]");
-                leaderboard.push({
-                    name: userName,
-                    wpm: wpm,
-                    accuracy: accuracy,
-                    lang: currentLevelKey
-                });
-                localStorage.setItem("tct-real-leaderboard", JSON.stringify(leaderboard));
-            } catch (e) {}
-        }
+        // บันทึกลง Firebase Firestore (Collection: scores)
+        const scoreData = {
+            name: userName,
+            wpm: wpm,
+            accuracy: accuracy,
+            lang: currentLevelKey,
+            createdAt: new Date()
+        };
+
+        await addDoc(collection(db, "scores"), scoreData);
+        showToast("🚀 บันทึกคะแนนลง Firebase สำเร็จ!");
+    } catch (e) {
+        console.error("Error adding document: ", e);
+    }
+}
 
         function renderTextDisplay() {
             const display = document.getElementById('typingTextDisplay');
