@@ -215,28 +215,29 @@
     </div>
 
     <script>
+        // รวมโจทย์ทั้งหมด 40 ID ครบถ้วนตามหมวดหมู่ภาษา
         const langData = {
             html: {
                 title: "HTML & CSS",
                 desc: "Tags, attributes, and style rules. Master document structures and layouts.",
                 sections: [
                     {
-                        category: "Document Structure",
-                        desc: "Type the skeleton every page starts from",
+                        category: "Document Structure & Layouts",
+                        desc: "Type the skeleton and layout components every page needs",
                         completed: "0/10 completed",
                         level: "Beginner",
                         levelColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
                         items: [
-                            { id: "doctype", name: "Doctype & Skeleton", code: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>" },
-                            { id: "meta", name: "Meta Tags", code: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">" },
-                            { id: "title_style", name: "Title & Stylesheet Links", code: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">" },
-                            { id: "script_tags", name: "Script Tags", code: "<script src=\"app.js\" defer><\/script>\n<script type=\"module\" src=\"main.js\"><\/script>" },
-                            { id: "comments", name: "Comments", code: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->" },
-                            { id: "open_graph", name: "Open Graph Tags", code: "<meta property=\"og:title\" content=\"Typing Trainer\">\n<meta property=\"og:image\" content=\"/og-cover.png\">" },
-                            { id: "preload", name: "Preload & Prefetch", code: "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\">" },
-                            { id: "base_canonical", name: "Base & Canonical", code: "<base href=\"https://example.com/\" target=\"_blank\">" },
-                            { id: "body_attrs", name: "Body & Root Attributes", code: "<html lang=\"en\" class=\"scroll-smooth dark\">\n<body class=\"bg-slate-900 text-white\">" },
-                            { id: "boilerplate", name: "Full Boilerplate", code: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Typing Code Trainer</title>\n</head>\n<body>\n</body>\n</html>" }
+                            { id: "doctype", name: "1. Doctype & Skeleton", code: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>" },
+                            { id: "meta", name: "2. Meta Viewport & Description", code: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">" },
+                            { id: "title_style", name: "3. Title & Stylesheet Links", code: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">" },
+                            { id: "script_tags", name: "4. Script Tags Integration", code: "<script src=\"app.js\" defer><\/script>\n<script type=\"module\" src=\"main.js\"><\/script>" },
+                            { id: "comments", name: "5. HTML Comments", code: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->" },
+                            { id: "open_graph", name: "6. Open Graph Social Tags", code: "<meta property=\"og:title\" content=\"Typing Trainer\">\n<meta property=\"og:image\" content=\"/og-cover.png\">" },
+                            { id: "preload", name: "7. Resource Preload", code: "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\">" },
+                            { id: "base_canonical", name: "8. Base & Canonical Links", code: "<base href=\"https://example.com/\" target=\"_blank\">" },
+                            { id: "body_attrs", name: "9. Body & Root Attributes", code: "<html lang=\"en\" class=\"scroll-smooth dark\">\n<body class=\"bg-slate-900 text-white\">" },
+                            { id: "boilerplate", name: "10. Full HTML5 Boilerplate", code: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Typing Code Trainer</title>\n</head>\n<body>\n</body>\n</html>" }
                         ]
                     }
                 ]
@@ -248,15 +249,20 @@
                     {
                         category: "ES6 & Async Functions",
                         desc: "Master modern JS syntax, promises, and arrow functions",
-                        completed: "0/5 completed",
+                        completed: "0/10 completed",
                         level: "Intermediate",
                         levelColor: "bg-purple-500/20 text-purple-300 border-purple-500/30",
                         items: [
-                            { id: "arrow_func", name: "Arrow Functions & Implicit Return", code: "const add = (a, b) => a + b;\nconst getUser = id => ({ id, name: \"Alice\" });" },
-                            { id: "async_await", name: "Async / Await & Fetch API", code: "const loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};" },
-                            { id: "destructuring", name: "Object & Array Destructuring", code: "const { name, age, role = 'developer' } = user;" },
-                            { id: "array_methods", name: "Array Methods (Map, Filter, Reduce)", code: "const activeUserNames = users.filter(u => u.isActive).map(u => u.name);" },
-                            { id: "spread_operator", name: "Spread & Rest Operators", code: "const newObj = { ...oldObj, status: 'updated' };" }
+                            { id: "arrow_func", name: "11. Arrow Functions & Implicit Return", code: "const add = (a, b) => a + b;\nconst getUser = id => ({ id, name: \"Alice\" });" },
+                            { id: "async_await", name: "12. Async / Await & Fetch API", code: "const loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};" },
+                            { id: "destructuring", name: "13. Object & Array Destructuring", code: "const { name, age, role = 'developer' } = user;" },
+                            { id: "array_methods", name: "14. Array Methods (Map & Filter)", code: "const activeUserNames = users.filter(u => u.isActive).map(u => u.name);" },
+                            { id: "spread_operator", name: "15. Spread & Rest Operators", code: "const newObj = { ...oldObj, status: 'updated' };" },
+                            { id: "promise_all", name: "16. Promise.all Concurrency", code: "const results = await Promise.all([fetchUser(), fetchPosts()]);" },
+                            { id: "dom_query", name: "17. DOM Query Selector", code: "const submitBtn = document.querySelector('#submitBtn');" },
+                            { id: "event_listener", name: "18. Event Listener Setup", code: "submitBtn.addEventListener('click', (e) => {\n  e.preventDefault();\n  console.log('Clicked!');\n});" },
+                            { id: "local_storage", name: "19. LocalStorage Integration", code: "localStorage.setItem('user', JSON.stringify(userData));" },
+                            { id: "class_syntax", name: "20. ES6 Class Inheritance", code: "class UserProfile extends BaseComponent {\n  constructor(name) {\n    super();\n    this.name = name;\n  }\n}" }
                         ]
                     }
                 ]
@@ -268,14 +274,17 @@
                     {
                         category: "PHP Core & Web",
                         desc: "Server scripts, forms, and database interaction syntax",
-                        completed: "0/4 completed",
+                        completed: "0/7 completed",
                         level: "Beginner",
                         levelColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
                         items: [
-                            { id: "php_vars", name: "Variables & Echo Output", code: "<?php\n$title = \"Typing Code Trainer\";\necho \"<h1>\" . $title . \"</h1>\";\n?>" },
-                            { id: "php_assoc", name: "Associative Arrays", code: "$user = [\"id\" => 101, \"username\" => \"dev_pro\"];" },
-                            { id: "php_post", name: "POST Request & Sanitization", code: "if ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") { $email = $_POST['email']; }" },
-                            { id: "php_pdo", name: "PDO Database Connection", code: "$pdo = new PDO(\"mysql:host=localhost;dbname=test\", \"root\", \"\");" }
+                            { id: "php_vars", name: "21. Variables & Echo Output", code: "<?php\n$title = \"Typing Code Trainer\";\necho \"<h1>\" . $title . \"</h1>\";\n?>" },
+                            { id: "php_assoc", name: "22. Associative Arrays", code: "$user = [\"id\" => 101, \"username\" => \"dev_pro\"];" },
+                            { id: "php_post", name: "23. POST Request & Sanitization", code: "if ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);\n}" },
+                            { id: "php_pdo", name: "24. PDO Database Connection", code: "$pdo = new PDO(\"mysql:host=localhost;dbname=test\", \"root\", \"\");" },
+                            { id: "php_session", name: "25. Session Handling", code: "session_start();\n$_SESSION['logged_in'] = true;\n$_SESSION['user_id'] = $userId;" },
+                            { id: "php_function", name: "26. Function with Type Hints", code: "function calculate_tax(float $price, float $rate = 0.07): float {\n    return $price * (1 + $rate);\n}" },
+                            { id: "php_json", name: "27. JSON Response Header", code: "header('Content-Type: application/json');\necho json_encode(['status' => 'success', 'code' => 200]);" }
                         ]
                     }
                 ]
@@ -287,14 +296,17 @@
                     {
                         category: "Python Essentials",
                         desc: "Practice clean syntax and Pythonic structures",
-                        completed: "0/4 completed",
+                        completed: "0/7 completed",
                         level: "Beginner",
                         levelColor: "bg-blue-500/20 text-blue-400 border-blue-500/30",
                         items: [
-                            { id: "py_comp", name: "List Comprehension", code: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]" },
-                            { id: "py_def", name: "Functions & Type Hints", code: "def calculate_wpm(words: int, seconds: float) -> float:\n    return round(words / (seconds / 60), 2)" },
-                            { id: "py_class", name: "Class & Inheritance", code: "class Developer:\n    def __init__(self, name: str):\n        self.name = name" },
-                            { id: "py_dict", name: "Dictionary Iteration", code: "scores = {\"HTML\": 95, \"CSS\": 90, \"JS\": 88}" }
+                            { id: "py_comp", name: "28. List Comprehension", code: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]" },
+                            { id: "py_def", name: "29. Functions & Type Hints", code: "def calculate_wpm(words: int, seconds: float) -> float:\n    return round(words / (seconds / 60), 2)" },
+                            { id: "py_class", name: "30. Class & Constructor", code: "class Developer:\n    def __init__(self, name: str):\n        self.name = name" },
+                            { id: "py_dict", name: "31. Dictionary Iteration", code: "scores = {\"HTML\": 95, \"CSS\": 90, \"JS\": 88}\nfor lang, score in scores.items():\n    print(f\"{lang}: {score}\")" },
+                            { id: "py_decorator", name: "32. Route Decorator", code: "@app.route('/api/v1/status')\ndef server_status():\n    return {'status': 'active', 'code': 200}" },
+                            { id: "py_file_io", name: "33. File I/O with Context Manager", code: "with open('data.json', 'r', encoding='utf-8') as f:\n    content = json.load(f)" },
+                            { id: "py_lambda", name: "34. Lambda Functions & Map", code: "get_square = lambda x: x ** 2\nresults = list(map(get_square, range(10)))" }
                         ]
                     }
                 ]
@@ -306,13 +318,16 @@
                     {
                         category: "Symbol Speed Drills",
                         desc: "Build muscle memory for tough keyboard characters",
-                        completed: "0/3 completed",
+                        completed: "0/6 completed",
                         level: "Advanced",
                         levelColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
                         items: [
-                            { id: "brackets_all", name: "All Brackets {}, [], (), <>", code: "function test() { return [ (1 + 2) * <Component /> ]; }" },
-                            { id: "operators", name: "Logical Operators && || ?? !=", code: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}" },
-                            { id: "punc_quotes", name: "Quotes, Semicolons & Colons", code: "const query = `SELECT * FROM \"users\" WHERE status = 'active';`;" }
+                            { id: "brackets_all", name: "35. Combined Braces & Brackets", code: "function test() {\n    return [ (1 + 2) * <Component /> ];\n}" },
+                            { id: "operators", name: "36. Logical & Nullish Operators", code: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}" },
+                            { id: "punc_quotes", name: "37. Quotes & Semicolons", code: "const query = `SELECT * FROM \"users\" WHERE status = 'active';`;" },
+                            { id: "regex_symbols", name: "38. Regular Expression Symbols", code: "const pattern = /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/;" },
+                            { id: "template_literals", name: "39. Template Literal Interpolation", code: "const query = `SELECT * FROM \`users\` WHERE id = \${userId} AND status = '\${status}';`;" },
+                            { id: "bitwise_operators", name: "40. Bitwise & Assignment Operators", code: "const flags = (FLAG_READ | FLAG_WRITE) & ~FLAG_DELETE;" }
                         ]
                     }
                 ]
