@@ -518,9 +518,33 @@
         }
 
         function loadCurrentLesson() {
-            const levelData = curriculum[currentLevelKey] || curriculum['starter'];
-            const catData = levelData.categories.find(c => c.id === currentLangId) || levelData.categories[0];
+            const levelObj = curriculum[currentLevelKey] || curriculum['starter'];
+            const catData = levelObj.categories.find(c => c.id === currentLangId) || levelObj.categories[0];
             
+            if (!catData || !catData.lessons || catData.lessons.length === 0) {
+                targetText = "console.log('Ready');";
+                return;
+            }
+
+            if (currentLessonIndex >= catData.lessons.length) {
+                currentLessonIndex = 0;
+            }
+
+            const activeLesson = catData.lessons[currentLessonIndex];
+            
+            // ป้องกันขั้นเด็ดขาด: ดึงเฉพาะข้อความ text หรือ code มาเก็บใน targetText เสมอ
+            if (activeLesson && typeof activeLesson === 'object') {
+                targetText = activeLesson.text || activeLesson.code || "console.log('Ready');";
+            } else if (typeof activeLesson === 'string') {
+                targetText = activeLesson;
+            } else {
+                targetText = "console.log('Ready');";
+            }
+
+            if (typeof targetText !== 'string') {
+                targetText = String(targetText);
+            }
+
             document.getElementById('lessonGroupHeaderName').textContent = catData.groupName || "บทเรียน";
             document.getElementById('lessonGroupProgress').textContent = `${currentLessonIndex + 1}/${catData.lessons.length}`;
 
@@ -547,21 +571,6 @@
                 listContainer.appendChild(lBtn);
             });
 
-            // Safeguard: ดึงเฉพาะค่า text ของบทเรียน และป้องกันไม่ให้หลุดเป็นออบเจ็กต์ดิบ
-            const activeLesson = catData.lessons[currentLessonIndex];
-            if (activeLesson && typeof activeLesson === 'object') {
-                targetText = activeLesson.text || activeLesson.code || "";
-            } else if (typeof activeLesson === 'string') {
-                targetText = activeLesson;
-            } else {
-                targetText = "html head body";
-            }
-
-            // ป้องกันขั้นเด็ดขาด หาก targetText ยังไม่ใช่ String ให้แปลงเป็น JSON String ทันที
-            if (typeof targetText !== 'string') {
-                targetText = String(targetText);
-            }
-
             resetPracticeState();
         }
 
@@ -584,7 +593,7 @@
 
             document.getElementById('statTimer').textContent = "00:00";
             document.getElementById('statWpm').textContent = "0";
-            document.getElementById('statAccuracy').textContent = "100%";
+            document.getElementById('statAccuracy').textContent = "100%item";
             document.getElementById('statWrong').textContent = "0";
 
             renderTextDisplay();
