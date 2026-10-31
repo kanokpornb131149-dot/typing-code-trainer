@@ -149,7 +149,7 @@
                     <span>หลักสูตร / ภาษา</span>
                     <span class="text-[9px] text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/30">40 IDs</span>
                 </div>
-                <div class="space-y-1.5 max-h-[170px] overflow-y-auto pr-1">
+                <div id="levelCardsContainer" class="space-y-1.5 max-h-[170px] overflow-y-auto pr-1">
                     <div onclick="setLevel('starter', 'L1 Key Starter')" id="levelCard-starter" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
                         <div class="flex items-center gap-2.5">
                             <span class="font-mono font-black text-cyan-400 text-xs px-2 py-0.5 rounded bg-cyan-500/20">L1</span>
@@ -164,7 +164,7 @@
                         <div class="flex items-center gap-2.5">
                             <span class="font-mono font-black text-blue-400 text-xs px-2 py-0.5 rounded bg-blue-500/20">HT</span>
                             <div>
-                                <div class="font-bold text-xs text-white leading-tight">HTML & CSS</div>
+                                <div class="font-bold text-xs text-white leading-tight">HTML &amp; CSS</div>
                                 <div class="text-[10px] text-slate-400">10 โจทย์โครงสร้างเว็บ</div>
                             </div>
                         </div>
@@ -175,7 +175,7 @@
                             <span class="font-mono font-black text-amber-400 text-xs px-2 py-0.5 rounded bg-amber-500/20">JS</span>
                             <div>
                                 <div class="font-bold text-xs text-white leading-tight">JavaScript</div>
-                                <div class="text-[10px] text-slate-400">10 โจทย์ ES6+ & Async</div>
+                                <div class="text-[10px] text-slate-400">10 โจทย์ ES6+ &amp; Async</div>
                             </div>
                         </div>
                     </div>
@@ -185,7 +185,7 @@
                             <span class="font-mono font-black text-purple-400 text-xs px-2 py-0.5 rounded bg-purple-500/20">PHP</span>
                             <div>
                                 <div class="font-bold text-xs text-white leading-tight">PHP</div>
-                                <div class="text-[10px] text-slate-400">7 โจทย์ Server & PDO</div>
+                                <div class="text-[10px] text-slate-400">7 โจทย์ Server &amp; PDO</div>
                             </div>
                         </div>
                     </div>
@@ -244,7 +244,7 @@
                     <span id="modeBadgeTitle" class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400">Typing Code Studio</span>
                 </div>
 
-                <input type="text" id="hiddenTypingInput" class="absolute opacity-0 pointer-events-none" oninput="handleTypingInput(event)" onkeydown="handleKeyDown(event)">
+                <input type="text" id="hiddenTypingInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" class="absolute opacity-0 pointer-events-none" oninput="handleTypingInput(event)" onkeydown="handleKeyDown(event)">
 
                 <div id="typingTextDisplay" class="font-mono text-sm sm:text-base lg:text-lg leading-relaxed tracking-wide select-none whitespace-pre-wrap break-all mt-4 max-h-[220px] overflow-y-auto"></div>
             </div>
@@ -353,7 +353,7 @@
                         { id: "doctype", title: "1. Doctype & Skeleton", text: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>" },
                         { id: "meta", title: "2. Meta Viewport & Description", text: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">" },
                         { id: "title_style", title: "3. Title & Stylesheet Links", text: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">" },
-                        { id: "script_tags", title: "4. Script Tags Integration", text: "<script src=\"app.js\" defer></script>\n<script type=\"module\" src=\"main.js\"></script>" },
+                        { id: "script_tags", title: "4. Script Tags Integration", text: "<script src=\"app.js\" defer><\/script>\n<script type=\"module\" src=\"main.js\"><\/script>" },
                         { id: "comments", title: "5. HTML Comments", text: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->" },
                         { id: "open_graph", title: "6. Open Graph Social Tags", text: "<meta property=\"og:title\" content=\"Typing Trainer\">\n<meta property=\"og:image\" content=\"/og-cover.png\">" },
                         { id: "preload", title: "7. Resource Preload", text: "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\">" },
@@ -442,10 +442,32 @@
         let isAudioOn = true;
         let audioCtx = null;
 
-        window.onload = function() {
+        window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            const paramLang = urlParams.get('lang');
-            const paramLessonId = urlParams.get('lesson');
+            let paramLang = urlParams.get('lang');
+            let paramLessonId = urlParams.get('lesson');
+
+            // รองรับกรณีหน้า index ส่ง html_css มา
+            if (paramLang === 'html_css') paramLang = 'html';
+
+            // ดึงค่าสำรองจาก localStorage หาก URL parameter ไม่ติดมา
+            try {
+                if (!paramLang) paramLang = localStorage.getItem('tct_selected_lang');
+                if (!paramLessonId) paramLessonId = localStorage.getItem('tct_selected_lesson');
+                localStorage.removeItem('tct_selected_lang');
+                localStorage.removeItem('tct_selected_lesson');
+            } catch (e) {}
+
+            // กรณีระบุเฉพาะ lesson id ก็สามารถค้นหาภาษาให้อัตโนมัติได้
+            if (!paramLang && paramLessonId) {
+                for (const [key, val] of Object.entries(curriculum)) {
+                    const found = val.categories[0].lessons.some(l => l.id === paramLessonId);
+                    if (found) {
+                        paramLang = key;
+                        break;
+                    }
+                }
+            }
 
             if (paramLang && curriculum[paramLang]) {
                 currentLevelKey = paramLang;
@@ -454,9 +476,9 @@
 
                 if (paramLessonId) {
                     const foundIdx = catData.lessons.findIndex(l => l.id === paramLessonId);
-                    if (foundIdx !== -1) {
-                        currentLessonIndex = foundIdx;
-                    }
+                    currentLessonIndex = foundIdx !== -1 ? foundIdx : 0;
+                } else {
+                    currentLessonIndex = 0;
                 }
             } else {
                 currentLevelKey = 'starter';
@@ -466,7 +488,7 @@
 
             initStudioState();
             setupAutoKeyboardFocus();
-        };
+        });
 
         function initStudioState() {
             const data = curriculum[currentLevelKey];
@@ -479,6 +501,7 @@
                 if (card) {
                     if (k === currentLevelKey) {
                         card.className = "p-2.5 rounded-xl border border-cyan-500 bg-cyan-500/10 cursor-pointer transition-all hover:border-cyan-400 shadow-neon-cyan flex items-center justify-between";
+                        card.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
                     } else {
                         card.className = "p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between";
                     }
@@ -492,6 +515,7 @@
         function setLevel(levelKey, levelName) {
             playAudioClick();
             currentLevelKey = levelKey;
+            currentLangId = curriculum[levelKey].categories[0].id;
             currentLessonIndex = 0;
             initStudioState();
         }
@@ -531,20 +555,9 @@
             }
 
             const activeLesson = catData.lessons[currentLessonIndex];
-            
-            // ป้องกันขั้นเด็ดขาด: ดึงเฉพาะข้อความ text หรือ code มาเก็บใน targetText เสมอ
-            if (activeLesson && typeof activeLesson === 'object') {
-                targetText = activeLesson.text || activeLesson.code || "console.log('Ready');";
-            } else if (typeof activeLesson === 'string') {
-                targetText = activeLesson;
-            } else {
-                targetText = "console.log('Ready');";
-            }
+            targetText = (activeLesson && (activeLesson.text || activeLesson.code)) ? String(activeLesson.text || activeLesson.code) : "console.log('Ready');";
 
-            if (typeof targetText !== 'string') {
-                targetText = String(targetText);
-            }
-
+            document.getElementById('modeBadgeTitle').textContent = `${levelObj.title} — ${activeLesson.title}`;
             document.getElementById('lessonGroupHeaderName').textContent = catData.groupName || "บทเรียน";
             document.getElementById('lessonGroupProgress').textContent = `${currentLessonIndex + 1}/${catData.lessons.length}`;
 
@@ -569,6 +582,10 @@
                     loadCurrentLesson();
                 };
                 listContainer.appendChild(lBtn);
+
+                if (lIdx === currentLessonIndex) {
+                    setTimeout(() => lBtn.scrollIntoView({ block: 'nearest', behavior: 'smooth' }), 50);
+                }
             });
 
             resetPracticeState();
@@ -576,9 +593,12 @@
 
         function setupAutoKeyboardFocus() {
             const input = document.getElementById('hiddenTypingInput');
+            if (!input) return;
             input.focus();
-            window.addEventListener('click', () => {
-                input.focus();
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('#authModal') && e.target.tagName !== 'INPUT') {
+                    input.focus();
+                }
             });
         }
 
@@ -593,25 +613,17 @@
 
             document.getElementById('statTimer').textContent = "00:00";
             document.getElementById('statWpm').textContent = "0";
-            document.getElementById('statAccuracy').textContent = "100%item";
+            document.getElementById('statAccuracy').textContent = "100%";
             document.getElementById('statWrong').textContent = "0";
 
             renderTextDisplay();
             renderKeyboard();
-            document.getElementById('hiddenTypingInput').focus();
+            const input = document.getElementById('hiddenTypingInput');
+            if (input) input.focus();
         }
 
-        function handleKeyDown(e) {
-            if (e.key === 'Escape') {
-                resetPracticeState();
-                e.preventDefault();
-            }
-        }
-
-        function handleTypingInput(e) {
-            const val = e.target.value;
-            if (!val) return;
-            e.target.value = '';
+        function processCharacterInput(charTyped) {
+            if (currentIndex >= targetText.length) return;
 
             if (!isStarted) {
                 isStarted = true;
@@ -619,27 +631,62 @@
                 timerInterval = setInterval(updateTimer, 1000);
             }
 
-            const charTyped = val.slice(-1);
             const expectedChar = targetText[currentIndex];
-
             playAudioClick();
             totalTyped++;
 
             if (charTyped === expectedChar) {
                 currentIndex++;
+                // ถ้ากดขึ้นบรรทัดใหม่ (\n) แล้วบรรทัดถัดไปมีย่อหน้า (Space) ให้ข้าม Space อัตโนมัติเพื่อความลื่นไหล หรือพิมพ์ต่อได้ทันที
+                while (charTyped === '\n' && currentIndex < targetText.length && targetText[currentIndex] === ' ') {
+                    currentIndex++;
+                }
             } else {
                 errors++;
                 document.getElementById('statWrong').textContent = errors;
             }
 
             renderTextDisplay();
+            renderKeyboard();
             updateStats();
 
             if (currentIndex >= targetText.length) {
                 clearInterval(timerInterval);
                 isStarted = false;
+                saveScoreToLeaderboard();
                 showToast("🎉 บทเรียนเสร็จสมบูรณ์ยอดเยี่ยมมาก!");
             }
+        }
+
+        function handleKeyDown(e) {
+            if (e.key === 'Escape') {
+                resetPracticeState();
+                e.preventDefault();
+                return;
+            }
+
+            // รองรับปุ่ม Enter สำหรับการขึ้นบรรทัดใหม่ (\n)
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                processCharacterInput('\n');
+                return;
+            }
+
+            // รองรับปุ่ม Tab ในกรณีเจอช่องว่าง
+            if (e.key === 'Tab') {
+                e.preventDefault();
+                if (targetText[currentIndex] === ' ') {
+                    processCharacterInput(' ');
+                }
+            }
+        }
+
+        function handleTypingInput(e) {
+            const val = e.target.value;
+            if (!val) return;
+            e.target.value = '';
+            const charTyped = val.slice(-1);
+            processCharacterInput(charTyped);
         }
 
         function updateTimer() {
@@ -651,14 +698,34 @@
         }
 
         function updateStats() {
-            if (!startTime || secondsElapsed === 0) return;
-            const mins = secondsElapsed / 60;
+            if (!startTime) return;
+            const elapsedSeconds = Math.max(1, (Date.now() - startTime) / 1000);
+            const mins = elapsedSeconds / 60;
             const words = (currentIndex / 5);
             const wpm = Math.round(words / mins) || 0;
-            const accuracy = Math.max(0, Math.round(((currentIndex - errors) / Math.max(1, currentIndex)) * 100));
+            const accuracy = Math.max(0, Math.round(((totalTyped - errors) / Math.max(1, totalTyped)) * 100));
 
             document.getElementById('statWpm').textContent = wpm;
             document.getElementById('statAccuracy').textContent = `${accuracy}%`;
+        }
+
+        function saveScoreToLeaderboard() {
+            try {
+                const elapsedSeconds = Math.max(1, (Date.now() - startTime) / 1000);
+                const wpm = Math.round((currentIndex / 5) / (elapsedSeconds / 60)) || 0;
+                const accuracy = Math.max(0, Math.round(((totalTyped - errors) / Math.max(1, totalTyped)) * 100));
+                const rawUser = localStorage.getItem("tct-user") || "Developer";
+                const userName = rawUser.includes("@") ? rawUser.split("@")[0].toUpperCase() : rawUser.toUpperCase();
+
+                let leaderboard = JSON.parse(localStorage.getItem("tct-real-leaderboard") || "[]");
+                leaderboard.push({
+                    name: userName,
+                    wpm: wpm,
+                    accuracy: accuracy,
+                    lang: currentLevelKey
+                });
+                localStorage.setItem("tct-real-leaderboard", JSON.stringify(leaderboard));
+            } catch (e) {}
         }
 
         function renderTextDisplay() {
@@ -668,7 +735,14 @@
 
             for (let i = 0; i < targetText.length; i++) {
                 const span = document.createElement('span');
-                span.textContent = targetText[i];
+                const ch = targetText[i];
+
+                if (ch === '\n') {
+                    span.textContent = '↵\n';
+                } else {
+                    span.textContent = ch;
+                }
+
                 if (i < currentIndex) {
                     span.className = "text-cyan-400 font-bold";
                 } else if (i === currentIndex) {
@@ -719,7 +793,9 @@
                             widthClass = key === 'SPACEBAR' ? "w-48 h-7" : "w-11 h-7";
                         }
                         
-                        const isMatch = key.toLowerCase() === expectedChar.toLowerCase() || (key === 'SPACEBAR' && expectedChar === ' ');
+                        const isMatch = key.toLowerCase() === expectedChar.toLowerCase() ||
+                                        (key === 'SPACEBAR' && expectedChar === ' ') ||
+                                        (key === 'ENTER' && expectedChar === '\n');
                         kSpan.className = `key-cap ${widthClass} flex items-center justify-center text-[10px] font-bold ${isMatch ? 'active-key' : 'text-slate-300'}`;
                         kSpan.textContent = key;
                         rDiv.appendChild(kSpan);
@@ -784,6 +860,10 @@
 
         function handleAuthSubmit(e) {
             e.preventDefault();
+            const emailInput = e.target.querySelector('input[type="email"]');
+            if (emailInput && emailInput.value) {
+                localStorage.setItem('tct-user', emailInput.value);
+            }
             toggleModal(false);
             showToast("Signed in successfully!");
         }
