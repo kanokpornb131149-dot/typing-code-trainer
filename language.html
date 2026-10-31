@@ -171,19 +171,19 @@
 
             <!-- Language Switch Tabs -->
             <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-12">
-                <button onclick="switchLanguage('html')" id="tab-html" class="lang-button active px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-cyan-500/60 bg-cyan-500/10 text-cyan-300 shadow-neon-cyan">
+                <button onclick="switchLanguage('html')" id="tab-html" class="lang-button active px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-cyan-500/60 bg-cyan-500/10 text-cyan-300 shadow-neon-cyan cursor-pointer">
                     HTML &amp; CSS
                 </button>
-                <button onclick="switchLanguage('javascript')" id="tab-javascript" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                <button onclick="switchLanguage('javascript')" id="tab-javascript" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white cursor-pointer">
                     JavaScript
                 </button>
-                <button onclick="switchLanguage('php')" id="tab-php" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                <button onclick="switchLanguage('php')" id="tab-php" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white cursor-pointer">
                     PHP
                 </button>
-                <button onclick="switchLanguage('python')" id="tab-python" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                <button onclick="switchLanguage('python')" id="tab-python" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white cursor-pointer">
                     Python
                 </button>
-                <button onclick="switchLanguage('symbols')" id="tab-symbols" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white">
+                <button onclick="switchLanguage('symbols')" id="tab-symbols" class="lang-button px-5 py-3 rounded-2xl font-mono text-xs sm:text-sm font-bold border border-brand-border bg-brand-card/70 text-slate-300 hover:text-white cursor-pointer">
                     Symbols &amp; Brackets
                 </button>
             </div>
@@ -215,7 +215,6 @@
     </div>
 
     <script>
-        // รวมโจทย์ทั้งหมด 40 ID ครบถ้วนตามหมวดหมู่ภาษา
         const langData = {
             html: {
                 title: "HTML & CSS",
@@ -334,6 +333,15 @@
             }
         };
 
+        // ฟังก์ชันส่งค่าไปยังหน้า practice.html แบบ 2 ชั้น (localStorage + URL)
+        function startLesson(langKey, lessonId) {
+            try {
+                localStorage.setItem('tct_selected_lang', langKey);
+                localStorage.setItem('tct_selected_lesson', lessonId);
+            } catch (e) {}
+            window.location.href = `practice.html?lang=${encodeURIComponent(langKey)}&lesson=${encodeURIComponent(lessonId)}`;
+        }
+
         function renderLessons(langKey) {
             const data = langData[langKey];
             if (!data) return;
@@ -372,10 +380,10 @@
                         <div id="content-${item.id}" class="hidden px-4 sm:px-6 pb-5 space-y-4 pt-2 border-t border-brand-border/30 bg-[#070b14]">
                             <pre class="bg-[#050810] rounded-xl p-4 font-mono text-xs sm:text-sm text-cyan-300 border border-brand-border/60 overflow-x-auto leading-relaxed"><code>${escapeHTML(item.code)}</code></pre>
                             <div class="flex justify-end">
-                                <a href="practice.html?lang=${langKey}&lesson=${item.id}" class="px-6 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2 transition-all transform hover:-translate-y-0.5">
+                                <button type="button" onclick="startLesson('${langKey}', '${item.id}')" class="px-6 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-950 bg-cyan-400 hover:bg-cyan-300 shadow-neon-cyan flex items-center gap-2 transition-all transform hover:-translate-y-0.5 cursor-pointer">
                                     <span>Start Practice</span>
                                     <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg>
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -424,7 +432,13 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            renderLessons('html');
+            const params = new URLSearchParams(window.location.search);
+            const initialLang = params.get('lang');
+            if (initialLang && langData[initialLang]) {
+                switchLanguage(initialLang);
+            } else {
+                renderLessons('html');
+            }
         });
     </script>
 </body>
