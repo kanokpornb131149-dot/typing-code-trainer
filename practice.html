@@ -547,430 +547,518 @@
 
     <!-- SCRIPT LOGIC -->
     <script>
-        // Data Snippets ตามระดับความยาก L1, L2, L3 และภาษา
-        const categorySnippets = {
-            // L1: Key Starter (เน้นฝึกนิ้วพื้นฐานครบทุกตัว)
-            L1: {
-                html_css: "asdf jkl; qwer ty uiop zxcv bnm, ./ <> {} []",
-                javascript: "asdf jkl; qwer ty uiop zxcv bnm () => {} ;;",
-                php: "asdf jkl; qwer ty uiop zxcv bnm $ -> => ::",
-                python: "asdf jkl; qwer ty uiop zxcv bnm : [] {} _ == =",
-                symbols: "!@#$% ^&*() _+{} |:\"<> ?~`-=[] \\;',./"
-            },
-            // L2: Syntax Builder (คำสั่งสั้นๆ แยกตามภาษา)
-            L2: {
-                html_css: "div span class id flex grid color margin padding border",
-                javascript: "const let var function return async await import export",
-                php: "function return public private protected class echo isset",
-                python: "def return import from class self try except lambda",
-                symbols: "=== !== && || => -> :: <?php ?> <!-- -->"
-            },
-            // L3: Code Builder (โค้ดดึงมาจากตัวอย่างภาษา)
-            L3: {
-                html_css: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>",
-                javascript: "const add = (a, b) => a + b;\nconst loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};",
-                php: "<?php\n$user = [\"id\" => 101, \"name\" => \"Developer\"];\necho \"<h1>\" . $user[\"name\"] . \"</h1>\";\n?>",
-                python: "def calculate_wpm(words: int, seconds: float) -> float:\n    return round(words / (seconds / 60), 2)",
-                symbols: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}"
-            }
-        };
-
-        const lessonSnippets = {
-            doctype: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>",
-            meta: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">",
-            title_style: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">",
-            script_tags: "<script src=\"app.js\" defer></script>\n<script type=\"module\" src=\"main.js\"></script>",
-            comments: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->",
-            arrow_func: "const add = (a, b) => a + b;\nconst getUser = id => ({ id, name: \"Alice\" });",
-            async_await: "const loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};",
-            php_vars: "<?php\n$title = \"Typing Code Trainer\";\necho \"<h1>\" . $title . \"</h1>\";\n?>",
-            py_comp: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]"
-        };
-
-        let currentLevel = 'L1';
-        let currentLang = 'html_css';
-        let currentText = "";
-        let currentIndex = 0;
-        let errorsCount = 0;
-        let isStarted = false;
-        let timerInterval = null;
-        let timeLeft = 60;
-        let totalDuration = 60;
-        let isTimerMode = true;
-        
-        // Sound Engine Settings
-        let audioProfile = 'blue';
-        let audioCtx = null;
-
-        // Analytics
-        let keyErrorsMap = {};
-        let isResultShowing = false;
-
-        const hiddenInput = document.getElementById('hiddenInput');
-        const codeDisplayArea = document.getElementById('codeDisplayArea');
-
-        function focusTyping() {
-            if (!isResultShowing) {
-                hiddenInput.focus();
-            }
-        }
-
-        function initLessonFromURL() {
-            const params = new URLSearchParams(window.location.search);
-            const lang = params.get('lang');
-            const lesson = params.get('lesson');
-
-            if (lang && categorySnippets.L1[lang]) {
-                currentLang = lang;
-                selectLanguage(lang, false);
-            }
-
-            if (lesson && lessonSnippets[lesson]) {
-                currentText = lessonSnippets[lesson];
-                document.getElementById('levelBadgeSub').textContent = `${lang ? lang.toUpperCase() : 'LESSON'} | ${lesson.replace(/_/g, ' ')}`;
-            } else {
-                loadSnippetByState();
-            }
-            resetPractice();
-        }
-
-        function loadSnippetByState() {
-            if (categorySnippets[currentLevel] && categorySnippets[currentLevel][currentLang]) {
-                currentText = categorySnippets[currentLevel][currentLang];
-            } else {
-                currentText = categorySnippets.L1.html_css;
-            }
-        }
-
-        function resetPractice() {
-            currentIndex = 0;
-            errorsCount = 0;
-            isStarted = false;
-            keyErrorsMap = {};
-            stopTimer();
-            timeLeft = totalDuration;
-            document.getElementById('statTimer').textContent = formatTime(timeLeft);
-            document.getElementById('statWpm').textContent = "0";
-            document.getElementById('statAcc').textContent = "100%";
-            document.getElementById('statErrors').textContent = "0";
-            document.getElementById('typingProgressBar').style.width = "0%";
-            renderCode();
-            if (currentText.length > 0) {
-                highlightKeyForChar(currentText[0]);
-            }
-        }
-
-        function renderCode() {
-            codeDisplayArea.innerHTML = '';
-            for (let i = 0; i < currentText.length; i++) {
-                const span = document.createElement('span');
-                span.className = 'char-item char-untyped';
-                span.textContent = currentText[i];
-                if (i === 0) span.classList.add('char-current');
-                codeDisplayArea.appendChild(span);
-            }
-        }
-
-        hiddenInput.addEventListener('input', (e) => {
-            if (isResultShowing) return;
-
-            const val = hiddenInput.value;
-            if (!isStarted) {
-                isStarted = true;
-                if (isTimerMode) startTimer();
-            }
-
-            if (val.length === 0) return;
-            const typedChar = val[val.length - 1];
-            const targetChar = currentText[currentIndex];
-
-            const spans = codeDisplayArea.children;
-
-            if (typedChar === targetChar) {
-                spans[currentIndex].className = 'char-item char-correct';
-                currentIndex++;
-                playKeySound(false);
-            } else {
-                errorsCount++;
-                const targetKeyLower = targetChar.toLowerCase();
-                keyErrorsMap[targetKeyLower] = (keyErrorsMap[targetKeyLower] || 0) + 1;
-
-                document.getElementById('statErrors').textContent = errorsCount;
-                spans[currentIndex].className = 'char-item char-wrong';
-                currentIndex++;
-                playKeySound(true);
-            }
-
-            const pct = Math.round((currentIndex / currentText.length) * 100);
-            document.getElementById('typingProgressBar').style.width = `${pct}%`;
-
-            if (currentIndex < currentText.length) {
-                spans[currentIndex].classList.add('char-current');
-                highlightKeyForChar(currentText[currentIndex]);
-            } else {
+       const categorySnippets = {
+    L1: {
+        html_css: "asdf jkl; qwer ty uiop zxcv bnm, ./ <> {} []",
+        javascript: "asdf jkl; qwer ty uiop zxcv bnm () => {} ;;",
+        php: "asdf jkl; qwer ty uiop zxcv bnm $ -> => ::",
+        python: "asdf jkl; qwer ty uiop zxcv bnm : [] {} _ == =",
+        symbols: "!@#$% ^&*() _+{} |:\"<> ?~`-=[] \\;',./"
+    },
+    L2: {
+        html_css: "div span class id flex grid color margin padding border",
+        javascript: "const let var function return async await import export",
+        php: "function return public private protected class echo isset",
+        python: "def return import from class self try except lambda",
+        symbols: "=== !== && || => -> :: <?php ?> <!-- -->"
+    },
+    L3: {
+        html_css: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>",
+        javascript: "const add = (a, b) => a + b;\nconst loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};",
+        php: "<?php\n$user = [\"id\" => 101, \"name\" => \"Developer\"];\necho \"<h1>\" . $user[\"name\"] . \"</h1>\";\n?>",
+        python: "def calculate_wpm(words: int, seconds: float) -> float:\n    return round(words / (seconds / 60), 2)",
+        symbols: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}"
+    }
+};
+ 
+const lessonSnippets = {
+    doctype: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>",
+    meta: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">",
+    title_style: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">",
+    script_tags: "<script src=\"app.js\" defer></script>\n<script type=\"module\" src=\"main.js\"></script>",
+    comments: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->",
+    arrow_func: "const add = (a, b) => a + b;\nconst getUser = id => ({ id, name: \"Alice\" });",
+    async_await: "const loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};",
+    php_vars: "<?php\n$title = \"Typing Code Trainer\";\necho \"<h1>\" . $title . \"</h1>\";\n?>",
+    py_comp: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]"
+};
+ 
+// ================= STATE =================
+let currentLevel = 'L1';
+let currentLang = 'html_css';
+let currentText = "";
+let currentIndex = 0;
+let errorsCount = 0;
+let isStarted = false;
+let timerInterval = null;
+let timeLeft = 60;
+let totalDuration = 60;
+let isTimerMode = true;
+let startTime = 0;
+ 
+let audioProfile = 'blue';
+let audioCtx = null;
+ 
+let keyErrorsMap = {};
+let isResultShowing = false;
+ 
+const hiddenInput = document.getElementById('hiddenInput');
+const codeDisplayArea = document.getElementById('codeDisplayArea');
+const $ = (id) => document.getElementById(id);
+ 
+// ================= KEY MAP (แก้ error จาก querySelector กับอักขระพิเศษ เช่น " \ และ \n) =================
+const keyMap = {};
+function buildKeyMap() {
+    document.querySelectorAll('.key-3d[data-key]').forEach(el => {
+        const k = el.dataset.key;
+        const s = el.dataset.shift;
+        if (k.length === 1) keyMap[k] = { el, shift: false };
+        if (s) keyMap[s] = { el, shift: true };
+        if (k === 'Enter') keyMap['\n'] = { el, shift: false };
+        if (k === 'Tab') keyMap['\t'] = { el, shift: false };
+    });
+}
+ 
+// ================= INIT =================
+function focusTyping() {
+    if (!isResultShowing && $('authModal').classList.contains('hidden')) {
+        hiddenInput.focus();
+    }
+}
+ 
+function initLessonFromURL() {
+    const params = new URLSearchParams(window.location.search);
+    const lang = params.get('lang');
+    const lesson = params.get('lesson');
+ 
+    if (lang && categorySnippets.L1[lang]) {
+        selectLanguage(lang, false);
+    }
+ 
+    if (lesson && lessonSnippets[lesson]) {
+        currentText = lessonSnippets[lesson];
+        $('levelBadgeSub').textContent = `${lang ? lang.toUpperCase() : 'LESSON'} | ${lesson.replace(/_/g, ' ')}`;
+    } else {
+        loadSnippetByState();
+    }
+    resetPractice();
+}
+ 
+function loadSnippetByState() {
+    if (categorySnippets[currentLevel] && categorySnippets[currentLevel][currentLang]) {
+        currentText = categorySnippets[currentLevel][currentLang];
+    } else {
+        currentText = categorySnippets.L1.html_css;
+    }
+}
+ 
+function resetPractice() {
+    currentIndex = 0;
+    errorsCount = 0;
+    isStarted = false;
+    keyErrorsMap = {};
+    stopTimer();
+    timeLeft = totalDuration;
+    $('statTimer').textContent = isTimerMode ? formatTime(totalDuration) : '00:00';
+    $('statWpm').textContent = "0";
+    $('statAcc').textContent = "100%";
+    $('statErrors').textContent = "0";
+    $('typingProgressBar').style.width = "0%";
+    renderCode();
+    if (currentText.length > 0) highlightKeyForChar(currentText[0]);
+}
+ 
+function renderCode() {
+    codeDisplayArea.innerHTML = '';
+    for (let i = 0; i < currentText.length; i++) {
+        const span = document.createElement('span');
+        span.className = 'char-item char-untyped';
+        const ch = currentText[i];
+        // ขึ้นบรรทัดใหม่: แสดงสัญลักษณ์ ↵ ให้เห็นว่าต้องกด Enter
+        span.textContent = ch === '\n' ? '↵\n' : ch;
+        if (i === 0) span.classList.add('char-current');
+        codeDisplayArea.appendChild(span);
+    }
+}
+ 
+// ================= TYPING =================
+function processChar(typedChar) {
+    const spans = codeDisplayArea.children;
+    const targetChar = currentText[currentIndex];
+ 
+    if (typedChar === targetChar) {
+        spans[currentIndex].className = 'char-item char-correct';
+        playKeySound(false);
+    } else {
+        errorsCount++;
+        const k = targetChar.toLowerCase();
+        keyErrorsMap[k] = (keyErrorsMap[k] || 0) + 1;
+        spans[currentIndex].className = 'char-item char-wrong';
+        playKeySound(true);
+    }
+    currentIndex++;
+}
+ 
+hiddenInput.addEventListener('input', () => {
+    const val = hiddenInput.value.replace(/\r/g, '');
+    hiddenInput.value = '';
+ 
+    if (isResultShowing || !val) return;
+    if (currentIndex >= currentText.length) return;
+ 
+    if (!isStarted) {
+        isStarted = true;
+        startTimer();
+    }
+ 
+    for (const ch of val) {
+        if (currentIndex >= currentText.length) break;
+        processChar(ch);
+    }
+ 
+    $('statErrors').textContent = errorsCount;
+    $('typingProgressBar').style.width = `${Math.round((currentIndex / currentText.length) * 100)}%`;
+    updateStats();
+ 
+    if (currentIndex < currentText.length) {
+        codeDisplayArea.children[currentIndex].classList.add('char-current');
+        highlightKeyForChar(currentText[currentIndex]);
+    } else {
+        stopTimer();
+        showResults();
+    }
+});
+ 
+function highlightKeyForChar(char) {
+    document.querySelectorAll('.key-3d').forEach(el => el.classList.remove('key-active-target', 'key-shift-target'));
+    document.querySelectorAll('.finger-path').forEach(el => el.classList.remove('active-finger', 'shift-finger'));
+ 
+    if (!char) return;
+    const info = keyMap[char];
+    if (!info) return;
+ 
+    const cls = info.shift ? 'key-shift-target' : 'key-active-target';
+    const fingerCls = info.shift ? 'shift-finger' : 'active-finger';
+    info.el.classList.add(cls);
+ 
+    const finger = info.el.dataset.finger;
+    if (finger === 'thumb') {
+        ['finger-l-thumb', 'finger-r-thumb'].forEach(id => $(id)?.classList.add(fingerCls));
+    } else if (finger) {
+        $(`finger-${finger}`)?.classList.add(fingerCls);
+    }
+ 
+    // ตัวอักษรที่ต้องกด Shift: ไฮไลต์ปุ่ม Shift ฝั่งตรงข้ามมือที่พิมพ์
+    if (info.shift) {
+        const leftHand = finger && finger.startsWith('l-');
+        $(leftHand ? 'shiftKeyRight' : 'shiftKeyLeft')?.classList.add('key-shift-target');
+        $(leftHand ? 'finger-r-pinky' : 'finger-l-pinky')?.classList.add('shift-finger');
+    }
+}
+ 
+// ================= STATS & TIMER =================
+function getElapsed() {
+    if (!isStarted) return 0;
+    const e = (Date.now() - startTime) / 1000;
+    return isTimerMode ? Math.min(e, totalDuration) : e;
+}
+ 
+function updateStats(elapsedOverride) {
+    const elapsed = elapsedOverride !== undefined ? elapsedOverride : getElapsed();
+    const correct = Math.max(0, currentIndex - errorsCount);
+    const wpm = elapsed >= 1 ? Math.round((correct / 5) / (elapsed / 60)) : 0;
+    $('statWpm').textContent = wpm;
+    const accuracy = currentIndex > 0 ? Math.max(0, Math.round((correct / currentIndex) * 100)) : 100;
+    $('statAcc').textContent = accuracy + '%';
+}
+ 
+function startTimer() {
+    stopTimer();
+    startTime = Date.now();
+    timerInterval = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - startTime) / 1000);
+        if (isTimerMode) {
+            timeLeft = Math.max(0, totalDuration - elapsed);
+            $('statTimer').textContent = formatTime(timeLeft);
+            updateStats();
+            if (timeLeft <= 0) {
                 stopTimer();
                 showResults();
             }
-
-            hiddenInput.value = '';
+        } else {
+            $('statTimer').textContent = formatTime(elapsed); // โหมด Zen: นับขึ้น
             updateStats();
-        });
-
-        function highlightKeyForChar(char) {
-            document.querySelectorAll('.key-3d').forEach(el => el.classList.remove('key-active-target', 'key-shift-target'));
-            document.querySelectorAll('.finger-path').forEach(el => el.classList.remove('active-finger', 'shift-finger'));
-
-            if (!char) return;
-
-            const isUpper = char === char.toUpperCase() && char !== char.toLowerCase() || "!@#$%^&*()_+{}|:\"<>?".includes(char);
-            const lowerChar = char.toLowerCase();
-
-            let targetKeyEl = null;
-            if (char === ' ') {
-                targetKeyEl = document.querySelector('[data-key=" "]');
-            } else {
-                targetKeyEl = document.querySelector(`[data-key="${lowerChar}"]`);
-            }
-
-            if (targetKeyEl) {
-                targetKeyEl.classList.add(isUpper ? 'key-shift-target' : 'key-active-target');
-                const fingerName = targetKeyEl.getAttribute('data-finger');
-                if (fingerName) {
-                    const fingerEl = document.getElementById(`finger-${fingerName}`);
-                    if (fingerEl) fingerEl.classList.add(isUpper ? 'shift-finger' : 'active-finger');
-                }
-            }
         }
-
-        function updateStats() {
-            const timeElapsed = totalDuration - timeLeft;
-            if (timeElapsed > 0) {
-                const wordsTyped = (currentIndex / 5);
-                const wpm = Math.round((wordsTyped / timeElapsed) * 60);
-                document.getElementById('statWpm').textContent = wpm > 0 ? wpm : 0;
-            }
-            const accuracy = currentIndex > 0 ? Math.max(0, Math.round(((currentIndex - errorsCount) / currentIndex) * 100)) : 100;
-            document.getElementById('statAcc').textContent = accuracy + '%';
-        }
-
-        function startTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = setInterval(() => {
-                if (timeLeft > 0) {
-                    timeLeft--;
-                    document.getElementById('statTimer').textContent = formatTime(timeLeft);
-                    updateStats();
-                } else {
-                    stopTimer();
-                    showResults();
-                }
-            }, 1000);
-        }
-
-        function stopTimer() {
-            if (timerInterval) clearInterval(timerInterval);
-            timerInterval = null;
-        }
-
-        function formatTime(sec) {
-            let m = Math.floor(sec / 60).toString().padStart(2, '0');
-            let s = (sec % 60).toString().padStart(2, '0');
-            return `${m}:${s}`;
-        }
-
-        // ================= AUDIO SYNTHESIZER =================
-        function toggleSoundMenu(e) {
-            e.stopPropagation();
-            document.getElementById('soundDropdownMenu').classList.toggle('hidden');
-        }
-
-        function setAudioProfile(profile) {
-            audioProfile = profile;
-            const labels = { blue: 'Blue Switch', cream: 'Cream (Thock)', pop: 'Bubble Pop', mute: 'Mute' };
-            document.getElementById('currentSoundLabel').textContent = labels[profile];
-            document.getElementById('soundDropdownMenu').classList.add('hidden');
-        }
-
-        function playKeySound(isWrong = false) {
-            if (audioProfile === 'mute') return;
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            const now = audioCtx.currentTime;
-
-            if (isWrong) {
-                osc.type = 'sawtooth';
-                osc.frequency.setValueAtTime(110, now);
-                gain.gain.setValueAtTime(0.08, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start(now);
-                osc.stop(now + 0.12);
-                return;
-            }
-
-            if (audioProfile === 'blue') {
-                osc.type = 'triangle';
-                osc.frequency.setValueAtTime(1200 + Math.random() * 200, now);
-                gain.gain.setValueAtTime(0.05, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
-            } else if (audioProfile === 'cream') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(180 + Math.random() * 30, now);
-                gain.gain.setValueAtTime(0.12, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
-            } else if (audioProfile === 'pop') {
-                osc.type = 'sine';
-                osc.frequency.setValueAtTime(400, now);
-                osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
-                gain.gain.setValueAtTime(0.08, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
-            }
-
+    }, 250);
+}
+ 
+function stopTimer() {
+    if (timerInterval) clearInterval(timerInterval);
+    timerInterval = null;
+}
+ 
+function formatTime(sec) {
+    sec = Math.max(0, Math.round(sec));
+    const m = Math.floor(sec / 60).toString().padStart(2, '0');
+    const s = (sec % 60).toString().padStart(2, '0');
+    return `${m}:${s}`;
+}
+ 
+// ================= TIME MENU (ฟังก์ชันที่ขาดหายไป → ทำให้ error) =================
+function setTimerEnabled(on) {
+    isTimerMode = on;
+    const base = 'p-2 rounded-xl border flex items-center justify-center transition-all ';
+    $('btnTimerOn').className = base + (on
+        ? 'border-cyan-400 bg-cyan-500/15 text-cyan-300'
+        : 'border-brand-border bg-brand-card text-slate-400 hover:text-white');
+    $('btnTimerOff').className = base + (!on
+        ? 'border-cyan-400 bg-cyan-500/15 text-cyan-300'
+        : 'border-brand-border bg-brand-card text-slate-400 hover:text-white');
+    $('durationPillsRow').classList.toggle('hidden', !on);
+    $('timeMenuLabel').textContent = on ? `${totalDuration / 60}m` : 'ZEN';
+    resetPractice();
+}
+ 
+function selectDuration(sec) {
+    totalDuration = sec;
+    document.querySelectorAll('.dur-btn').forEach(b => {
+        b.className = 'dur-btn py-1.5 rounded-lg bg-brand-card text-slate-300 hover:text-white border border-brand-border';
+    });
+    const active = $(`dur-${sec}`);
+    if (active) active.className = 'dur-btn py-1.5 rounded-lg bg-cyan-400 text-slate-900 font-bold';
+    $('timeMenuLabel').textContent = `${sec / 60}m`;
+    resetPractice();
+}
+ 
+// ================= AUDIO =================
+function toggleSoundMenu(e) {
+    e.stopPropagation();
+    $('soundDropdownMenu').classList.toggle('hidden');
+}
+ 
+function setAudioProfile(profile) {
+    audioProfile = profile;
+    const labels = { blue: 'Blue Switch', cream: 'Cream (Thock)', pop: 'Bubble Pop', mute: 'Mute' };
+    $('currentSoundLabel').textContent = labels[profile];
+    $('soundDropdownMenu').classList.add('hidden');
+}
+ 
+function playKeySound(isWrong = false) {
+    if (audioProfile === 'mute') return;
+    try {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') audioCtx.resume();
+ 
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        const now = audioCtx.currentTime;
+ 
+        if (isWrong) {
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(110, now);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start(now);
-            osc.stop(now + 0.07);
+            osc.stop(now + 0.12);
+            return;
         }
-
-        // ================= RESULT MODAL & ANALYTICS =================
-        function showResults() {
-            isResultShowing = true;
-            const modal = document.getElementById('resultModal');
-            const content = document.getElementById('resultCardContent');
-
-            const timeElapsed = totalDuration - timeLeft;
-            document.getElementById('resTime').textContent = formatTime(timeElapsed > 0 ? timeElapsed : totalDuration);
-            document.getElementById('resWpm').textContent = document.getElementById('statWpm').textContent;
-            document.getElementById('resAcc').textContent = document.getElementById('statAcc').textContent;
-            document.getElementById('resErrors').textContent = errorsCount;
-
-            const weakContainer = document.getElementById('weakKeysList');
-            weakContainer.innerHTML = '';
-            
-            const sortedErrors = Object.entries(keyErrorsMap).sort((a, b) => b[1] - a[1]);
-            const btnPracticeWeak = document.getElementById('btnPracticeWeak');
-
-            if (sortedErrors.length > 0) {
-                sortedErrors.forEach(([key, count]) => {
-                    const badge = document.createElement('div');
-                    badge.className = 'px-3 py-1 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 font-bold text-xs flex items-center gap-1.5';
-                    badge.innerHTML = `<span>Key '${key === ' ' ? 'SPACE' : key.toUpperCase()}'</span> <span class="text-[10px] bg-rose-500/30 px-1.5 py-0.2 rounded text-white">${count}x</span>`;
-                    weakContainer.appendChild(badge);
-                });
-                btnPracticeWeak.classList.remove('hidden');
-            } else {
-                weakContainer.innerHTML = '<span class="text-xs text-emerald-400 font-bold">✨ ไม่พบปุ่มพิมพ์ผิด สมบูรณ์แบบมาก!</span>';
-                btnPracticeWeak.classList.add('hidden');
-            }
-
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => {
-                content.classList.remove('scale-95', 'opacity-0');
-                content.classList.add('scale-100', 'opacity-100');
-            }, 10);
+ 
+        if (audioProfile === 'blue') {
+            osc.type = 'triangle';
+            osc.frequency.setValueAtTime(1200 + Math.random() * 200, now);
+            gain.gain.setValueAtTime(0.05, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+        } else if (audioProfile === 'cream') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(180 + Math.random() * 30, now);
+            gain.gain.setValueAtTime(0.12, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+        } else if (audioProfile === 'pop') {
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(400, now);
+            osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+            gain.gain.setValueAtTime(0.08, now);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
         }
-
-        function hideResults() {
-            const modal = document.getElementById('resultModal');
-            const content = document.getElementById('resultCardContent');
-            content.classList.remove('scale-100', 'opacity-100');
-            content.classList.add('scale-95', 'opacity-0');
-            setTimeout(() => {
-                modal.classList.add('hidden');
-                modal.classList.remove('flex');
-                isResultShowing = false;
-                focusTyping();
-            }, 200);
-        }
-
-        function nextLesson() {
-            hideResults();
-            loadSnippetByState();
-            resetPractice();
-        }
-
-        function practiceWeakKeys() {
-            const sortedErrors = Object.entries(keyErrorsMap).sort((a, b) => b[1] - a[1]);
-            if (sortedErrors.length === 0) return;
-
-            const weakKeys = sortedErrors.map(([k]) => k);
-            let customSnippet = "";
-            for (let i = 0; i < 8; i++) {
-                let word = "";
-                for (let j = 0; j < 4; j++) {
-                    word += weakKeys[Math.floor(Math.random() * weakKeys.length)];
-                }
-                customSnippet += word + " ";
-            }
-
-            currentText = customSnippet.trim();
-            document.getElementById('levelBadgeSub').textContent = `PRACTICE | Weak Keys Drill`;
-            hideResults();
-            resetPractice();
-        }
-
-        window.addEventListener('keydown', (e) => {
-            if (isResultShowing && e.key === 'Enter') {
-                e.preventDefault();
-                nextLesson();
-            }
+ 
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.07);
+    } catch (err) {
+        console.warn('Audio error:', err);
+    }
+}
+ 
+// ================= RESULT MODAL =================
+function keyLabel(key) {
+    if (key === ' ') return 'SPACE';
+    if (key === '\n') return 'ENTER';
+    if (key === '\t') return 'TAB';
+    return key.toUpperCase();
+}
+ 
+function showResults() {
+    if (isResultShowing) return;
+    isResultShowing = true;
+    stopTimer();
+ 
+    const modal = $('resultModal');
+    const content = $('resultCardContent');
+ 
+    const finalElapsed = getElapsed();
+    updateStats(finalElapsed);
+ 
+    $('resTime').textContent = formatTime(finalElapsed);
+    $('resWpm').textContent = $('statWpm').textContent;
+    $('resAcc').textContent = $('statAcc').textContent;
+    $('resErrors').textContent = errorsCount;
+ 
+    const weakContainer = $('weakKeysList');
+    weakContainer.innerHTML = '';
+ 
+    const sortedErrors = Object.entries(keyErrorsMap).sort((a, b) => b[1] - a[1]);
+    const btnPracticeWeak = $('btnPracticeWeak');
+ 
+    if (sortedErrors.length > 0) {
+        sortedErrors.forEach(([key, count]) => {
+            const badge = document.createElement('div');
+            badge.className = 'px-3 py-1 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 font-bold text-xs flex items-center gap-1.5';
+            const label = document.createElement('span');
+            label.textContent = `Key '${keyLabel(key)}'`;
+            const cnt = document.createElement('span');
+            cnt.className = 'text-[10px] bg-rose-500/30 px-1.5 rounded text-white';
+            cnt.textContent = `${count}x`;
+            badge.append(label, cnt);
+            weakContainer.appendChild(badge);
         });
-
-        function toggleLevelMenu(e) { e.stopPropagation(); document.getElementById('levelDropdownMenu').classList.toggle('hidden'); document.getElementById('timeDropdownMenu').classList.add('hidden'); }
-        function toggleTimeMenu(e) { e.stopPropagation(); document.getElementById('timeDropdownMenu').classList.toggle('hidden'); document.getElementById('levelDropdownMenu').classList.add('hidden'); }
-        
-        window.addEventListener('click', () => {
-            document.getElementById('levelDropdownMenu').classList.add('hidden');
-            document.getElementById('timeDropdownMenu').classList.add('hidden');
-            document.getElementById('soundDropdownMenu').classList.add('hidden');
-        });
-
-        function selectLevel(tag, name) {
-            currentLevel = tag;
-            document.getElementById('currentLevelTag').textContent = tag;
-            document.getElementById('currentLevelName').textContent = name;
-            document.getElementById('levelBadgeSub').textContent = `${tag} ${name}`;
-            loadSnippetByState();
-            resetPractice();
+        btnPracticeWeak.classList.remove('hidden');
+    } else {
+        weakContainer.innerHTML = '<span class="text-xs text-emerald-400 font-bold">✨ ไม่พบปุ่มพิมพ์ผิด สมบูรณ์แบบมาก!</span>';
+        btnPracticeWeak.classList.add('hidden');
+    }
+ 
+    modal.classList.remove('hidden');
+    modal.classList.add('flex');
+    setTimeout(() => {
+        content.classList.remove('scale-95', 'opacity-0');
+        content.classList.add('scale-100', 'opacity-100');
+    }, 10);
+}
+ 
+function hideResults() {
+    const modal = $('resultModal');
+    const content = $('resultCardContent');
+    content.classList.remove('scale-100', 'opacity-100');
+    content.classList.add('scale-95', 'opacity-0');
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        isResultShowing = false;
+        focusTyping();
+    }, 200);
+}
+ 
+function nextLesson() {
+    hideResults();
+    loadSnippetByState();
+    resetPractice();
+}
+ 
+function practiceWeakKeys() {
+    // ตัดช่องว่าง/Enter ออกจากชุดฝึกปุ่มอ่อน
+    const weakKeys = Object.entries(keyErrorsMap)
+        .sort((a, b) => b[1] - a[1])
+        .map(([k]) => k)
+        .filter(k => k.trim() !== '');
+    if (weakKeys.length === 0) return;
+ 
+    let customSnippet = "";
+    for (let i = 0; i < 8; i++) {
+        let word = "";
+        for (let j = 0; j < 4; j++) {
+            word += weakKeys[Math.floor(Math.random() * weakKeys.length)];
         }
-
-        function selectLanguage(lang, reload = true) {
-            currentLang = lang;
-            document.querySelectorAll('.lang-pill-btn').forEach(b => b.classList.remove('active'));
-            const activeBtn = document.getElementById(`pill-${lang}`);
-            if (activeBtn) activeBtn.classList.add('active');
-            document.getElementById('langBadgeTitle').textContent = activeBtn ? activeBtn.textContent.trim() : lang.toUpperCase();
-
-            if (reload) {
-                loadSnippetByState();
-                resetPractice();
-            }
-        }
-
-        function toggleModal(show) {
-            const modal = document.getElementById('authModal');
-            modal.classList.toggle('hidden', !show);
-            modal.classList.toggle('flex', show);
-        }
-
-        function toggleFullscreenMode() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-            } else {
-                if (document.exitFullscreen) document.exitFullscreen();
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            initLessonFromURL();
-            focusTyping();
-            document.body.addEventListener('click', focusTyping);
-        });
+        customSnippet += word + " ";
+    }
+ 
+    currentText = customSnippet.trim();
+    $('levelBadgeSub').textContent = `PRACTICE | Weak Keys Drill`;
+    hideResults();
+    resetPractice();
+}
+ 
+window.addEventListener('keydown', (e) => {
+    if (isResultShowing && e.key === 'Enter') {
+        e.preventDefault();
+        nextLesson();
+    }
+});
+ 
+// ================= MENUS =================
+function toggleLevelMenu(e) {
+    e.stopPropagation();
+    $('levelDropdownMenu').classList.toggle('hidden');
+    $('timeDropdownMenu').classList.add('hidden');
+}
+function toggleTimeMenu(e) {
+    e.stopPropagation();
+    $('timeDropdownMenu').classList.toggle('hidden');
+    $('levelDropdownMenu').classList.add('hidden');
+}
+ 
+window.addEventListener('click', (e) => {
+    // ไม่ปิดเมนูเวลาเมื่อคลิกภายในเมนูเอง (เลือก 1m/3m/5m ได้ต่อเนื่อง)
+    if (!e.target.closest('#timeDropdownWrap')) $('timeDropdownMenu').classList.add('hidden');
+    if (!e.target.closest('#levelDropdownWrap')) $('levelDropdownMenu').classList.add('hidden');
+    $('soundDropdownMenu').classList.add('hidden');
+});
+ 
+function selectLevel(tag, name) {
+    currentLevel = tag;
+    $('currentLevelTag').textContent = tag;
+    $('currentLevelName').textContent = name;
+    $('levelBadgeSub').textContent = `${tag} ${name}`;
+    loadSnippetByState();
+    resetPractice();
+}
+ 
+function selectLanguage(lang, reload = true) {
+    currentLang = lang;
+    document.querySelectorAll('.lang-pill-btn').forEach(b => b.classList.remove('active'));
+    const activeBtn = $(`pill-${lang}`);
+    if (activeBtn) activeBtn.classList.add('active');
+    $('langBadgeTitle').textContent = activeBtn ? activeBtn.textContent.trim() : lang.toUpperCase();
+ 
+    if (reload) {
+        loadSnippetByState();
+        resetPractice();
+    }
+}
+ 
+function toggleModal(show) {
+    const modal = $('authModal');
+    modal.classList.toggle('hidden', !show);
+    modal.classList.toggle('flex', show);
+    if (!show) focusTyping();
+}
+ 
+function toggleFullscreenMode() {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen?.().catch(() => {});
+    } else if (document.exitFullscreen) {
+        document.exitFullscreen();
+    }
+}
+ 
+document.addEventListener('DOMContentLoaded', () => {
+    buildKeyMap();
+    initLessonFromURL();
+    focusTyping();
+    document.body.addEventListener('click', focusTyping);
+});
     </script>
 </body>
 </html>
