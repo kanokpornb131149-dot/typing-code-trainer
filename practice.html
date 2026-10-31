@@ -137,13 +137,6 @@
             box-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 22px rgba(139, 92, 246, 0.65);
             transform: translateY(3px);
         }
-        .key-pressed-anim {
-            transform: translateY(4px) !important;
-            border-bottom-width: 1px !important;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.8) !important;
-            background: #00f2fe !important;
-            color: #070a13 !important;
-        }
 
         /* ================= HAND SVG FINGER HIGHLIGHT ================= */
         .finger-path {
@@ -203,10 +196,32 @@
             </nav>
 
             <div class="flex items-center gap-3">
-                <button id="soundToggleBtn" onclick="toggleAudio()" title="เปิด/ปิด เสียงคีย์บอร์ด" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 hover:bg-brand-surface text-slate-300 hover:text-cyan-400 transition-all">
-                    <svg id="soundIconOn" class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-                    <svg id="soundIconOff" class="w-5 h-5 hidden text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
-                </button>
+                <!-- Sound Switcher Dropdown -->
+                <div class="relative" id="soundDropdownWrap">
+                    <button onclick="toggleSoundMenu(event)" id="soundToggleBtn" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 hover:bg-brand-surface text-slate-300 hover:text-cyan-400 transition-all flex items-center gap-2 text-xs font-mono">
+                        <svg id="soundIconOn" class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                        <span id="currentSoundLabel" class="hidden sm:inline text-slate-300">Blue Switch</span>
+                    </button>
+
+                    <div id="soundDropdownMenu" class="hidden absolute right-0 mt-2 w-48 rounded-2xl bg-brand-surface border border-brand-border shadow-2xl overflow-hidden z-50 font-mono text-xs">
+                        <button onclick="setAudioProfile('blue')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center justify-between border-b border-brand-border/60 text-slate-200 hover:text-cyan-300">
+                            <span>Blue Switch (Click)</span>
+                            <span class="text-[10px] text-cyan-400 font-bold">Tactile</span>
+                        </button>
+                        <button onclick="setAudioProfile('cream')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center justify-between border-b border-brand-border/60 text-slate-200 hover:text-cyan-300">
+                            <span>Cream (Thock)</span>
+                            <span class="text-[10px] text-purple-400 font-bold">Deep</span>
+                        </button>
+                        <button onclick="setAudioProfile('pop')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center justify-between border-b border-brand-border/60 text-slate-200 hover:text-cyan-300">
+                            <span>Bubble Pop</span>
+                            <span class="text-[10px] text-emerald-400 font-bold">Soft</span>
+                        </button>
+                        <button onclick="setAudioProfile('mute')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center justify-between text-slate-400 hover:text-rose-400">
+                            <span>Mute (ปิดเสียง)</span>
+                            <span class="text-[10px] text-slate-500">Off</span>
+                        </button>
+                    </div>
+                </div>
 
                 <button onclick="toggleModal(true)" class="px-6 py-2.5 rounded-full font-semibold text-sm text-slate-900 bg-gradient-to-r from-slate-200 to-slate-300 hover:from-white hover:to-slate-100 shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer">
                     Sign In
@@ -226,22 +241,31 @@
                 <div class="relative" id="levelDropdownWrap">
                     <button onclick="toggleLevelMenu(event)" class="px-4 py-1.5 rounded-full bg-brand-card border border-brand-border hover:border-cyan-400/60 text-xs font-mono font-bold text-white flex items-center gap-2 transition-all">
                         <span id="currentLevelTag" class="text-[10px] px-1.5 py-0.2 rounded bg-cyan-500/20 text-cyan-300">L1</span>
-                        <span id="currentLevelName">Key Starter (ssaass)</span>
+                        <span id="currentLevelName">Key Starter</span>
                         <svg class="w-3.5 h-3.5 text-slate-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/></svg>
                     </button>
 
-                    <div id="levelDropdownMenu" class="hidden absolute left-0 mt-2 w-52 rounded-2xl bg-brand-surface border border-brand-border shadow-2xl overflow-hidden z-50 font-mono text-xs">
-                        <button onclick="selectLevel('L1', 'Key Starter (ssaass)')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center gap-2.5 border-b border-brand-border/60 text-slate-200 hover:text-cyan-300">
+                    <div id="levelDropdownMenu" class="hidden absolute left-0 mt-2 w-56 rounded-2xl bg-brand-surface border border-brand-border shadow-2xl overflow-hidden z-50 font-mono text-xs">
+                        <button onclick="selectLevel('L1', 'Key Starter')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center gap-2.5 border-b border-brand-border/60 text-slate-200 hover:text-cyan-300">
                             <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-cyan-500/20 text-cyan-300">L1</span>
-                            <span>Key Starter (ssaass)</span>
+                            <div>
+                                <div class="font-bold">Key Starter</div>
+                                <div class="text-[10px] text-slate-400">asdf jkl; qwer ty uiop</div>
+                            </div>
                         </button>
                         <button onclick="selectLevel('L2', 'Syntax Builder')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center gap-2.5 border-b border-brand-border/60 text-slate-200 hover:text-cyan-300">
                             <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-purple-500/20 text-purple-300">L2</span>
-                            <span>Syntax Builder</span>
+                            <div>
+                                <div class="font-bold">Syntax Builder</div>
+                                <div class="text-[10px] text-slate-400">คำสั่งสั้นๆ แยกตามภาษา</div>
+                            </div>
                         </button>
                         <button onclick="selectLevel('L3', 'Code Builder')" class="w-full px-4 py-2.5 text-left hover:bg-brand-card flex items-center gap-2.5 text-slate-200 hover:text-cyan-300">
                             <span class="text-[10px] font-bold px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300">L3</span>
-                            <span>Code Builder</span>
+                            <div>
+                                <div class="font-bold">Code Builder</div>
+                                <div class="text-[10px] text-slate-400">โค้ดเต็มจากหน้าภาษา</div>
+                            </div>
                         </button>
                     </div>
                 </div>
@@ -306,13 +330,16 @@
                 </span>
                 <span id="langBadgeTitle" class="font-mono font-bold text-sm tracking-wide text-slate-200">HTML &amp; CSS</span>
                 <span class="text-slate-600">|</span>
-                <span id="levelBadgeSub" class="font-mono text-xs text-cyan-400">L1 Key Starter (ssaass)</span>
+                <span id="levelBadgeSub" class="font-mono text-xs text-cyan-400">L1 Key Starter</span>
             </div>
 
             <!-- Typing Code Area -->
-            <div onclick="focusTyping()" class="w-full max-w-4xl my-auto py-6 px-6 sm:px-10 rounded-3xl cursor-text relative flex items-center justify-center min-h-[160px] bg-brand-surface/40 border border-brand-border/60 shadow-glow-lg">
+            <div onclick="focusTyping()" class="w-full max-w-4xl my-auto py-6 px-6 sm:px-10 rounded-3xl cursor-text relative flex flex-col items-center justify-center min-h-[160px] bg-brand-surface/40 border border-brand-border/60 shadow-glow-lg overflow-hidden group">
+                <!-- Progress Line Top -->
+                <div class="absolute top-0 left-0 h-1 bg-gradient-to-r from-cyan-400 to-indigo-500 transition-all duration-150" id="typingProgressBar" style="width: 0%"></div>
+                
                 <textarea id="hiddenInput" class="opacity-0 absolute pointer-events-none w-0 h-0" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>
-                <pre class="font-mono text-xl sm:text-2xl leading-relaxed tracking-wider overflow-x-auto select-none"><code id="codeDisplayArea" class="block text-left"></code></pre>
+                <pre class="font-mono text-xl sm:text-2xl leading-relaxed tracking-wider overflow-x-auto select-none w-full"><code id="codeDisplayArea" class="block text-left"></code></pre>
             </div>
 
             <!-- 3. ULTRA 3D MECHANICAL KEYBOARD + HANDS -->
@@ -444,6 +471,63 @@
         </div>
     </main>
 
+    <!-- ================= RESULT / CONGRATS MODAL ================= -->
+    <div id="resultModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/85 backdrop-blur-md p-4">
+        <div class="bg-brand-card border border-cyan-500/50 rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-glow-lg relative font-mono text-center transform transition-all scale-95 opacity-0 duration-300" id="resultCardContent">
+            
+            <div class="w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-tr from-cyan-400 to-indigo-500 p-0.5 shadow-neon-cyan flex items-center justify-center">
+                <div class="w-full h-full bg-brand-dark rounded-[14px] flex items-center justify-center text-3xl">
+                    🎉
+                </div>
+            </div>
+
+            <h3 class="text-2xl font-bold text-white mb-1">ยินดีด้วย! ฝึกซ้อมสำเร็จ</h3>
+            <p class="text-slate-400 text-xs mb-6">คุณจบบทเรียนนี้เรียบร้อยแล้ว มาดูสถิติของคุณกัน</p>
+
+            <!-- Stats Grid -->
+            <div class="grid grid-cols-4 gap-2 mb-6">
+                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border">
+                    <div class="text-[10px] text-slate-400">TIME</div>
+                    <div id="resTime" class="text-base font-bold text-white mt-1">00:45</div>
+                </div>
+                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border">
+                    <div class="text-[10px] text-slate-400">WPM</div>
+                    <div id="resWpm" class="text-base font-bold text-cyan-400 mt-1">54</div>
+                </div>
+                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border">
+                    <div class="text-[10px] text-slate-400">ACCURACY</div>
+                    <div id="resAcc" class="text-base font-bold text-emerald-400 mt-1">98%</div>
+                </div>
+                <div class="p-3 rounded-xl bg-brand-surface border border-brand-border">
+                    <div class="text-[10px] text-slate-400">ERRORS</div>
+                    <div id="resErrors" class="text-base font-bold text-rose-400 mt-1">2</div>
+                </div>
+            </div>
+
+            <!-- Weak Keys Section -->
+            <div class="p-4 rounded-2xl bg-brand-surface/80 border border-brand-border/80 text-left mb-6">
+                <div class="text-xs font-bold text-slate-300 mb-2 flex items-center justify-between">
+                    <span>🎯 ปุ่มที่พิมพ์ผิดบ่อย / จุดอ่อน:</span>
+                    <span class="text-[10px] text-rose-400 font-normal">Needs Practice</span>
+                </div>
+                <div id="weakKeysList" class="flex flex-wrap gap-2">
+                    <!-- Dynamic Badges -->
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button onclick="practiceWeakKeys()" id="btnPracticeWeak" class="hidden flex-1 py-3 px-4 rounded-xl bg-purple-600/30 hover:bg-purple-600/50 border border-purple-500/50 text-purple-200 font-bold text-xs flex items-center justify-center gap-2 transition-all">
+                    <span>⚡ ฝึกปุ่มที่อ่อนเฉพาะจุด</span>
+                </button>
+                <button onclick="nextLesson()" class="flex-1 py-3 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-black text-xs flex items-center justify-center gap-2 shadow-neon-cyan transition-all">
+                    <span>บทเรียนถัดไป</span>
+                    <span class="text-[10px] bg-slate-950/30 px-1.5 py-0.5 rounded text-white font-normal">[Enter]</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Sign In Modal -->
     <div id="authModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
         <div class="bg-brand-card border border-cyan-500/40 rounded-3xl p-8 max-w-md w-full shadow-glow-lg relative">
@@ -463,43 +547,49 @@
 
     <!-- SCRIPT LOGIC -->
     <script>
-        // Database สำหรับชุดคำสั่งที่ส่งมาจากหน้า Language
+        // Data Snippets ตามระดับความยาก L1, L2, L3 และภาษา
+        const categorySnippets = {
+            // L1: Key Starter (เน้นฝึกนิ้วพื้นฐานครบทุกตัว)
+            L1: {
+                html_css: "asdf jkl; qwer ty uiop zxcv bnm, ./ <> {} []",
+                javascript: "asdf jkl; qwer ty uiop zxcv bnm () => {} ;;",
+                php: "asdf jkl; qwer ty uiop zxcv bnm $ -> => ::",
+                python: "asdf jkl; qwer ty uiop zxcv bnm : [] {} _ == =",
+                symbols: "!@#$% ^&*() _+{} |:\"<> ?~`-=[] \\;',./"
+            },
+            // L2: Syntax Builder (คำศัพท์สั้นๆ แยกตามภาษา)
+            L2: {
+                html_css: "div span class id flex grid color margin padding border",
+                javascript: "const let var function return async await import export",
+                php: "function return public private protected class echo isset",
+                python: "def return import from class self try except lambda",
+                symbols: "=== !== && || => -> :: <?php ?> <!-- -->"
+            },
+            // L3: Code Builder (โค้ดดึงมาจากตัวอย่างภาษา)
+            L3: {
+                html_css: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>",
+                javascript: "const add = (a, b) => a + b;\nconst loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};",
+                php: "<?php\n$user = [\"id\" => 101, \"name\" => \"Developer\"];\necho \"<h1>\" . $user[\"name\"] . \"</h1>\";\n?>",
+                python: "def calculate_wpm(words: int, seconds: float) -> float:\n    return round(words / (seconds / 60), 2)",
+                symbols: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}"
+            }
+        };
+
         const lessonSnippets = {
             doctype: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>",
             meta: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">",
             title_style: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">",
             script_tags: "<script src=\"app.js\" defer></script>\n<script type=\"module\" src=\"main.js\"></script>",
             comments: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->",
-            open_graph: "<meta property=\"og:title\" content=\"Typing Trainer\">\n<meta property=\"og:image\" content=\"/og-cover.png\">",
-            preload: "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\">",
-            base_canonical: "<base href=\"https://example.com/\" target=\"_blank\">",
-            body_attrs: "<html lang=\"en\" class=\"scroll-smooth dark\">\n<body class=\"bg-slate-900 text-white\">",
-            boilerplate: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Typing Code Trainer</title>\n</head>\n<body>\n</body>\n</html>",
-            
             arrow_func: "const add = (a, b) => a + b;\nconst getUser = id => ({ id, name: \"Alice\" });",
             async_await: "const loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};",
-            destructuring: "const { name, age, role = 'developer' } = user;",
-            array_methods: "const activeUserNames = users.filter(u => u.isActive).map(u => u.name);",
-            spread_operator: "const newObj = { ...oldObj, status: 'updated' };",
-
             php_vars: "<?php\n$title = \"Typing Code Trainer\";\necho \"<h1>\" . $title . \"</h1>\";\n?>",
-            php_assoc: "$user = [\"id\" => 101, \"username\" => \"dev_pro\"];",
-            php_post: "if ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") { $email = $_POST['email']; }",
-            php_pdo: "$pdo = new PDO(\"mysql:host=localhost;dbname=test\", \"root\", \"\");",
-
-            py_comp: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]",
-            py_def: "def calculate_wpm(words: int, seconds: float) -> float:\n    return round(words / (seconds / 60), 2)",
-            py_class: "class Developer:\n    def __init__(self, name: str):\n        self.name = name",
-            py_dict: "scores = {\"HTML\": 95, \"CSS\": 90, \"JS\": 88}",
-
-            brackets_all: "function test() { return [ (1 + 2) * <Component /> ]; }",
-            operators: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}",
-            punc_quotes: "const query = `SELECT * FROM \"users\" WHERE status = 'active';`;",
-
-            default_l1: "ssaass asdf jkl; ssaass asdf jkl;"
+            py_comp: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]"
         };
 
-        let currentText = "ssaass asdf jkl; ssaass asdf jkl;";
+        let currentLevel = 'L1';
+        let currentLang = 'html_css';
+        let currentText = "";
         let currentIndex = 0;
         let errorsCount = 0;
         let isStarted = false;
@@ -507,28 +597,67 @@
         let timeLeft = 60;
         let totalDuration = 60;
         let isTimerMode = true;
-        let soundEnabled = true;
+        
+        // Sound Engine Settings
+        let audioProfile = 'blue'; // 'blue', 'cream', 'pop', 'mute'
+        let audioCtx = null;
+
+        // Analytics
+        let keyErrorsMap = {};
+        let isResultShowing = false;
 
         const hiddenInput = document.getElementById('hiddenInput');
         const codeDisplayArea = document.getElementById('codeDisplayArea');
 
         function focusTyping() {
-            hiddenInput.focus();
+            if (!isResultShowing) {
+                hiddenInput.focus();
+            }
         }
 
-        // อ่านค่าจาก URL พารามิเตอร์เมื่อเปิดหน้าเว็บ
         function initLessonFromURL() {
             const params = new URLSearchParams(window.location.search);
             const lang = params.get('lang');
             const lesson = params.get('lesson');
 
+            if (lang && categorySnippets.L1[lang]) {
+                currentLang = lang;
+                selectLanguage(lang, false);
+            }
+
             if (lesson && lessonSnippets[lesson]) {
                 currentText = lessonSnippets[lesson];
                 document.getElementById('levelBadgeSub').textContent = `${lang ? lang.toUpperCase() : 'LESSON'} | ${lesson.replace(/_/g, ' ')}`;
             } else {
-                currentText = lessonSnippets.default_l1;
+                loadSnippetByState();
             }
+            resetPractice();
+        }
+
+        function loadSnippetByState() {
+            if (categorySnippets[currentLevel] && categorySnippets[currentLevel][currentLang]) {
+                currentText = categorySnippets[currentLevel][currentLang];
+            } else {
+                currentText = categorySnippets.L1.html_css;
+            }
+        }
+
+        function resetPractice() {
+            currentIndex = 0;
+            errorsCount = 0;
+            isStarted = false;
+            keyErrorsMap = {};
+            stopTimer();
+            timeLeft = totalDuration;
+            document.getElementById('statTimer').textContent = formatTime(timeLeft);
+            document.getElementById('statWpm').textContent = "0";
+            document.getElementById('statAcc').textContent = "100%";
+            document.getElementById('statErrors').textContent = "0";
+            document.getElementById('typingProgressBar').style.width = "0%";
             renderCode();
+            if (currentText.length > 0) {
+                highlightKeyForChar(currentText[0]);
+            }
         }
 
         function renderCode() {
@@ -543,6 +672,8 @@
         }
 
         hiddenInput.addEventListener('input', (e) => {
+            if (isResultShowing) return;
+
             const val = hiddenInput.value;
             if (!isStarted) {
                 isStarted = true;
@@ -558,22 +689,31 @@
             if (typedChar === targetChar) {
                 spans[currentIndex].className = 'char-item char-correct';
                 currentIndex++;
-                playKeySound();
+                playKeySound(false);
             } else {
                 errorsCount++;
+                // Record key error
+                const targetKeyLower = targetChar.toLowerCase();
+                keyErrorsMap[targetKeyLower] = (keyErrorsMap[targetKeyLower] || 0) + 1;
+
                 document.getElementById('statErrors').textContent = errorsCount;
                 spans[currentIndex].className = 'char-item char-wrong';
                 currentIndex++;
+                playKeySound(true); // wrong sound
             }
 
-            // อัปเดตตำแหน่งเคอร์เซอร์ปัจจุบัน
+            // Update Progress bar
+            const pct = Math.round((currentIndex / currentText.length) * 100);
+            document.getElementById('typingProgressBar').style.width = `${pct}%`;
+
+            // Update Cursor & Highlight Next Key
             if (currentIndex < currentText.length) {
                 spans[currentIndex].classList.add('char-current');
                 highlightKeyForChar(currentText[currentIndex]);
             } else {
-                // จบบทเรียน
+                // Lesson Complete
                 stopTimer();
-                alert("ยอดเยี่ยม! จบบทเรียนแล้ว");
+                showResults();
             }
 
             hiddenInput.value = '';
@@ -583,6 +723,8 @@
         function highlightKeyForChar(char) {
             document.querySelectorAll('.key-3d').forEach(el => el.classList.remove('key-active-target', 'key-shift-target'));
             document.querySelectorAll('.finger-path').forEach(el => el.classList.remove('active-finger', 'shift-finger'));
+
+            if (!char) return;
 
             const isUpper = char === char.toUpperCase() && char !== char.toLowerCase() || "!@#$%^&*()_+{}|:\"<>?".includes(char);
             const lowerChar = char.toLowerCase();
@@ -620,13 +762,11 @@
             timerInterval = setInterval(() => {
                 if (timeLeft > 0) {
                     timeLeft--;
-                    let m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
-                    let s = (timeLeft % 60).toString().padStart(2, '0');
-                    document.getElementById('statTimer').textContent = `${m}:${s}`;
+                    document.getElementById('statTimer').textContent = formatTime(timeLeft);
                     updateStats();
                 } else {
                     stopTimer();
-                    alert("หมดเวลาฝึกซ้อม!");
+                    showResults();
                 }
             }, 1000);
         }
@@ -636,45 +776,189 @@
             timerInterval = null;
         }
 
-        function toggleAudio() {
-            soundEnabled = !soundEnabled;
-            document.getElementById('soundIconOn').classList.toggle('hidden', !soundEnabled);
-            document.getElementById('soundIconOff').classList.toggle('hidden', soundEnabled);
+        function formatTime(sec) {
+            let m = Math.floor(sec / 60).toString().padStart(2, '0');
+            let s = (sec % 60).toString().padStart(2, '0');
+            return `${m}:${s}`;
         }
 
-        function playKeySound() {
-            if (!soundEnabled) return;
-            const ctx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(140 + Math.random() * 40, ctx.currentTime);
-            gain.gain.setValueAtTime(0.04, ctx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.05);
+        // ================= AUDIO SYNTHESIZER =================
+        function toggleSoundMenu(e) {
+            e.stopPropagation();
+            document.getElementById('soundDropdownMenu').classList.toggle('hidden');
+        }
+
+        function setAudioProfile(profile) {
+            audioProfile = profile;
+            const labels = { blue: 'Blue Switch', cream: 'Cream (Thock)', pop: 'Bubble Pop', mute: 'Mute' };
+            document.getElementById('currentSoundLabel').textContent = labels[profile];
+            document.getElementById('soundDropdownMenu').classList.add('hidden');
+        }
+
+        function playKeySound(isWrong = false) {
+            if (audioProfile === 'mute') return;
+            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            const now = audioCtx.currentTime;
+
+            if (isWrong) {
+                // Wrong Key Sound (Low Buzz)
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(110, now);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.12);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.12);
+                return;
+            }
+
+            if (audioProfile === 'blue') {
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(1200 + Math.random() * 200, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.04);
+            } else if (audioProfile === 'cream') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(180 + Math.random() * 30, now);
+                gain.gain.setValueAtTime(0.12, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+            } else if (audioProfile === 'pop') {
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(400, now);
+                osc.frequency.exponentialRampToValueAtTime(800, now + 0.05);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+            }
+
             osc.connect(gain);
-            gain.connect(ctx.destination);
-            osc.start();
-            osc.stop(ctx.currentTime + 0.05);
+            gain.connect(audioCtx.destination);
+            osc.start(now);
+            osc.stop(now + 0.07);
         }
 
-        // Dropdown controls
+        // ================= RESULT MODAL & ANALYTICS =================
+        function showResults() {
+            isResultShowing = true;
+            const modal = document.getElementById('resultModal');
+            const content = document.getElementById('resultCardContent');
+
+            const timeElapsed = totalDuration - timeLeft;
+            document.getElementById('resTime').textContent = formatTime(timeElapsed > 0 ? timeElapsed : totalDuration);
+            document.getElementById('resWpm').textContent = document.getElementById('statWpm').textContent;
+            document.getElementById('resAcc').textContent = document.getElementById('statAcc').textContent;
+            document.getElementById('resErrors').textContent = errorsCount;
+
+            // Render Weak Keys
+            const weakContainer = document.getElementById('weakKeysList');
+            weakContainer.innerHTML = '';
+            
+            const sortedErrors = Object.entries(keyErrorsMap).sort((a, b) => b[1] - a[1]);
+            const btnPracticeWeak = document.getElementById('btnPracticeWeak');
+
+            if (sortedErrors.length > 0) {
+                sortedErrors.forEach(([key, count]) => {
+                    const badge = document.createElement('div');
+                    badge.className = 'px-3 py-1 rounded-lg bg-rose-500/15 border border-rose-500/30 text-rose-300 font-bold text-xs flex items-center gap-1.5';
+                    badge.innerHTML = `<span>Key '${key === ' ' ? 'SPACE' : key.toUpperCase()}'</span> <span class="text-[10px] bg-rose-500/30 px-1.5 py-0.2 rounded text-white">${count}x</span>`;
+                    weakContainer.appendChild(badge);
+                });
+                btnPracticeWeak.classList.remove('hidden');
+            } else {
+                weakContainer.innerHTML = '<span class="text-xs text-emerald-400 font-bold">✨ ไม่พบปุ่มพิมพ์ผิด สมบูรณ์แบบมาก!</span>';
+                btnPracticeWeak.classList.add('hidden');
+            }
+
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                content.classList.remove('scale-95', 'opacity-0');
+                content.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        }
+
+        function hideResults() {
+            const modal = document.getElementById('resultModal');
+            const content = document.getElementById('resultCardContent');
+            content.classList.remove('scale-100', 'opacity-100');
+            content.classList.add('scale-95', 'opacity-0');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                isResultShowing = false;
+                focusTyping();
+            }, 200);
+        }
+
+        function nextLesson() {
+            hideResults();
+            loadSnippetByState();
+            resetPractice();
+        }
+
+        function practiceWeakKeys() {
+            const sortedErrors = Object.entries(keyErrorsMap).sort((a, b) => b[1] - a[1]);
+            if (sortedErrors.length === 0) return;
+
+            // สร้างแบบฝึกหัดสุ่มจากปุ่มที่พิมพ์ผิด
+            const weakKeys = sortedErrors.map(([k]) => k);
+            let customSnippet = "";
+            for (let i = 0; i < 8; i++) {
+                let word = "";
+                for (let j = 0; j < 4; j++) {
+                    word += weakKeys[Math.floor(Math.random() * weakKeys.length)];
+                }
+                customSnippet += word + " ";
+            }
+
+            currentText = customSnippet.trim();
+            document.getElementById('levelBadgeSub').textContent = `PRACTICE | Weak Keys Drill`;
+            hideResults();
+            resetPractice();
+        }
+
+        // Shortcut Key Listener
+        window.addEventListener('keydown', (e) => {
+            if (isResultShowing && e.key === 'Enter') {
+                e.preventDefault();
+                nextLesson();
+            }
+        });
+
+        // Dropdown Controls
         function toggleLevelMenu(e) { e.stopPropagation(); document.getElementById('levelDropdownMenu').classList.toggle('hidden'); document.getElementById('timeDropdownMenu').classList.add('hidden'); }
         function toggleTimeMenu(e) { e.stopPropagation(); document.getElementById('timeDropdownMenu').classList.toggle('hidden'); document.getElementById('levelDropdownMenu').classList.add('hidden'); }
+        
         window.addEventListener('click', () => {
             document.getElementById('levelDropdownMenu').classList.add('hidden');
             document.getElementById('timeDropdownMenu').classList.add('hidden');
+            document.getElementById('soundDropdownMenu').classList.add('hidden');
         });
 
         function selectLevel(tag, name) {
+            currentLevel = tag;
             document.getElementById('currentLevelTag').textContent = tag;
             document.getElementById('currentLevelName').textContent = name;
             document.getElementById('levelBadgeSub').textContent = `${tag} ${name}`;
+            loadSnippetByState();
+            resetPractice();
         }
 
-        function selectLanguage(lang) {
+        function selectLanguage(lang, reload = true) {
+            currentLang = lang;
             document.querySelectorAll('.lang-pill-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`pill-${lang}`).classList.add('active');
-            document.getElementById('langBadgeTitle').textContent = document.getElementById(`pill-${lang}`).textContent.trim();
+            const activeBtn = document.getElementById(`pill-${lang}`);
+            if (activeBtn) activeBtn.classList.add('active');
+            document.getElementById('langBadgeTitle').textContent = activeBtn ? activeBtn.textContent.trim() : lang.toUpperCase();
+
+            if (reload) {
+                loadSnippetByState();
+                resetPractice();
+            }
         }
 
         function toggleModal(show) {
