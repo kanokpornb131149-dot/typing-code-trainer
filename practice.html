@@ -108,7 +108,7 @@
 </head>
 <body class="bg-tech-grid h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black overflow-hidden">
 
-    <!-- ================= NAVBAR (Matching index.html style) ================= -->
+    <!-- ================= NAVBAR ================= -->
     <header class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/85 border-b border-brand-border/60 transition-all flex-shrink-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <!-- Brand Logo -->
@@ -144,65 +144,89 @@
         </div>
     </header>
 
-    <!-- ================= MAIN LAYOUT (FITTED TO SCREEN 3:6:3 GRID) ================= -->
+    <!-- ================= MAIN LAYOUT (3:6:3 GRID) ================= -->
     <main class="flex-grow max-w-[1650px] w-full mx-auto px-4 py-3 grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch overflow-hidden">
         
-        <!-- LEFT SIDEBAR: LEVEL CARDS & LESSON LIST (Span 3) -->
+        <!-- LEFT SIDEBAR: LEVEL & CATEGORY CARDS (Span 3) -->
         <div class="lg:col-span-3 flex flex-col gap-3 h-full overflow-hidden">
             
-            <!-- ระดับ (Levels) Cards -->
+            <!-- หมวดหมู่บทเรียน (Curriculum Selection Cards) -->
             <div class="p-3 rounded-2xl border border-brand-border bg-brand-card/90 backdrop-blur-md shadow-lg flex-shrink-0">
                 <div class="text-[11px] font-mono font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center justify-between">
-                    <span>ระดับ (Levels)</span>
-                    <span class="text-[9px] text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/30">Pro</span>
+                    <span>หลักสูตร / ภาษา</span>
+                    <span class="text-[9px] text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/30">40 IDs</span>
                 </div>
-                <div class="space-y-1.5">
-                    <!-- L1 Card -->
-                    <div onclick="setLevel('starter', 'L1 Key Starter')" id="levelCard-starter" class="p-2.5 rounded-xl border border-cyan-500 bg-cyan-500/10 cursor-pointer transition-all hover:border-cyan-400 shadow-neon-cyan flex items-center justify-between">
+                <div class="space-y-1.5 max-h-[170px] overflow-y-auto pr-1">
+                    <div onclick="setLevel('starter', 'L1 Key Starter')" id="levelCard-starter" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
                         <div class="flex items-center gap-2.5">
                             <span class="font-mono font-black text-cyan-400 text-xs px-2 py-0.5 rounded bg-cyan-500/20">L1</span>
                             <div>
                                 <div class="font-bold text-xs text-white leading-tight">Key Starter</div>
-                                <div class="text-[10px] text-slate-400">แป้นพื้นฐานและตำแหน่งนิ้ว</div>
+                                <div class="text-[10px] text-slate-400">แป้นพื้นฐาน</div>
                             </div>
                         </div>
-                        <span class="font-mono text-xs text-cyan-400 font-semibold">0%</span>
                     </div>
 
-                    <!-- L2 Card -->
-                    <div onclick="setLevel('syntax', 'L2 Syntax Builder')" id="levelCard-syntax" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
+                    <div onclick="setLevel('html', 'HTML & CSS')" id="levelCard-html" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
                         <div class="flex items-center gap-2.5">
-                            <span class="font-mono font-black text-purple-400 text-xs px-2 py-0.5 rounded bg-purple-500/20">L2</span>
+                            <span class="font-mono font-black text-blue-400 text-xs px-2 py-0.5 rounded bg-blue-500/20">HT</span>
                             <div>
-                                <div class="font-bold text-xs text-white leading-tight">Syntax Builder</div>
-                                <div class="text-[10px] text-slate-400">คำสั่งและแท็กสั้น ๆ</div>
+                                <div class="font-bold text-xs text-white leading-tight">HTML & CSS</div>
+                                <div class="text-[10px] text-slate-400">10 โจทย์โครงสร้างเว็บ</div>
                             </div>
                         </div>
-                        <span class="font-mono text-xs text-slate-400 font-semibold">0%</span>
                     </div>
 
-                    <!-- L3 Card -->
-                    <div onclick="setLevel('builder', 'L3 Code Builder')" id="levelCard-builder" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
+                    <div onclick="setLevel('javascript', 'JavaScript')" id="levelCard-javascript" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
                         <div class="flex items-center gap-2.5">
-                            <span class="font-mono font-black text-emerald-400 text-xs px-2 py-0.5 rounded bg-emerald-500/20">L3</span>
+                            <span class="font-mono font-black text-amber-400 text-xs px-2 py-0.5 rounded bg-amber-500/20">JS</span>
                             <div>
-                                <div class="font-bold text-xs text-white leading-tight">Code Builder</div>
-                                <div class="text-[10px] text-slate-400">ประโยคโค้ดจริงหลายบรรทัด</div>
+                                <div class="font-bold text-xs text-white leading-tight">JavaScript</div>
+                                <div class="text-[10px] text-slate-400">10 โจทย์ ES6+ & Async</div>
                             </div>
                         </div>
-                        <span class="font-mono text-xs text-slate-400 font-semibold">0%</span>
+                    </div>
+
+                    <div onclick="setLevel('php', 'PHP')" id="levelCard-php" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="font-mono font-black text-purple-400 text-xs px-2 py-0.5 rounded bg-purple-500/20">PHP</span>
+                            <div>
+                                <div class="font-bold text-xs text-white leading-tight">PHP</div>
+                                <div class="text-[10px] text-slate-400">7 โจทย์ Server & PDO</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div onclick="setLevel('python', 'Python')" id="levelCard-python" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="font-mono font-black text-emerald-400 text-xs px-2 py-0.5 rounded bg-emerald-500/20">PY</span>
+                            <div>
+                                <div class="font-bold text-xs text-white leading-tight">Python</div>
+                                <div class="text-[10px] text-slate-400">7 โจทย์ Pythonic Code</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div onclick="setLevel('symbols', 'Symbols & Brackets')" id="levelCard-symbols" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="font-mono font-black text-rose-400 text-xs px-2 py-0.5 rounded bg-rose-500/20">SYM</span>
+                            <div>
+                                <div class="font-bold text-xs text-white leading-tight">Symbols</div>
+                                <div class="text-[10px] text-slate-400">6 โจทย์สัญลักษณ์พิเศษ</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- LESSONS GROUP LIST -->
+            <!-- LESSONS LIST -->
             <div class="flex-grow rounded-2xl border border-brand-border bg-brand-card/90 p-3 backdrop-blur-md shadow-lg flex flex-col overflow-hidden">
                 <div class="flex items-center justify-between pb-2 mb-2 border-b border-brand-border text-xs font-mono font-bold text-slate-300">
                     <span class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        <span id="lessonGroupHeaderName">แป้นเหย้า</span>
+                        <span id="lessonGroupHeaderName">รายการบทเรียน</span>
                     </span>
-                    <span id="lessonGroupProgress" class="text-slate-400 font-mono text-xs">0/4</span>
+                    <span id="lessonGroupProgress" class="text-slate-400 font-mono text-xs">0/0</span>
                 </div>
 
                 <div id="sidebarLessonsList" class="space-y-1.5 overflow-y-auto pr-1 flex-grow font-mono text-xs">
@@ -236,7 +260,7 @@
 
                 <input type="text" id="hiddenTypingInput" class="absolute opacity-0 pointer-events-none" oninput="handleTypingInput(event)" onkeydown="handleKeyDown(event)">
 
-                <div id="typingTextDisplay" class="font-mono text-base sm:text-lg lg:text-xl leading-relaxed tracking-wide select-none whitespace-pre-wrap break-all mt-4 max-h-[190px] overflow-y-auto">
+                <div id="typingTextDisplay" class="font-mono text-sm sm:text-base lg:text-lg leading-relaxed tracking-wide select-none whitespace-pre-wrap break-all mt-4 max-h-[220px] overflow-y-auto">
                     <!-- Injected chars -->
                 </div>
             </div>
@@ -329,58 +353,97 @@
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
+        // โครงสร้างหลักสูตรครบถ้วน 40 ID ตรงกับหน้า language.html
         const curriculum = {
             starter: {
                 title: "L1 Key Starter",
-                subTitle: "Basic Finger Placement (asdf jkl;)",
+                subTitle: "Basic Finger Placement",
                 categories: [
                     { id: "starter_cat", name: "Basic Keys", groupName: "แป้นเหย้า", lessons: [
-                        { title: "ปุ่ม A · S", text: "aaaaaa ssssss asasas sasasa aassaa" },
-                        { title: "ปุ่ม D · F", text: "dddddd ffffff dfdfdf fdfdfd ddffdd" },
-                        { title: "ปุ่ม J · K", text: "jjjjjj kkkkkk jkjkjk kjkjkj jjkkjj" },
-                        { title: "ปุ่ม L · ;", text: "llllll ;;;;;; l;l;l; ;l;l;l ll;;ll" }
+                        { id: "l1_1", title: "ปุ่ม A · S", text: "aaaaaa ssssss asasas sasasa aassaa" },
+                        { id: "l1_2", title: "ปุ่ม D · F", text: "dddddd ffffff dfdfdf fdfdfd ddffdd" },
+                        { id: "l1_3", title: "ปุ่ม J · K", text: "jjjjjj kkkkkk jkjkjk kjkjkj jjkkjj" },
+                        { id: "l1_4", title: "ปุ่ม L · ;", text: "llllll ;;;;;; l;l;l; ;l;l;l ll;;ll" }
                     ]}
                 ]
             },
-            syntax: {
-                title: "L2 Syntax Builder",
-                subTitle: "Short vocabulary & syntax tags",
-                categories: [
-                    { id: "html", name: "HTML & CSS", groupName: "HTML Syntax", lessons: [
-                        { title: "Tags & Elements", text: "html head body title meta link div span" }
-                    ]},
-                    { id: "js", name: "JavaScript", groupName: "JS Keywords", lessons: [
-                        { title: "Keywords", text: "const let var function return async await" }
-                    ]},
-                    { id: "php", name: "PHP", groupName: "PHP Keywords", lessons: [
-                        { title: "PHP Words", text: "echo print class public private import" }
-                    ]},
-                    { id: "python", name: "Python", groupName: "Python Keywords", lessons: [
-                        { title: "Python Words", text: "def return class import if elif else print" }
-                    ]},
-                    { id: "symbols", name: "Symbols & Brackets", groupName: "Operators", lessons: [
-                        { title: "Operators", text: "=> === !== += -= && || ?? ?" }
-                    ]}
-                ]
-            },
-            builder: {
-                title: "L3 Code Builder",
-                subTitle: "Full code snippets and instruction sets",
+            html: {
+                title: "HTML & CSS",
+                subTitle: "Document Structure & Layouts",
                 categories: [
                     { id: "html", name: "HTML & CSS", groupName: "HTML Code Snippets", lessons: [
-                        { title: "Flex Container", text: '<div class="container flex justify-between">\n       <h1 class="text-xl font-bold">Typing Code</h1>\n       <button type="submit">Run</button>\n</div>' }
-                    ]},
-                    { id: "js", name: "JavaScript", groupName: "JS Code Snippets", lessons: [
-                        { title: "Async Fetch", text: 'const fetchData = async (url) => {\n    const res = await fetch(url);\n    return await res.json();\n};' }
-                    ]},
+                        { id: "doctype", title: "1. Doctype & Skeleton", text: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>" },
+                        { id: "meta", title: "2. Meta Viewport & Description", text: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">" },
+                        { id: "title_style", title: "3. Title & Stylesheet Links", text: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">" },
+                        { id: "script_tags", title: "4. Script Tags Integration", text: "<script src=\"app.js\" defer></script>\n<script type=\"module\" src=\"main.js\"></script>" },
+                        { id: "comments", title: "5. HTML Comments", text: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->" },
+                        { id: "open_graph", title: "6. Open Graph Social Tags", text: "<meta property=\"og:title\" content=\"Typing Trainer\">\n<meta property=\"og:image\" content=\"/og-cover.png\">" },
+                        { id: "preload", title: "7. Resource Preload", text: "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\">" },
+                        { id: "base_canonical", title: "8. Base & Canonical Links", text: "<base href=\"https://example.com/\" target=\"_blank\">" },
+                        { id: "body_attrs", title: "9. Body & Root Attributes", text: "<html lang=\"en\" class=\"scroll-smooth dark\">\n<body class=\"bg-slate-900 text-white\">" },
+                        { id: "boilerplate", title: "10. Full HTML5 Boilerplate", text: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Typing Code Trainer</title>\n</head>\n<body>\n</body>\n</html>" }
+                    ]}
+                ]
+            },
+            javascript: {
+                title: "JavaScript",
+                subTitle: "ES6 & Async Functions",
+                categories: [
+                    { id: "javascript", name: "JavaScript", groupName: "JS Code Snippets", lessons: [
+                        { id: "arrow_func", title: "11. Arrow Functions & Implicit Return", text: "const add = (a, b) => a + b;\nconst getUser = id => ({ id, name: \"Alice\" });" },
+                        { id: "async_await", title: "12. Async / Await & Fetch API", text: "const loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};" },
+                        { id: "destructuring", title: "13. Object & Array Destructuring", text: "const { name, age, role = 'developer' } = user;" },
+                        { id: "array_methods", title: "14. Array Methods (Map & Filter)", text: "const activeUserNames = users.filter(u => u.isActive).map(u => u.name);" },
+                        { id: "spread_operator", title: "15. Spread & Rest Operators", text: "const newObj = { ...oldObj, status: 'updated' };" },
+                        { id: "promise_all", title: "16. Promise.all Concurrency", text: "const results = await Promise.all([fetchUser(), fetchPosts()]);" },
+                        { id: "dom_query", title: "17. DOM Query Selector", text: "const submitBtn = document.querySelector('#submitBtn');" },
+                        { id: "event_listener", title: "18. Event Listener Setup", text: "submitBtn.addEventListener('click', (e) => {\n  e.preventDefault();\n  console.log('Clicked!');\n});" },
+                        { id: "local_storage", title: "19. LocalStorage Integration", text: "localStorage.setItem('user', JSON.stringify(userData));" },
+                        { id: "class_syntax", title: "20. ES6 Class Inheritance", text: "class UserProfile extends BaseComponent {\n  constructor(name) {\n    super();\n    this.name = name;\n  }\n}" }
+                    ]}
+                ]
+            },
+            php: {
+                title: "PHP",
+                subTitle: "PHP Core & Web",
+                categories: [
                     { id: "php", name: "PHP", groupName: "PHP Code Snippets", lessons: [
-                        { title: "Class Definition", text: 'class ScoreCalculator {\n    public function calculate(int $score): float {\n        return $score * 1.5;\n    }\n}' }
-                    ]},
+                        { id: "php_vars", title: "21. Variables & Echo Output", text: "<?php\n$title = \"Typing Code Trainer\";\necho \"<h1>\" . $title . \"</h1>\";\n?>" },
+                        { id: "php_assoc", title: "22. Associative Arrays", text: "$user = [\"id\" => 101, \"username\" => \"dev_pro\"];" },
+                        { id: "php_post", title: "23. POST Request & Sanitization", text: "if ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);\n}" },
+                        { id: "php_pdo", title: "24. PDO Database Connection", text: "$pdo = new PDO(\"mysql:host=localhost;dbname=test\", \"root\", \"\");" },
+                        { id: "php_session", title: "25. Session Handling", text: "session_start();\n$_SESSION['logged_in'] = true;\n$_SESSION['user_id'] = $userId;" },
+                        { id: "php_function", title: "26. Function with Type Hints", text: "function calculate_tax(float $price, float $rate = 0.07): float {\n    return $price * (1 + $rate);\n}" },
+                        { id: "php_json", title: "27. JSON Response Header", text: "header('Content-Type: application/json');\necho json_encode(['status' => 'success', 'code' => 200]);" }
+                    ]}
+                ]
+            },
+            python: {
+                title: "Python",
+                subTitle: "Python Essentials",
+                categories: [
                     { id: "python", name: "Python", groupName: "Python Code Snippets", lessons: [
-                        { title: "WPM Function", text: 'def calculate_wpm(chars: int, seconds: float) -> int:\n    words = chars / 5\n    return round(words / (seconds / 60))' }
-                    ]},
-                    { id: "symbols", name: "Symbols & Brackets", groupName: "Advanced Brackets", lessons: [
-                        { title: "Nested Brackets", text: 'if ((token !== null && index >= 0) || !isExpired) {\n    const payload = { id: `#${index}`, flags: [ ...baseFlags ] };\n}' }
+                        { id: "py_comp", title: "28. List Comprehension", text: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]" },
+                        { id: "py_def", title: "29. Functions & Type Hints", text: "def calculate_wpm(words: int, seconds: float) -> float:\n    return round(words / (seconds / 60), 2)" },
+                        { id: "py_class", title: "30. Class & Constructor", text: "class Developer:\n    def __init__(self, name: str):\n        self.name = name" },
+                        { id: "py_dict", title: "31. Dictionary Iteration", text: "scores = {\"HTML\": 95, \"CSS\": 90, \"JS\": 88}\nfor lang, score in scores.items():\n    print(f\"{lang}: {score}\")" },
+                        { id: "py_decorator", title: "32. Route Decorator", text: "@app.route('/api/v1/status')\ndef server_status():\n    return {'status': 'active', 'code': 200}" },
+                        { id: "py_file_io", title: "33. File I/O with Context Manager", text: "with open('data.json', 'r', encoding='utf-8') as f:\n    content = json.load(f)" },
+                        { id: "py_lambda", title: "34. Lambda Functions & Map", text: "get_square = lambda x: x ** 2\nresults = list(map(get_square, range(10)))" }
+                    ]}
+                ]
+            },
+            symbols: {
+                title: "Symbols & Brackets",
+                subTitle: "Symbol Speed Drills",
+                categories: [
+                    { id: "symbols", name: "Symbols", groupName: "Advanced Brackets", lessons: [
+                        { id: "brackets_all", title: "35. Combined Braces & Brackets", text: "function test() {\n    return [ (1 + 2) * <Component /> ];\n}" },
+                        { id: "operators", title: "36. Logical & Nullish Operators", text: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}" },
+                        { id: "punc_quotes", title: "37. Quotes & Semicolons", text: "const query = `SELECT * FROM \"users\" WHERE status = 'active';`;" },
+                        { id: "regex_symbols", title: "38. Regular Expression Symbols", text: "const pattern = /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/;" },
+                        { id: "template_literals", title: "39. Template Literal Interpolation", text: "const query = `SELECT * FROM \`users\` WHERE id = \${userId} AND status = '\${status}';`;" },
+                        { id: "bitwise_operators", title: "40. Bitwise & Assignment Operators", text: "const flags = (FLAG_READ | FLAG_WRITE) & ~FLAG_DELETE;" }
                     ]}
                 ]
             }
@@ -402,7 +465,29 @@
         let audioCtx = null;
 
         window.onload = function() {
-            setLevel('starter', 'L1 Key Starter');
+            // ตรวจสอบ URL Parameters จากหน้า language.html (เช่น ?lang=javascript&lesson=async_await)
+            const urlParams = new URLSearchParams(window.location.search);
+            const paramLang = urlParams.get('lang');
+            const paramLessonId = urlParams.get('lesson');
+
+            if (paramLang && curriculum[paramLang]) {
+                currentLevelKey = paramLang;
+                const catData = curriculum[paramLang].categories[0];
+                currentLangId = catData.id;
+
+                if (paramLessonId) {
+                    const foundIdx = catData.lessons.findIndex(l => l.id === paramLessonId);
+                    if (foundIdx !== -1) {
+                        currentLessonIndex = foundIdx;
+                    }
+                }
+            } else {
+                currentLevelKey = 'starter';
+                currentLangId = 'starter_cat';
+                currentLessonIndex = 0;
+            }
+
+            setLevel(currentLevelKey, curriculum[currentLevelKey].title);
             setupAutoKeyboardFocus();
         };
 
@@ -420,14 +505,17 @@
             currentLessonIndex = 0;
 
             const firstCat = curriculum[levelKey].categories[0];
-            currentLangId = firstCat ? firstCat.id : 'html';
+            currentLangId = firstCat ? firstCat.id : levelKey;
 
-            ['starter', 'syntax', 'builder'].forEach(k => {
+            // อัปเดตสถานะ Active ของ Card ด้านซ้าย
+            ['starter', 'html', 'javascript', 'php', 'python', 'symbols'].forEach(k => {
                 const card = document.getElementById(`levelCard-${k}`);
-                if (k === levelKey) {
-                    card.className = "p-2.5 rounded-xl border border-cyan-500 bg-cyan-500/10 cursor-pointer transition-all hover:border-cyan-400 shadow-neon-cyan flex items-center justify-between";
-                } else {
-                    card.className = "p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between";
+                if (card) {
+                    if (k === levelKey) {
+                        card.className = "p-2.5 rounded-xl border border-cyan-500 bg-cyan-500/10 cursor-pointer transition-all hover:border-cyan-400 shadow-neon-cyan flex items-center justify-between";
+                    } else {
+                        card.className = "p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between";
+                    }
                 }
             });
 
@@ -470,9 +558,9 @@
                 
                 const numStr = (lIdx + 1).toString().padStart(2, '0');
                 lBtn.innerHTML = `
-                    <div class="flex items-center gap-2.5">
+                    <div class="flex items-center gap-2.5 truncate">
                         <span class="text-slate-500 text-xs">${numStr}</span>
-                        <span class="text-xs">${lesson.title}</span>
+                        <span class="text-xs truncate">${lesson.title}</span>
                     </div>
                     ${lIdx === currentLessonIndex ? '<span class="text-cyan-400 text-xs font-bold">▶</span>' : ''}
                 `;
