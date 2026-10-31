@@ -333,13 +333,13 @@
                 <span id="levelBadgeSub" class="font-mono text-xs text-cyan-400">L1 Key Starter</span>
             </div>
 
-            <!-- Typing Code Area -->
+            <!-- Typing Code Area (เพิ่ม whitespace-pre-wrap และ break-all เพื่อตัดบรรทัด) -->
             <div onclick="focusTyping()" class="w-full max-w-4xl my-auto py-6 px-6 sm:px-10 rounded-3xl cursor-text relative flex flex-col items-center justify-center min-h-[160px] bg-brand-surface/40 border border-brand-border/60 shadow-glow-lg overflow-hidden group">
                 <!-- Progress Line Top -->
                 <div class="absolute top-0 left-0 h-1 bg-gradient-to-r from-cyan-400 to-indigo-500 transition-all duration-150" id="typingProgressBar" style="width: 0%"></div>
                 
                 <textarea id="hiddenInput" class="opacity-0 absolute pointer-events-none w-0 h-0" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false"></textarea>
-                <pre class="font-mono text-xl sm:text-2xl leading-relaxed tracking-wider overflow-x-auto select-none w-full"><code id="codeDisplayArea" class="block text-left"></code></pre>
+                <pre class="font-mono text-xl sm:text-2xl leading-relaxed tracking-wider select-none w-full whitespace-pre-wrap break-all"><code id="codeDisplayArea" class="block text-left"></code></pre>
             </div>
 
             <!-- 3. ULTRA 3D MECHANICAL KEYBOARD + HANDS -->
@@ -557,7 +557,7 @@
                 python: "asdf jkl; qwer ty uiop zxcv bnm : [] {} _ == =",
                 symbols: "!@#$% ^&*() _+{} |:\"<> ?~`-=[] \\;',./"
             },
-            // L2: Syntax Builder (คำศัพท์สั้นๆ แยกตามภาษา)
+            // L2: Syntax Builder (คำสั่งสั้นๆ แยกตามภาษา)
             L2: {
                 html_css: "div span class id flex grid color margin padding border",
                 javascript: "const let var function return async await import export",
@@ -599,7 +599,7 @@
         let isTimerMode = true;
         
         // Sound Engine Settings
-        let audioProfile = 'blue'; // 'blue', 'cream', 'pop', 'mute'
+        let audioProfile = 'blue';
         let audioCtx = null;
 
         // Analytics
@@ -692,26 +692,22 @@
                 playKeySound(false);
             } else {
                 errorsCount++;
-                // Record key error
                 const targetKeyLower = targetChar.toLowerCase();
                 keyErrorsMap[targetKeyLower] = (keyErrorsMap[targetKeyLower] || 0) + 1;
 
                 document.getElementById('statErrors').textContent = errorsCount;
                 spans[currentIndex].className = 'char-item char-wrong';
                 currentIndex++;
-                playKeySound(true); // wrong sound
+                playKeySound(true);
             }
 
-            // Update Progress bar
             const pct = Math.round((currentIndex / currentText.length) * 100);
             document.getElementById('typingProgressBar').style.width = `${pct}%`;
 
-            // Update Cursor & Highlight Next Key
             if (currentIndex < currentText.length) {
                 spans[currentIndex].classList.add('char-current');
                 highlightKeyForChar(currentText[currentIndex]);
             } else {
-                // Lesson Complete
                 stopTimer();
                 showResults();
             }
@@ -805,7 +801,6 @@
             const now = audioCtx.currentTime;
 
             if (isWrong) {
-                // Wrong Key Sound (Low Buzz)
                 osc.type = 'sawtooth';
                 osc.frequency.setValueAtTime(110, now);
                 gain.gain.setValueAtTime(0.08, now);
@@ -853,7 +848,6 @@
             document.getElementById('resAcc').textContent = document.getElementById('statAcc').textContent;
             document.getElementById('resErrors').textContent = errorsCount;
 
-            // Render Weak Keys
             const weakContainer = document.getElementById('weakKeysList');
             weakContainer.innerHTML = '';
             
@@ -904,7 +898,6 @@
             const sortedErrors = Object.entries(keyErrorsMap).sort((a, b) => b[1] - a[1]);
             if (sortedErrors.length === 0) return;
 
-            // สร้างแบบฝึกหัดสุ่มจากปุ่มที่พิมพ์ผิด
             const weakKeys = sortedErrors.map(([k]) => k);
             let customSnippet = "";
             for (let i = 0; i < 8; i++) {
@@ -921,7 +914,6 @@
             resetPractice();
         }
 
-        // Shortcut Key Listener
         window.addEventListener('keydown', (e) => {
             if (isResultShowing && e.key === 'Enter') {
                 e.preventDefault();
@@ -929,7 +921,6 @@
             }
         });
 
-        // Dropdown Controls
         function toggleLevelMenu(e) { e.stopPropagation(); document.getElementById('levelDropdownMenu').classList.toggle('hidden'); document.getElementById('timeDropdownMenu').classList.add('hidden'); }
         function toggleTimeMenu(e) { e.stopPropagation(); document.getElementById('timeDropdownMenu').classList.toggle('hidden'); document.getElementById('levelDropdownMenu').classList.add('hidden'); }
         
