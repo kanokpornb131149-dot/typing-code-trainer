@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Typing Code Trainer | Ranking</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg: #070a13;
+      --panel: #0f1628;
+      --card: #131c33;
+      --line: #1e2b48;
+      --cyan: #00f2fe;
+      --cyan-soft: #38bdf8;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      height: 100vh;
+      overflow: hidden;
+      color: var(--text);
+      background-color: var(--bg);
+      background-image: radial-gradient(rgba(30, 41, 59, 0.45) 1px, transparent 1px);
+      background-size: 28px 28px;
+      font-family: 'Inter', system-ui, sans-serif;
+    }
+
+    button { font: inherit; }
+
+    .navbar {
+      height: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(20px, 5vw, 80px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(7, 10, 19, 0.92);
+      backdrop-filter: blur(12px);
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      white-space: nowrap;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 19px;
+      letter-spacing: -.6px;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1.5px solid var(--cyan);
+      border-radius: 10px;
+      color: var(--cyan);
+      font-size: 18px;
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.25), inset 0 0 10px rgba(0, 242, 254, 0.1);
+    }
+
+    .brand-cursor { color: var(--cyan); animation: blink 1s infinite; }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(16px, 2.5vw, 36px);
+      height: 100%;
+    }
+
+    .nav-links a {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      position: relative;
+      color: #94a3b8;
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color .2s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active { color: #fff; }
+
+    .nav-links a.active::after {
+      content: "";
+      height: 3px;
+      position: absolute;
+      bottom: 0;
+      left: -6px;
+      right: -6px;
+      background: var(--cyan);
+      box-shadow: 0 0 12px rgba(0, 242, 254, 0.6);
+      border-radius: 2px;
+    }
+
+    .nav-actions { display: flex; align-items: center; gap: 16px; }
+
+    .sound-button {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: var(--cyan);
+      background: var(--panel);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sound-button:hover { border-color: var(--cyan); box-shadow: 0 0 10px rgba(0, 242, 254, 0.2); }
+
+    .sign-in {
+      border: 0;
+      border-radius: 10px;
+      padding: 9px 18px;
+      color: #070a13;
+      background: #e2e8f0;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .2s, background .2s;
+    }
+    .sign-in:hover { transform: translateY(-1px); background: #fff; }
+
+    main {
+      width: min(1050px, calc(100% - 32px));
+      height: calc(100vh - 70px);
+      margin: 0 auto;
+      padding: 14px 0 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .page-heading { text-align: center; margin-bottom: 12px; }
+
+    .page-heading h1 {
+      margin: 0;
+      font-size: clamp(28px, 3.5vw, 44px);
+      line-height: 1.1;
+      font-weight: 800;
+      letter-spacing: -1.5px;
+      background: linear-gradient(135deg, #fff 40%, var(--cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .page-heading p {
+      margin: 2px 0 0;
+      color: var(--cyan);
+      font-size: 14px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 0 auto 14px;
+    }
+
+    .filter {
+      padding: 7px 14px;
+      min-height: 34px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      color: #94a3b8;
+      background: var(--panel);
+      cursor: pointer;
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      transition: .2s ease;
+    }
+
+    .filter:hover { border-color: var(--cyan); color: white; }
+
+    .filter.active {
+      color: var(--cyan);
+      border-color: var(--cyan);
+      background: rgba(0, 242, 254, 0.1);
+      box-shadow: 0 0 15px rgba(0, 242, 254, 0.2);
+      font-weight: 700;
+    }
+
+    .leaderboard {
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(19, 28, 51, 0.75);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+    }
+
+    .table-head, .player-row {
+      display: grid;
+      grid-template-columns: 0.8fr 2.4fr 1fr 1fr;
+      align-items: center;
+      min-height: 44px;
+      padding: 0 22px;
+      column-gap: 12px;
+    }
+
+    .table-head {
+      min-height: 46px;
+      color: #94a3b8;
+      background: rgba(15, 22, 40, 0.9);
+      border-bottom: 1px solid var(--line);
+      font-size: 13px;
+      font-family: 'JetBrains Mono', monospace;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .table-head span:nth-child(n+3),
+    .player-row .stat { text-align: center; font-family: 'JetBrains Mono', monospace; }
+
+    .player-row {
+      min-height: 46px;
+      border-bottom: 1px solid rgba(30, 43, 72, 0.5);
+      color: #f1f5f9;
+      font-size: 15px;
+      transition: background .18s ease;
+    }
+
+    .player-row:last-child { border-bottom: 0; }
+    .player-row:hover { background: rgba(0, 242, 254, 0.04); }
+    .player-row.top-one { background: rgba(0, 242, 254, 0.08); }
+
+    .player-info { display: flex; align-items: center; gap: 12px; }
+
+    .rank-number {
+      padding-left: 8px;
+      color: #94a3b8;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .top-one .rank-number { color: #facc15; }
+    .top-two .rank-number { color: #cbd5e1; }
+    .top-three .rank-number { color: #fb923c; }
+
+    .avatar {
+      width: 32px;
+      height: 32px;
+      flex: 0 0 32px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: var(--cyan);
+      background: rgba(0, 242, 254, 0.12);
+      border: 1px solid rgba(0, 242, 254, 0.4);
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    .player-name { font-weight: 600; }
+    .wpm { color: var(--cyan); font-weight: 700; }
+    .accuracy { color: #10b981; font-weight: 600; }
+
+    .your-position {
+      margin-top: 14px;
+      min-height: 68px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.8fr 1fr 1fr;
+      align-items: center;
+      border: 1px solid var(--cyan);
+      border-radius: 12px;
+      background: rgba(15, 22, 40, 0.85);
+      box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
+    }
+
+    .position-rank {
+      padding: 4px 14px;
+      text-align: center;
+      border-right: 1px solid var(--line);
+    }
+
+    .position-label {
+      display: block;
+      color: #94a3b8;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .position-number { font-size: 20px; font-weight: 800; color: var(--cyan); font-family: 'JetBrains Mono', monospace; }
+
+    .position-player {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      min-height: 36px;
+      border-right: 1px solid var(--line);
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .position-player .avatar { width: 34px; height: 34px; flex-basis: 34px; }
+    .position-stat { text-align: center; font-size: 14px; color: #94a3b8; font-family: 'JetBrains Mono', monospace; }
+    .position-stat strong { color: var(--cyan); font-size: 19px; margin-right: 3px; }
+    .position-stat.acc-stat strong { color: #10b981; }
+
+    .empty-state {
+      padding: 30px;
+      text-align: center;
+      color: var(--muted);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <header class="navbar">
+    <div class="brand">
+      <div class="brand-mark">&lt;/&gt;</div>
+      <span>Typing Code Trainer<span class="brand-cursor">_</span></span>
+    </div>
+
+    <nav class="nav-links" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="practice.html">Practice</a>
+      <a href="language.html">Language</a>
+      <a href="ranking.html" class="active">Ranking</a>
+    </nav>
+
+    <div class="nav-actions">
+      <button class="sound-button" aria-label="Sound">
+        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" width="16" height="16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+      </button>
+      <button class="sign-in" onclick="window.location.href='practice.html'">Sign In</button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <section class="page-heading">
+      <h1>Global Ranking</h1>
+      <p>Real verified practice scores</p>
+    </section>
+
+    <!-- Language Filter Buttons -->
+    <section class="filters" aria-label="Filter ranking by language">
+      <button class="filter active" data-filter="all">All</button>
+      <button class="filter" data-filter="html">HTML &amp; CSS</button>
+      <button class="filter" data-filter="javascript">JavaScript</button>
+      <button class="filter" data-filter="php">PHP</button>
+      <button class="filter" data-filter="python">Python</button>
+      <button class="filter" data-filter="symbols">Symbols &amp; Brackets</button>
+    </section>
+
+    <!-- Leaderboard Table -->
+    <section class="leaderboard" aria-label="Player ranking">
+      <div class="table-head">
+        <span>Rank</span>
+        <span>Player</span>
+        <span>WPM ↑</span>
+        <span>Accuracy</span>
+      </div>
+
+      <div id="rankingRows">
+        <!-- Dynamically populated from real localStorage records -->
+      </div>
+      <div class="empty-state" id="emptyState" style="display: none;">
+        No practice records found yet. Complete a lesson or test in Practice to record your score!
+      </div>
+    </section>
+
+    <!-- Your Position Card -->
+    <section class="your-position" aria-label="Your ranking position">
+      <div class="position-rank">
+        <span class="position-label">Your rank</span>
+        <span class="position-number" id="userRankNum">#--</span>
+      </div>
+      <div class="position-player">
+        <span class="avatar" id="userAvatarChar">D</span>
+        <span id="userProfileName">Developer</span>
+      </div>
+      <div class="position-stat"><strong id="userBestWpm">0</strong> WPM</div>
+      <div class="position-stat acc-stat"><strong id="userBestAccuracy">0%</strong> Acc</div>
+    </section>
+  </main>
+
+  <script>
+    // Real Data Leaderboard System (No fake bots)
+    function loadLeaderboard(filterLang = 'all') {
+      const container = document.getElementById("rankingRows");
+      const emptyState = document.getElementById("emptyState");
+      container.innerHTML = "";
+
+      let leaderboardData = [];
+      try {
+        const stored = localStorage.getItem("tct-real-leaderboard");
+        if (stored) leaderboardData = JSON.parse(stored);
+      } catch (e) {}
+
+      // Also gather current user's session score if available
+      try {
+        const bestScores = JSON.parse(localStorage.getItem("tct-best2") || "{}");
+        const wpmValues = Object.values(bestScores);
+        const userWpm = wpmValues.length > 0 ? Math.max(...wpmValues) : 0;
+
+        const stats = JSON.parse(localStorage.getItem("tct-stats") || "{}");
+        const accuracies = stats.ha || [100];
+        const userAcc = accuracies.length > 0 ? Math.round(accuracies.reduce((a, b) => a + b, 0) / accuracies.length) : 100;
+
+        const rawUser = localStorage.getItem("tct-user") || "Developer";
+        const userName = rawUser.includes("@") ? rawUser.split("@")[0].toUpperCase() : rawUser.toUpperCase();
+
+        if (userWpm > 0) {
+          // Check if already in leaderboardData
+          const existingIdx = leaderboardData.findIndex(p => p.name.toUpperCase() === userName);
+          const entry = { name: userName, wpm: userWpm, accuracy: userAcc, lang: "all" };
+          if (existingIdx >= 0) {
+            if (userWpm > leaderboardData[existingIdx].wpm) leaderboardData[existingIdx] = entry;
+          } else {
+            leaderboardData.push(entry);
+          }
+          localStorage.setItem("tct-real-leaderboard", JSON.stringify(leaderboardData));
+        }
+      } catch (e) {}
+
+      // Filter by language if needed
+      const filtered = leaderboardData.filter(item => {
+        if (filterLang === 'all') return true;
+        return item.lang === filterLang || item.lang === 'all';
+      });
+
+      // Sort by WPM descending
+      filtered.sort((a, b) => b.wpm - a.wpm);
+
+      if (filtered.length === 0) {
+        emptyState.style.display = "block";
+        document.getElementById("userRankNum").textContent = "#--";
+        document.getElementById("userBestWpm").textContent = "0";
+        document.getElementById("userBestAccuracy").textContent = "0%";
+        return;
+      }
+
+      emptyState.style.display = "none";
+
+      const currentUserName = (localStorage.getItem("tct-user") || "Developer").toUpperCase();
+
+      filtered.forEach((player, index) => {
+        const rank = index + 1;
+        const isMe = player.name.toUpperCase() === currentUserName.replace(/@.*/, "").toUpperCase();
+        const row = document.createElement("div");
+        row.className = `player-row ${rank === 1 ? 'top-one' : ''}`;
+        
+        const initial = player.name ? player.name.charAt(0).toUpperCase() : "D";
+        
+        row.innerHTML = `
+          <span class="rank-number">#${rank}</span>
+          <div class="player-info">
+            <span class="avatar">${initial}</span>
+            <span class="player-name">${player.name} ${isMe ? '(You)' : ''}</span>
+          </div>
+          <span class="stat wpm">${player.wpm}</span>
+          <span class="stat accuracy">${player.accuracy}%</span>
+        `;
+        container.appendChild(row);
+
+        if (isMe) {
+          document.getElementById("userRankNum").textContent = `#${rank}`;
+          document.getElementById("userBestWpm").textContent = player.wpm;
+          document.getElementById("userBestAccuracy").textContent = `${player.accuracy}%`;
+          document.getElementById("userProfileName").textContent = player.name;
+          document.getElementById("userAvatarChar").textContent = initial;
+        }
+      });
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      loadLeaderboard('all');
+    });
+
+    const filterButtons = document.querySelectorAll(".filter");
+    filterButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        filterButtons.forEach((item) => item.classList.remove("active"));
+        button.classList.add("active");
+        loadLeaderboard(button.dataset.filter);
+      });
+    });
+  </script>
+</body>
+</html>
