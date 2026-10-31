@@ -30,7 +30,7 @@
                     boxShadow: {
                         'neon-cyan': '0 0 25px -4px rgba(0, 242, 254, 0.45)',
                         'neon-purple': '0 0 25px -4px rgba(139, 92, 246, 0.45)',
-                        'glow-lg': '0 0 60px -15px rgba(0, 242, 254, 0.25)'
+                        'glow-lg': '0 0 50px -15px rgba(0, 242, 254, 0.3)'
                     }
                 }
             }
@@ -39,16 +39,18 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
 
-        body {
+        body, html {
             font-family: 'Inter', sans-serif;
             background-color: #070a13;
             color: #f1f5f9;
-            overflow-x: hidden;
+            height: 100vh;
+            overflow: hidden;
+            margin: 0;
         }
 
         .bg-tech-grid {
             background-image: radial-gradient(rgba(30, 41, 59, 0.45) 1px, transparent 1px);
-            background-size: 28px 28px;
+            background-size: 24px 24px;
         }
 
         @keyframes blink {
@@ -59,548 +61,663 @@
             animation: blink 1s infinite;
         }
 
-        /* ================= CODE TYPING CHARACTER STATES ================= */
-        .char-item {
+        /* Keycap Styles */
+        .key-cap {
             position: relative;
-            transition: color 0.08s ease, background-color 0.08s ease;
-            border-radius: 3px;
-        }
-        .char-untyped {
-            color: #64748b;
-        }
-        .char-correct {
-            color: #f8fafc;
-            text-shadow: 0 0 10px rgba(0, 242, 254, 0.35);
-        }
-        .char-wrong {
-            color: #fda4af;
-            background-color: rgba(244, 63, 94, 0.28);
-            border-bottom: 2px solid #f43f5e;
-        }
-        .char-current {
-            color: #00f2fe !important;
-            background-color: rgba(0, 242, 254, 0.14);
-        }
-        .char-current::before {
-            content: '';
-            position: absolute;
-            left: -1px;
-            top: 8%;
-            bottom: 8%;
-            width: 2.5px;
-            background-color: #00f2fe;
-            box-shadow: 0 0 10px #00f2fe;
-            animation: blink 0.85s infinite;
-        }
-
-        /* ================= ULTRA 3D MECHANICAL KEYBOARD ================= */
-        .kb-perspective-wrap {
-            perspective: 1100px;
-        }
-        .kb-3d-case {
-            transform: rotateX(24deg);
-            transform-style: preserve-3d;
-            background: linear-gradient(180deg, #18223c 0%, #090e1a 100%);
-            border: 1.5px solid rgba(0, 242, 254, 0.3);
-            border-bottom: 14px solid #03050a;
-            box-shadow: 0 35px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 242, 254, 0.12);
-        }
-        .key-3d {
-            background: linear-gradient(180deg, #222d4a 0%, #111827 100%);
-            border: 1px solid rgba(148, 163, 184, 0.22);
-            border-top: 2px solid rgba(255, 255, 255, 0.22);
-            border-bottom: 5px solid #060913;
-            border-radius: 8px;
-            box-shadow: 0 5px 8px rgba(0, 0, 0, 0.65), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-            transition: all 0.06s ease-out;
+            background: linear-gradient(180deg, #162035 0%, #0d1424 100%);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            border-top: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-bottom: 2px solid #050811;
+            border-radius: 5px;
+            box-shadow: 0 3px 0 #050811, 0 4px 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.08s ease;
             user-select: none;
         }
-        .key-3d.key-modifier {
-            background: linear-gradient(180deg, #172138 0%, #0c1222 100%);
-            color: #94a3b8;
-        }
-        .key-3d.key-active-target {
-            background: linear-gradient(180deg, rgba(0, 242, 254, 0.4) 0%, rgba(0, 242, 254, 0.15) 100%);
+
+        .key-cap.active-key {
             border-color: #00f2fe;
-            border-top: 2px solid #86efac;
-            border-bottom: 2px solid #0284c7;
-            color: #ffffff;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 22px rgba(0, 242, 254, 0.7);
-            transform: translateY(3px);
-        }
-        .key-3d.key-shift-target {
-            background: linear-gradient(180deg, rgba(139, 92, 246, 0.45) 0%, rgba(139, 92, 246, 0.18) 100%);
-            border-color: #c084fc;
-            border-top: 2px solid #e9d5ff;
-            border-bottom: 2px solid #6d28d9;
-            color: #ede9fe;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.5), 0 0 22px rgba(139, 92, 246, 0.65);
-            transform: translateY(3px);
+            box-shadow: 0 1px 0 #0284c7, 0 0 18px rgba(0, 242, 254, 0.7), inset 0 0 8px rgba(0, 242, 254, 0.4);
+            transform: translateY(2px);
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+            color: #00f2fe;
         }
 
-        /* ================= HAND SVG FINGER HIGHLIGHT ================= */
-        .finger-path {
-            fill: rgba(226, 182, 146, 0.28);
-            stroke: rgba(255, 255, 255, 0.22);
-            stroke-width: 1.5;
-            transition: all 0.15s ease;
-        }
-        .finger-path.active-finger {
-            fill: rgba(0, 242, 254, 0.65);
-            stroke: #00f2fe;
-            stroke-width: 2;
-            filter: drop-shadow(0 0 12px rgba(0, 242, 254, 0.85));
-        }
-        .finger-path.shift-finger {
-            fill: rgba(139, 92, 246, 0.65);
-            stroke: #c4b5fd;
-            stroke-width: 2;
-            filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.85));
-        }
-
+        /* Glowing Language Pill Buttons */
         .lang-pill-btn {
+            background: #131c33;
+            border: 1px solid #1e2b48;
+            color: #94a3b8;
+            border-radius: 9999px;
+            padding: 4px 12px;
+            font-family: "JetBrains Mono", monospace;
+            font-weight: 700;
+            font-size: 11px;
             transition: all 0.2s ease;
+            cursor: pointer;
+            white-space: nowrap;
         }
+
+        .lang-pill-btn:hover {
+            border-color: rgba(0, 242, 254, 0.5);
+            color: #ffffff;
+        }
+
         .lang-pill-btn.active {
-            background: rgba(0, 242, 254, 0.16);
+            background: rgba(0, 242, 254, 0.1);
             border-color: #00f2fe;
             color: #00f2fe;
-            box-shadow: 0 0 18px -3px rgba(0, 242, 254, 0.45);
+            box-shadow: 0 0 20px -3px rgba(0, 242, 254, 0.45);
         }
-    </style>
-</head>
- body {
-        font-family: 'Inter', sans-serif;
-        background-color: #070a13;
-        color: #f1f5f9;
-        overflow-x: hidden;
-    }
 
-    .bg-tech-grid {
-        background-image: radial-gradient(rgba(30, 41, 59, 0.45) 1px, transparent 1px);
-        background-size: 28px 28px;
-    }
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1e293b;
+            border-radius: 2px;
+<body class="bg-tech-grid h-screen flex flex-col antialiased selection:bg-cyan-500 selection:text-black overflow-hidden">
 
-    @keyframes blink {
-        0%, 100% { opacity: 1; }
-        50% { opacity: 0; }
-    }
-    .blinking-cursor {
-        animation: blink 1s infinite;
-    }
-
-    /* Typing character states */
-    .char-untyped { color: #64748b; }
-    .char-correct { color: #00f2fe; text-shadow: 0 0 10px rgba(0, 242, 254, 0.4); }
-    .char-incorrect { color: #f43f5e; background-color: rgba(244, 63, 94, 0.15); border-radius: 2px; }
-    .char-current { border-left: 2px solid #00f2fe; background-color: rgba(0, 242, 254, 0.1); }
-
-    /* Virtual Key Glow */
-    .key-active {
-        border-color: #00f2fe !important;
-        box-shadow: 0 0 15px rgba(0, 242, 254, 0.6) !important;
-        transform: translateY(2px);
-    }
-
-    ::-webkit-scrollbar { width: 7px; }
-    ::-webkit-scrollbar-track { background: #070a13; }
-    ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #334155; }
-</style>
-
-
-<!-- NAVBAR -->
-<header class="sticky top-0 z-50 backdrop-blur-md bg-brand-dark/85 border-b border-brand-border/60">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-2 group">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 p-[1.5px] shadow-neon-cyan transition-transform group-hover:scale-105">
+    <!-- ================= NAVBAR ================= -->
+    <header class="h-14 flex-shrink-0 z-50 backdrop-blur-md bg-brand-dark/95 border-b border-brand-border/80 px-6 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-2.5 group">
+            <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-cyan-500 to-indigo-600 p-[1.5px] shadow-neon-cyan transition-transform group-hover:scale-105">
                 <div class="w-full h-full bg-brand-dark rounded-[10px] flex items-center justify-center">
-                    <span class="font-mono text-cyan-400 font-black text-lg">&lt;/&gt;</span>
+                    <span class="font-mono text-cyan-400 font-black text-sm">&lt;/&gt;</span>
                 </div>
             </div>
-            <div class="font-mono font-bold text-lg sm:text-xl text-white tracking-tight">
+            <div class="font-mono font-bold text-base text-white tracking-tight">
                 Typing Code Trainer<span class="text-cyan-400 blinking-cursor">_</span>
             </div>
         </a>
 
-        <nav class="hidden md:flex items-center gap-9 text-sm font-medium">
-            <a href="index.html" class="text-slate-300 hover:text-white transition-colors py-1">Home</a>
+        <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+            <a href="index.html" class="text-slate-400 hover:text-white transition-colors py-1">Home</a>
             <a href="practice.html" class="text-white font-bold relative py-1 after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-cyan-400">Practice</a>
-            <a href="language.html" class="text-slate-300 hover:text-white transition-colors py-1">Language</a>
-            <a href="ranking.html" class="text-slate-300 hover:text-white transition-colors py-1">Ranking</a>
+            <a href="ranking.html" class="text-slate-400 hover:text-white transition-colors py-1">Ranking</a>
         </nav>
 
         <div class="flex items-center gap-3">
-            <button onclick="toggleAudio()" title="เปิด/ปิดเสียง" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 hover:bg-brand-surface text-slate-300 hover:text-cyan-400 transition-all flex items-center justify-center">
-                <svg id="soundIconOn" class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
-                <svg id="soundIconOff" class="w-5 h-5 hidden text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
+            <button id="soundToggleBtn" onclick="toggleAudio()" title="Toggle Sound" class="p-2 rounded-xl border border-brand-border bg-brand-surface/80 hover:bg-brand-surface text-slate-300 hover:text-cyan-400 transition-all flex items-center justify-center cursor-pointer">
+                <svg id="soundIconOn" class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
+                <svg id="soundIconOff" class="w-4 h-4 hidden text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
             </button>
-            <button onclick="toggleModal(true)" class="px-6 py-2.5 rounded-xl font-medium text-sm text-slate-900 bg-gradient-to-r from-slate-200 to-slate-300 hover:from-white hover:to-slate-100 shadow-md transition-all cursor-pointer">
+            <button onclick="toggleModal(true)" class="px-5 py-2 rounded-xl font-medium text-xs text-slate-900 bg-gradient-to-r from-slate-200 to-slate-300 hover:from-white hover:to-slate-100 shadow-md transition-all cursor-pointer">
                 Sign In
             </button>
         </div>
-    </div>
-</header>
+    </header>
 
-<!-- PRACTICE MAIN CONTENT -->
-<main class="flex-grow relative z-10 py-10 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto flex flex-col justify-center">
-    
-    <!-- Top Info & Lesson Header -->
-    <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <div>
-            <div class="flex items-center gap-2 mb-1">
-                <span id="activeLangBadge" class="text-xs font-mono px-2.5 py-0.5 rounded-md bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 font-bold uppercase">HTML &amp; CSS</span>
-                <span id="activeLessonName" class="text-xs text-slate-400 font-mono">Doctype &amp; Skeleton</span>
+    <!-- ================= MAIN LAYOUT (EXACTLY FITTED TO SCREEN) ================= -->
+    <main class="flex-grow max-w-[1600px] w-full mx-auto px-4 py-3 grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch overflow-hidden">
+        
+        <!-- LEFT SIDEBAR: LEVEL CARDS & LESSON LIST (Span 3.5) -->
+        <div class="lg:col-span-3.5 flex flex-col gap-3 h-full overflow-hidden">
+            
+            <!-- ระดับ (Levels) Header & Cards -->
+            <div class="p-3.5 rounded-2xl border border-brand-border bg-brand-card/90 backdrop-blur-md shadow-lg flex-shrink-0">
+                <div class="text-xs font-mono font-bold text-slate-400 mb-2.5 uppercase tracking-wider flex items-center justify-between">
+                    <span>ระดับ (Levels)</span>
+                    <span class="text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded-md border border-cyan-500/30">Pro Studio</span>
+                </div>
+                <div class="space-y-2">
+                    <!-- L1 Card -->
+                    <div onclick="setLevel('starter', 'L1 Key Starter')" id="levelCard-starter" class="p-2.5 rounded-xl border border-cyan-500 bg-cyan-500/10 cursor-pointer transition-all hover:border-cyan-400 shadow-neon-cyan flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="font-mono font-black text-cyan-400 text-xs px-2 py-1 rounded bg-cyan-500/20">L1</span>
+                            <div>
+                                <div class="font-bold text-xs text-white leading-tight">Key Starter</div>
+                                <div class="text-[10px] text-slate-400">แป้นพื้นฐานและตำแหน่งนิ้ว</div>
+                            </div>
+                        </div>
+                        <span class="font-mono text-xs text-cyan-400 font-semibold">0%</span>
+                    </div>
+
+                    <!-- L2 Card -->
+                    <div onclick="setLevel('syntax', 'L2 Syntax Builder')" id="levelCard-syntax" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="font-mono font-black text-purple-400 text-xs px-2 py-1 rounded bg-purple-500/20">L2</span>
+                            <div>
+                                <div class="font-bold text-xs text-white leading-tight">Syntax Builder</div>
+                                <div class="text-[10px] text-slate-400">คำสั่งและแท็กสั้น ๆ</div>
+                            </div>
+                        </div>
+                        <span class="font-mono text-xs text-slate-400 font-semibold">0%</span>
+                    </div>
+
+                    <!-- L3 Card -->
+                    <div onclick="setLevel('builder', 'L3 Code Builder')" id="levelCard-builder" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between">
+                        <div class="flex items-center gap-2.5">
+                            <span class="font-mono font-black text-emerald-400 text-xs px-2 py-1 rounded bg-emerald-500/20">L3</span>
+                            <div>
+                                <div class="font-bold text-xs text-white leading-tight">Code Builder</div>
+                                <div class="text-[10px] text-slate-400">ประโยคโค้ดจริงหลายบรรทัด</div>
+                            </div>
+                        </div>
+                        <span class="font-mono text-xs text-slate-400 font-semibold">0%</span>
+                    </div>
+                </div>
             </div>
-            <h1 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">Code Typing Studio</h1>
+
+            <!-- LESSONS GROUP LIST -->
+            <div class="flex-grow rounded-2xl border border-brand-border bg-brand-card/90 p-3 backdrop-blur-md shadow-lg flex flex-col overflow-hidden">
+                <div class="flex items-center justify-between pb-2 mb-2 border-b border-brand-border text-xs font-mono font-bold text-slate-300">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                        <span id="lessonGroupHeaderName">แป้นเหย้า</span>
+                    </span>
+                    <span id="lessonGroupProgress" class="text-slate-400 font-mono text-xs">0/4</span>
+                </div>
+
+                <div id="sidebarLessonsList" class="space-y-1.5 overflow-y-auto pr-1 flex-grow font-mono text-xs">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
         </div>
 
-        <!-- Live Stats Dashboard -->
-        <div class="flex items-center gap-4 bg-brand-surface/90 border border-brand-border px-5 py-2.5 rounded-2xl shadow-xl font-mono">
-            <div class="text-center">
-                <div class="text-[10px] text-slate-400 uppercase tracking-wider">WPM</div>
-                <div id="statWpm" class="text-xl font-black text-cyan-400">0</div>
+        <!-- CENTER / MAIN CONTENT AREA (Span 6) -->
+        <div class="lg:col-span-6 flex flex-col gap-3 h-full overflow-hidden">
+            
+            <!-- TOP CONTROLS & LANGUAGE PILLS -->
+            <div class="flex flex-wrap items-center justify-between gap-3 p-2.5 rounded-2xl bg-brand-card/90 border border-brand-border backdrop-blur-md shadow-md flex-shrink-0">
+                <!-- Language / Category Pills -->
+                <div id="categoryPillsContainer" class="flex flex-wrap items-center gap-2">
+                    <!-- Populated dynamically -->
+                </div>
+
+                <!-- Reset Button -->
+                <button onclick="resetPracticeState()" class="px-3.5 py-2 rounded-xl border border-brand-border bg-brand-surface hover:bg-brand-card text-slate-300 hover:text-white font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer">
+                    <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+                    <span>Reset (Esc)</span>
+                </button>
             </div>
-            <div class="h-8 w-[1px] bg-brand-border"></div>
-            <div class="text-center">
-                <div class="text-[10px] text-slate-400 uppercase tracking-wider">Accuracy</div>
-                <div id="statAccuracy" class="text-xl font-black text-emerald-400">100%</div>
+
+            <!-- CODE / TEXT DISPLAY AREA (AUTO-FOCUSED INSTANT TYPING) -->
+            <div class="relative rounded-2xl border border-cyan-500/40 bg-brand-card/85 p-6 backdrop-blur-xl shadow-glow-lg flex-grow flex flex-col justify-center overflow-hidden cursor-text" onclick="document.getElementById('hiddenTypingInput').focus()">
+                <div class="absolute top-3 left-5 flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
+                    <span id="modeBadgeTitle" class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400">Typing Code Studio</span>
+                </div>
+
+                <!-- Hidden input capturing keystrokes instantly -->
+                <input type="text" id="hiddenTypingInput" class="absolute opacity-0 pointer-events-none" oninput="handleTypingInput(event)" onkeydown="handleKeyDown(event)">
+
+                <!-- Interactive Text -->
+                <div id="typingTextDisplay" class="font-mono text-lg sm:text-xl lg:text-2xl leading-relaxed tracking-wide select-none whitespace-pre-wrap break-all mt-4 max-h-[180px] overflow-y-auto">
+                    <!-- Injected chars -->
+                </div>
             </div>
-            <div class="h-8 w-[1px] bg-brand-border"></div>
-            <div class="text-center">
-                <div class="text-[10px] text-slate-400 uppercase tracking-wider">Time</div>
-                <div id="statTimer" class="text-xl font-black text-purple-400">0s</div>
+
+            <!-- VIRTUAL KEYBOARD / HANDS GUIDE -->
+            <div class="rounded-2xl border border-brand-border bg-brand-surface/90 p-3 backdrop-blur-md shadow-lg flex flex-col items-center justify-center relative flex-shrink-0">
+                <div class="absolute top-2 right-4 flex items-center gap-2 z-20">
+                    <button onclick="setKeyboardMode('keyboard')" id="viewModeKeyBtn" class="px-2.5 py-1 rounded-lg bg-cyan-500/20 border border-cyan-500 text-cyan-400 text-[10px] font-mono font-bold flex items-center gap-1 shadow-neon-cyan cursor-pointer">
+                        <span>Keyboard</span>
+                    </button>
+                    <button onclick="setKeyboardMode('hands')" id="viewModeHandsBtn" class="px-2.5 py-1 rounded-lg bg-brand-card border border-brand-border text-slate-300 hover:text-white text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer">
+                        <span>Hands</span>
+                    </button>
+                </div>
+
+                <div class="w-full text-left mb-1.5">
+                    <div id="keyboardGuideTitle" class="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">
+                        Virtual Mechanical Keyboard
+                    </div>
+                </div>
+
+                <div id="visualKeyboardContainer" class="w-full flex items-center justify-center py-1">
+                    <!-- Rendered via JS -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT SIDEBAR: REALTIME STATS (Span 2.5) -->
+        <div class="lg:col-span-2.5 flex flex-col gap-3 h-full justify-between">
+            <div class="rounded-2xl border border-brand-border bg-brand-card/85 p-3.5 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">TIME</div>
+                <div id="statTimer" class="font-mono text-2xl font-extrabold text-cyan-400">00:00</div>
+            </div>
+
+            <div class="rounded-2xl border border-brand-border bg-brand-card/85 p-3.5 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">WPM</div>
+                <div id="statWpm" class="font-mono text-2xl font-extrabold text-cyan-400">0</div>
+            </div>
+
+            <div class="rounded-2xl border border-brand-border bg-brand-card/85 p-3.5 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">ACCURACY</div>
+                <div id="statAccuracy" class="font-mono text-2xl font-extrabold text-emerald-400">100%</div>
+            </div>
+
+            <div class="rounded-2xl border border-brand-border bg-brand-card/85 p-3.5 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">WRONG</div>
+                <div id="statWrong" class="font-mono text-2xl font-extrabold text-red-400">0</div>
+            </div>
+
+            <div class="rounded-2xl border border-brand-border bg-brand-surface p-3 flex items-center justify-center text-slate-500">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             </div>
         </div>
-    </div>
 
-    <!-- Hidden input to capture keystrokes reliably on mobile & desktop -->
-    <input type="text" id="hiddenInput" autocomplete="off" autocapitalize="off" spellcheck="false" class="opacity-0 absolute -top-20 -left-20 w-1 h-1 pointer-events-none">
+    </main>
 
-    <!-- Typing Box Container -->
-    <div id="typingCard" onclick="focusInput()" class="relative rounded-3xl border border-cyan-500/40 bg-[#0b101d] p-6 sm:p-10 shadow-glow-lg cursor-text backdrop-blur-xl transition-all duration-300 mb-8">
-        <!-- Focus overlay if unfocused -->
-        <div id="focusPrompt" class="absolute inset-0 bg-[#070a13]/85 backdrop-blur-sm rounded-3xl flex flex-col items-center justify-center z-25 transition-opacity">
-            <div class="w-16 h-16 rounded-2xl bg-cyan-500/10 border border-cyan-500/40 flex items-center justify-center text-cyan-400 mb-4 shadow-neon-cyan animate-pulse">
-                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122"/></svg>
-            </div>
-            <h3 class="text-xl font-bold text-white mb-1 font-mono">Click here or press any key to start</h3>
-            <p class="text-xs text-slate-400 font-mono">Zero typing penalties • Real syntax practice</p>
-        </div>
-
-        <!-- Code Snippet Display Area -->
-        <div class="font-mono text-sm sm:text-lg leading-relaxed overflow-x-auto whitespace-pre select-none py-2" id="codeDisplay"></div>
-    </div>
-
-    <!-- Controls Footer -->
-    <div class="flex flex-wrap items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-            <button onclick="resetTest()" class="px-5 py-2.5 rounded-xl font-mono text-xs font-bold text-slate-300 bg-brand-surface hover:bg-brand-card border border-brand-border flex items-center gap-2 transition-all">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-                <span>Restart Test (Tab)</span>
+    <!-- ================= AUTH MODAL ================= -->
+    <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="w-full max-w-md rounded-3xl border border-brand-border bg-brand-surface p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
-            <select id="snippetSelector" onchange="changeSnippet(this.value)" class="px-4 py-2.5 rounded-xl font-mono text-xs font-bold text-cyan-300 bg-brand-surface border border-cyan-500/30 focus:outline-none cursor-pointer">
-                <option value="html1">HTML: Doctype &amp; Skeleton</option>
-                <option value="js1">JS: Async / Await Fetch</option>
-                <option value="py1">Python: Function &amp; Type Hints</option>
-                <option value="sym1">Symbols: Brackets &amp; Operators</option>
-            </select>
-        </div>
-
-        <a href="language.html" class="text-xs font-mono text-cyan-400 hover:text-cyan-300 transition-colors flex items-center gap-1.5">
-            <span>Browse all 25+ lessons</span> &rarr;
-        </a>
-    </div>
-</main>
-
-<!-- SUCCESS / RESULTS MODAL -->
-<div id="resultModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
-    <div class="bg-brand-card border border-cyan-500/50 rounded-3xl p-8 max-w-md w-full shadow-glow-lg text-center relative">
-        <div class="w-16 h-16 rounded-2xl bg-cyan-500/20 border border-cyan-500/40 flex items-center justify-center text-cyan-300 mx-auto mb-5 shadow-neon-cyan">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
-        </div>
-        <h3 class="text-2xl font-black text-white mb-1 font-mono">Lesson Completed!</h3>
-        <p class="text-xs text-slate-400 font-mono mb-6">Fantastic job! Here are your performance stats.</p>
-
-        <div class="grid grid-cols-3 gap-3 mb-8 font-mono">
-            <div class="bg-brand-dark p-4 rounded-2xl border border-brand-border">
-                <div class="text-[10px] text-slate-400 uppercase">WPM</div>
-                <div id="resWpm" class="text-2xl font-black text-cyan-400 mt-1">0</div>
+            <div class="text-center mb-6">
+                <div class="font-mono text-cyan-400 text-xs font-semibold mb-1 uppercase tracking-wider">Authentication</div>
+                <h3 class="text-2xl font-bold text-white">Sign In to Your Account</h3>
+                <p class="text-xs text-slate-400 mt-1">Sync your WPM, custom lessons and rankings</p>
             </div>
-            <div class="bg-brand-dark p-4 rounded-2xl border border-brand-border">
-                <div class="text-[10px] text-slate-400 uppercase">Accuracy</div>
-                <div id="resAccuracy" class="text-2xl font-black text-emerald-400 mt-1">100%</div>
-            </div>
-            <div class="bg-brand-dark p-4 rounded-2xl border border-brand-border">
-                <div class="text-[10px] text-slate-400 uppercase">Errors</div>
-                <div id="resErrors" class="text-2xl font-black text-rose-400 mt-1">0</div>
-            </div>
-        </div>
-
-        <div class="flex gap-3">
-            <button onclick="resetTest(); closeModal();" class="flex-1 py-3 rounded-xl bg-brand-surface hover:bg-brand-border font-mono text-xs font-bold text-white border border-brand-border transition-all">
-                Try Again
-            </button>
-            <button onclick="nextSnippet(); closeModal();" class="flex-1 py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 font-mono text-xs font-bold text-slate-950 shadow-neon-cyan transition-all">
-                Next Lesson &rarr;
-            </button>
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4 font-mono text-xs">
+                <div>
+                    <label class="block text-slate-400 mb-1.5">Email Address</label>
+                    <input type="email" required placeholder="developer@domain.com" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 text-sm">
+                </div>
+                <div>
+                    <label class="block text-slate-400 mb-1.5">Password</label>
+                    <input type="password" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-xl bg-brand-dark border border-brand-border text-white placeholder-slate-500 focus:outline-none focus:border-cyan-400 text-sm">
+                </div>
+                <button type="submit" class="w-full py-3 rounded-xl bg-cyan-400 hover:bg-cyan-300 font-bold text-slate-900 shadow-neon-cyan transition-all text-sm mt-3 cursor-pointer">
+                    Sign In
+                </button>
+            </form>
         </div>
     </div>
-</div>
 
-<!-- AUTH MODAL -->
-<div id="authModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-md p-4">
-    <div class="bg-brand-card border border-cyan-500/40 rounded-3xl p-8 max-w-md w-full shadow-glow-lg relative">
-        <button onclick="toggleModal(false)" class="absolute top-5 right-5 text-slate-400 hover:text-white text-xl">&times;</button>
-        <h3 class="text-2xl font-bold text-white mb-2 font-mono">Sign In</h3>
-        <p class="text-slate-400 text-sm mb-6">Sync your WPM stats and personal records.</p>
-        <div class="space-y-4">
-            <button class="w-full py-3 px-4 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium text-sm border border-brand-border">Continue with GitHub</button>
-            <button class="w-full py-3 px-4 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-sm">Sign in with Google</button>
-        </div>
+    <!-- Notification Toast -->
+    <div id="toastMessage" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-brand-surface border border-cyan-400 text-white font-mono text-xs shadow-neon-cyan flex items-center gap-2">
+        <span class="text-cyan-400">⚡</span>
+        <span id="toastText">Notification</span>
     </div>
-</div>
 
-<footer class="py-8 border-t border-brand-border/40 text-center text-xs text-slate-500 font-mono">
-    <p>Typing Code Trainer_ &copy; 2026. Master Code Typing at Pro Speed.</p>
-</footer>
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+        const curriculum = {
+            starter: {
+                title: "L1 Key Starter",
+                subTitle: "Basic Finger Placement (asdf jkl;)",
+                categories: [
+                    { id: "starter_cat", name: "Basic Keys", groupName: "แป้นเหย้า", lessons: [
+                        { title: "ปุ่ม A · S", text: "aaaaaa ssssss asasas sasasa aassaa" },
+                        { title: "ปุ่ม D · F", text: "dddddd ffffff dfdfdf fdfdfd ddffdd" },
+                        { title: "ปุ่ม J · K", text: "jjjjjj kkkkkk jkjkjk kjkjkj jjkkjj" },
+                        { title: "ปุ่ม L · ;", text: "llllll ;;;;;; l;l;l; ;l;l;l ll;;ll" }
+                    ]}
+                ]
+            },
+            syntax: {
+                title: "L2 Syntax Builder",
+                subTitle: "Short vocabulary & syntax tags",
+                categories: [
+                    { id: "html", name: "HTML & CSS", groupName: "HTML Syntax", lessons: [
+                        { title: "Tags & Elements", text: "html head body title meta link div span" }
+                    ]},
+                    { id: "js", name: "JavaScript", groupName: "JS Keywords", lessons: [
+                        { title: "Keywords", text: "const let var function return async await" }
+                    ]},
+                    { id: "php", name: "PHP", groupName: "PHP Keywords", lessons: [
+                        { title: "PHP Words", text: "echo print class public private import" }
+                    ]},
+                    { id: "python", name: "Python", groupName: "Python Keywords", lessons: [
+                        { title: "Python Words", text: "def return class import if elif else print" }
+                    ]},
+                    { id: "symbols", name: "Symbols & Brackets", groupName: "Operators", lessons: [
+                        { title: "Operators", text: "=> === !== += -= && || ?? ?" }
+                    ]}
+                ]
+            },
+            builder: {
+                title: "L3 Code Builder",
+                subTitle: "Full code snippets and instruction sets",
+                categories: [
+                    { id: "html", name: "HTML & CSS", groupName: "HTML Code Snippets", lessons: [
+                        { title: "Flex Container", text: '<div class="container flex justify-between">\n       <h1 class="text-xl font-bold">Typing Code</h1>\n       <button type="submit">Run</button>\n</div>' }
+                    ]},
+                    { id: "js", name: "JavaScript", groupName: "JS Code Snippets", lessons: [
+                        { title: "Async Fetch", text: 'const fetchData = async (url) => {\n    const res = await fetch(url);\n    return await res.json();\n};' }
+                    ]},
+                    { id: "php", name: "PHP", groupName: "PHP Code Snippets", lessons: [
+                        { title: "Class Definition", text: 'class ScoreCalculator {\n    public function calculate(int $score): float {\n        return $score * 1.5;\n    }\n}' }
+                    ]},
+                    { id: "python", name: "Python", groupName: "Python Code Snippets", lessons: [
+                        { title: "WPM Function", text: 'def calculate_wpm(chars: int, seconds: float) -> int:\n    words = chars / 5\n    return round(words / (seconds / 60))' }
+                    ]},
+                    { id: "symbols", name: "Symbols & Brackets", groupName: "Advanced Brackets", lessons: [
+                        { title: "Nested Brackets", text: 'if ((token !== null && index >= 0) || !isExpired) {\n    const payload = { id: `#${index}`, flags: [ ...baseFlags ] };\n}' }
+                    ]}
+                ]
+            }
+        };
 
-<!-- SCRIPT LOGIC -->
-<script>
-    const snippets = {
-        html1: {
-            lang: "HTML & CSS",
-            name: "Doctype & Skeleton",
-            code: `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>`
-        },
-        js1: {
-            lang: "JavaScript",
-            name: "Async / Await Fetch",
-            code: `const fetchCoderStats = async (userId) => {\n  const res = await fetch(\`/api/stats/\${userId}\`);\n  const { wpm, accuracy } = await res.json();\n  return { wpm, accuracy };\n};`
-        },
-        py1: {
-            lang: "Python",
-            name: "Function & Type Hints",
-            code: `def calculate_wpm(words: int, seconds: float) -> float:\n    if seconds <= 0:\n        return 0.0\n    return round(words / (seconds / 60), 2)`
-        },
-        sym1: {
-            lang: "Symbols & Brackets",
-            name: "Brackets & Operators",
-            code: `if ((token !== null && index >= 0) || !isExpired) {\n    const payload = { id: \`#\${index}\`, flags: [ ...baseFlags ] };\n}`
+        let currentLevelKey = 'starter';
+        let currentLangId = 'starter_cat';
+        let currentLessonIndex = 0;
+        let targetText = "";
+        let currentIndex = 0;
+        let errors = 0;
+        let totalTyped = 0;
+        let isStarted = false;
+        let startTime = null;
+        let timerInterval = null;
+        let secondsElapsed = 0;
+        let viewMode = 'keyboard';
+        let isAudioOn = true;
+        let audioCtx = null;
+
+        window.onload = function() {
+            setLevel('starter', 'L1 Key Starter');
+            setupAutoKeyboardFocus();
+        };
+
+        function setupAutoKeyboardFocus() {
+            const input = document.getElementById('hiddenTypingInput');
+            input.focus();
+            window.addEventListener('click', () => {
+                input.focus();
+            });
         }
-    };
 
-    let currentKey = 'html1';
-    let targetText = snippets[currentKey].code;
-    let currentIndex = 0;
-    let startTime = null;
-    let timerInterval = null;
-    let errors = 0;
-    let isFinished = false;
-    let isAudioOn = true;
-    let audioCtx = null;
+        function setLevel(levelKey, levelName) {
+            playAudioClick();
+            currentLevelKey = levelKey;
+            currentLessonIndex = 0;
 
-    const hiddenInput = document.getElementById('hiddenInput');
-    const codeDisplay = document.getElementById('codeDisplay');
-    const focusPrompt = document.getElementById('focusPrompt');
+            const firstCat = curriculum[levelKey].categories[0];
+            currentLangId = firstCat ? firstCat.id : 'html';
 
-    function initSnippet(key) {
-        currentKey = key;
-        targetText = snippets[key].code;
-        document.getElementById('activeLangBadge').textContent = snippets[key].lang;
-        document.getElementById('activeLessonName').textContent = snippets[key].name;
-        resetTest();
-    }
+            // Highlight active level card
+            ['starter', 'syntax', 'builder'].forEach(k => {
+                const card = document.getElementById(`levelCard-${k}`);
+                if (k === levelKey) {
+                    card.className = "p-2.5 rounded-xl border border-cyan-500 bg-cyan-500/10 cursor-pointer transition-all hover:border-cyan-400 shadow-neon-cyan flex items-center justify-between";
+                } else {
+                    card.className = "p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 cursor-pointer transition-all hover:border-cyan-500/50 flex items-center justify-between";
+                }
+            });
 
-    function changeSnippet(val) {
-        initSnippet(val);
-    }
+            renderCategoryPills();
+            loadCurrentLesson();
+        }
 
-    function nextSnippet() {
-        const keys = Object.keys(snippets);
-        const nextIdx = (keys.indexOf(currentKey) + 1) % keys.length;
-        const nextKey = keys[nextIdx];
-        document.getElementById('snippetSelector').value = nextKey;
-        initSnippet(nextKey);
-    }
+        function renderCategoryPills() {
+            const container = document.getElementById('categoryPillsContainer');
+            const data = curriculum[currentLevelKey];
+            container.innerHTML = '';
 
-    function focusInput() {
-        hiddenInput.focus();
-        focusPrompt.classList.add('opacity-0', 'pointer-events-none');
-    }
+            data.categories.forEach((cat) => {
+                const btn = document.createElement('button');
+                btn.className = `lang-pill-btn ${cat.id === currentLangId ? 'active' : ''}`;
+                btn.textContent = cat.name;
+                btn.onclick = () => {
+                    playAudioClick();
+                    currentLangId = cat.id;
+                    currentLessonIndex = 0;
+                    renderCategoryPills();
+                    loadCurrentLesson();
+                };
+                container.appendChild(btn);
+            });
+        }
 
-    function resetTest() {
-        currentIndex = 0;
-        startTime = null;
-        errors = 0;
-        isFinished = false;
-        clearInterval(timerInterval);
-        document.getElementById('statWpm').textContent = '0';
-        document.getElementById('statAccuracy').textContent = '100%';
-        document.getElementById('statTimer').textContent = '0s';
-        renderCode();
-        focusPrompt.classList.remove('opacity-0', 'pointer-events-none');
-    }
+        function loadCurrentLesson() {
+            const catData = curriculum[currentLevelKey].categories.find(c => c.id === currentLangId) || curriculum[currentLevelKey].categories[0];
+            
+            document.getElementById('lessonGroupHeaderName').textContent = catData.groupName || "บทเรียน";
+            document.getElementById('lessonGroupProgress').textContent = `${currentLessonIndex + 1}/${catData.lessons.length}`;
 
-    function renderCode() {
-        let html = '';
-        for (let i = 0; i < targetText.length; i++) {
-            const char = targetText[i];
-            let displayChar = char;
-            if (char === '\n') displayChar = '↵\n';
-            else if (char === ' ') displayChar = '·';
+            const listContainer = document.getElementById('sidebarLessonsList');
+            listContainer.innerHTML = '';
 
-            if (i < currentIndex) {
-                html += `<span class="char-correct">${escapeHtml(displayChar)}</span>`;
-            } else if (i === currentIndex) {
-                html += `<span class="char-current">${escapeHtml(displayChar)}</span>`;
+            catData.lessons.forEach((lesson, lIdx) => {
+                const lBtn = document.createElement('button');
+                lBtn.className = `w-full text-left px-3 py-2 rounded-xl transition-all flex items-center justify-between cursor-pointer ${lIdx === currentLessonIndex ? 'bg-cyan-500/20 border border-cyan-500/60 text-cyan-300 font-bold' : 'hover:bg-brand-surface text-slate-300 border border-transparent'}`;
+                
+                const numStr = (lIdx + 1).toString().padStart(2, '0');
+                lBtn.innerHTML = `
+                    <div class="flex items-center gap-2.5">
+                        <span class="text-slate-500 text-xs">${numStr}</span>
+                        <span class="text-xs">${lesson.title}</span>
+                    </div>
+                    ${lIdx === currentLessonIndex ? '<span class="text-cyan-400 text-xs font-bold">▶</span>' : ''}
+                `;
+                lBtn.onclick = () => {
+                    playAudioClick();
+                    currentLessonIndex = lIdx;
+                    loadCurrentLesson();
+                };
+                listContainer.appendChild(lBtn);
+            });
+
+            if (catData.lessons[currentLessonIndex]) {
+                targetText = catData.lessons[currentLessonIndex].text;
             } else {
-                html += `<span class="char-untyped">${escapeHtml(displayChar)}</span>`;
+                targetText = "html head body";
+            }
+
+            resetPracticeState();
+        }
+
+        function resetPracticeState() {
+            if (timerInterval) clearInterval(timerInterval);
+            isStarted = false;
+            startTime = null;
+            secondsElapsed = 0;
+            currentIndex = 0;
+            errors = 0;
+            totalTyped = 0;
+
+            document.getElementById('statTimer').textContent = "00:00";
+            document.getElementById('statWpm').textContent = "0";
+            document.getElementById('statAccuracy').textContent = "100%";
+            document.getElementById('statWrong').textContent = "0";
+
+            renderTextDisplay();
+            renderKeyboard();
+            document.getElementById('hiddenTypingInput').focus();
+        }
+
+        function handleKeyDown(e) {
+            if (e.key === 'Escape') {
+                resetPracticeState();
+                e.preventDefault();
             }
         }
-        codeDisplay.innerHTML = html;
-    }
 
-    function escapeHtml(text) {
-        return text.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    }
+        function handleTypingInput(e) {
+            const val = e.target.value;
+            if (!val) return;
+            e.target.value = '';
 
-    // Keydown listener
-    window.addEventListener('keydown', (e) => {
-        if (isFinished) return;
-
-        // Tab to reset
-        if (e.key === 'Tab') {
-            e.preventDefault();
-            resetTest();
-            return;
-        }
-
-        if (!startTime && e.key.length === 1) {
-            startTime = new Date();
-            startTimer();
-            focusPrompt.classList.add('opacity-0', 'pointer-events-none');
-        }
-
-        if (e.key === 'Backspace') {
-            if (currentIndex > 0) {
-                currentIndex--;
-                playClickSound(80);
-                renderCode();
+            if (!isStarted) {
+                isStarted = true;
+                startTime = Date.now();
+                timerInterval = setInterval(updateTimer, 1000);
             }
-            return;
-        }
 
-        if (e.key.length === 1) {
-            playClickSound(150 + Math.random() * 50);
+            const charTyped = val.slice(-1);
             const expectedChar = targetText[currentIndex];
 
-            if (e.key === expectedChar) {
+            playAudioClick();
+            totalTyped++;
+
+            if (charTyped === expectedChar) {
                 currentIndex++;
             } else {
                 errors++;
-                currentIndex++; // Allow moving forward or strict mode
+                document.getElementById('statWrong').textContent = errors;
             }
 
-            renderCode();
+            renderTextDisplay();
             updateStats();
 
             if (currentIndex >= targetText.length) {
-                finishTest();
+                clearInterval(timerInterval);
+                isStarted = false;
+                showToast("🎉 บทเรียนเสร็จสมบูรณ์ยอดเยี่ยมมาก!");
             }
         }
-    });
 
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            if (!startTime) return;
-            const secondsElapsed = Math.floor((new Date() - startTime) / 1000);
-            document.getElementById('statTimer').textContent = `${secondsElapsed}s`;
+        function updateTimer() {
+            secondsElapsed++;
+            const mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+            const secs = (secondsElapsed % 60).toString().padStart(2, '0');
+            document.getElementById('statTimer').textContent = `${mins}:${secs}`;
             updateStats();
-        }, 1000);
-    }
-
-    function updateStats() {
-        if (!startTime) return;
-        const minutes = (new Date() - startTime) / 60000;
-        if (minutes <= 0) return;
-
-        const wordsTyped = (currentIndex / 5);
-        const wpm = Math.round(wordsTyped / minutes);
-        document.getElementById('statWpm').textContent = wpm > 0 ? wpm : 0;
-
-        const accuracy = currentIndex > 0 ? Math.max(0, Math.round(((currentIndex - errors) / currentIndex) * 100)) : 100;
-        document.getElementById('statAccuracy').textContent = `${accuracy}%`;
-    }
-
-    function finishTest() {
-        isFinished = true;
-        clearInterval(timerInterval);
-        const minutes = (new Date() - startTime) / 60000;
-        const wordsTyped = (targetText.length / 5);
-        const finalWpm = Math.round(wordsTyped / minutes);
-        const finalAcc = Math.max(0, Math.round(((targetText.length - errors) / targetText.length) * 100));
-
-        document.getElementById('resWpm').textContent = finalWpm;
-        document.getElementById('resAccuracy').textContent = `${finalAcc}%`;
-        document.getElementById('resErrors').textContent = errors;
-
-        const modal = document.getElementById('resultModal');
-        modal.classList.remove('hidden');
-        modal.classList.add('flex');
-    }
-
-    function closeModal() {
-        const modal = document.getElementById('resultModal');
-        modal.classList.add('hidden');
-        modal.classList.remove('flex');
-    }
-
-    function toggleModal(show) {
-        const modal = document.getElementById('authModal');
-        if (show) {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-        } else {
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
         }
-    }
 
-    function playClickSound(freq) {
-        if (!isAudioOn) return;
-        try {
-            if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
+        function updateStats() {
+            if (!startTime || secondsElapsed === 0) return;
+            const mins = secondsElapsed / 60;
+            const words = (currentIndex / 5);
+            const wpm = Math.round(words / mins) || 0;
+            const accuracy = Math.max(0, Math.round(((currentIndex - errors) / Math.max(1, currentIndex)) * 100));
 
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
+            document.getElementById('statWpm').textContent = wpm;
+            document.getElementById('statAccuracy').textContent = `${accuracy}%`;
+        }
 
-            osc.type = 'triangle';
-            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.04);
+        function renderTextDisplay() {
+            const display = document.getElementById('typingTextDisplay');
+            display.innerHTML = '';
 
-            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+            for (let i = 0; i < targetText.length; i++) {
+                const span = document.createElement('span');
+                span.textContent = targetText[i];
+                if (i < currentIndex) {
+                    span.className = "text-cyan-400 font-bold";
+                } else if (i === currentIndex) {
+                    span.className = "text-white bg-cyan-500/30 border-b-2 border-cyan-400 blinking-cursor";
+                } else {
+                    span.className = "text-slate-500";
+                }
+                display.appendChild(span);
+            }
+        }
 
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
+        function setKeyboardMode(mode) {
+            playAudioClick();
+            viewMode = mode;
+            document.getElementById('viewModeKeyBtn').className = mode === 'keyboard' ? "px-2.5 py-1 rounded-lg bg-cyan-500/20 border border-cyan-500 text-cyan-400 text-[10px] font-mono font-bold flex items-center gap-1 shadow-neon-cyan cursor-pointer" : "px-2.5 py-1 rounded-lg bg-brand-card border border-brand-border text-slate-300 hover:text-white text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer";
+            document.getElementById('viewModeHandsBtn').className = mode === 'hands' ? "px-2.5 py-1 rounded-lg bg-cyan-500/20 border border-cyan-500 text-cyan-400 text-[10px] font-mono font-bold flex items-center gap-1 shadow-neon-cyan cursor-pointer" : "px-2.5 py-1 rounded-lg bg-brand-card border border-brand-border text-slate-300 hover:text-white text-[10px] font-mono font-bold flex items-center gap-1 cursor-pointer";
+            
+            document.getElementById('keyboardGuideTitle').textContent = mode === 'keyboard' ? "Virtual Mechanical Keyboard" : "Proper Finger Placement Guide";
+            renderKeyboard();
+        }
 
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.04);
-        } catch (e) {}
-    }
+        function renderKeyboard() {
+            const container = document.getElementById('visualKeyboardContainer');
+            container.innerHTML = '';
 
-    function toggleAudio() {
-        isAudioOn = !isAudioOn;
-        document.getElementById('soundIconOn').classList.toggle('hidden', !isAudioOn);
-        document.getElementById('soundIconOff').classList.toggle('hidden', isAudioOn);
-    }
+            const expectedChar = targetText[currentIndex] || '';
 
-    document.addEventListener('DOMContentLoaded', () => {
-        renderCode();
-    });
-</script>
+            if (viewMode === 'keyboard') {
+                const kbDiv = document.createElement('div');
+                kbDiv.className = "space-y-1 font-mono text-[10px] text-slate-300";
 
+                const rows = [
+                    ['~', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '='],
+                    ['TAB', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '[', ']', '\\'],
+                    ['CAPS', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';', "'", 'ENTER'],
+                    ['SHIFT', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '/', 'SHIFT'],
+                    ['CTRL', 'ALT', 'SPACEBAR', 'ALT', 'CTRL']
+                ];
+
+                rows.forEach(row => {
+                    const rDiv = document.createElement('div');
+                    rDiv.className = "flex gap-1.5 justify-center";
+                    row.forEach(key => {
+                        const kSpan = document.createElement('div');
+                        let widthClass = "w-7 h-7";
+                        if (key === 'TAB' || key === 'CAPS' || key === 'ENTER' || key === 'SHIFT' || key === 'SPACEBAR') {
+                            widthClass = key === 'SPACEBAR' ? "w-44 h-7" : "w-11 h-7";
+                        }
+                        
+                        const isMatch = key.toLowerCase() === expectedChar.toLowerCase() || (key === 'SPACEBAR' && expectedChar === ' ');
+                        kSpan.className = `key-cap ${widthClass} flex items-center justify-center text-[10px] font-bold ${isMatch ? 'active-key' : 'text-slate-300'}`;
+                        kSpan.textContent = key;
+                        rDiv.appendChild(kSpan);
+                    });
+                    kbDiv.appendChild(rDiv);
+                });
+                container.appendChild(kbDiv);
+            } else {
+                const handsDiv = document.createElement('div');
+                handsDiv.className = "flex items-center justify-center py-2 gap-6 text-xs font-mono";
+                handsDiv.innerHTML = `
+                    <div class="px-4 py-2 rounded-xl bg-cyan-500/10 border border-cyan-500/40 flex items-center gap-3">
+                        <span class="text-base">✋</span>
+                        <div><span class="text-cyan-400 font-bold">Left Hand:</span> A S D F</div>
+                    </div>
+                    <div class="px-4 py-2 rounded-xl bg-purple-500/10 border border-purple-500/40 flex items-center gap-3">
+                        <span class="text-base">🤚</span>
+                        <div><span class="text-purple-400 font-bold">Right Hand:</span> J K L ;</div>
+                    </div>
+                `;
+                container.appendChild(handsDiv);
+            }
+        }
+
+        function playAudioClick() {
+            if (!isAudioOn) return;
+            try {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(160 + Math.random() * 40, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.04);
+
+                gain.gain.setValueAtTime(0.18, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+                osc.stop(audioCtx.currentTime + 0.04);
+            } catch (e) {}
+        }
+
+        function toggleAudio() {
+            isAudioOn = !isAudioOn;
+            document.getElementById('soundIconOn').classList.toggle('hidden', !isAudioOn);
+            document.getElementById('soundIconOff').classList.toggle('hidden', isAudioOn);
+            showToast(isAudioOn ? "Mechanical Audio: ON" : "Audio: MUTED");
+        }
+
+        function toggleModal(show) {
+            playAudioClick();
+            const modal = document.getElementById('authModal');
+            if (show) modal.classList.remove('hidden');
+            else modal.classList.add('hidden');
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            toggleModal(false);
+            showToast("Signed in successfully!");
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastMessage');
+            const toastText = document.getElementById('toastText');
+            toastText.textContent = message;
+            toast.classList.remove('translate-y-24', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-24', 'opacity-0');
+            }, 3000);
+        }
+    </script>
 </body>
 </html>
