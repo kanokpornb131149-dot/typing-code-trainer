@@ -30,6 +30,34 @@
       font-family: 'Inter', system-ui, sans-serif;
     }
 
+    /* 3D VECTOR KEYBOARD BACKGROUND */
+    .viewport-3d {
+        perspective: 1200px;
+        perspective-origin: 50% 30%;
+    }
+    .keyboard-plane {
+        transform-style: preserve-3d;
+        transform: rotateX(55deg) rotateZ(-24deg) translateY(0px);
+        transition: transform 0.08s ease-out;
+        will-change: transform;
+    }
+    .key-cap-3d {
+        position: relative;
+        background: linear-gradient(180deg, #162035 0%, #0d1424 100%);
+        border: 1px solid rgba(0, 242, 254, 0.2);
+        border-top: 1.5px solid rgba(255, 255, 255, 0.15);
+        border-bottom: 2px solid #050811;
+        border-radius: 8px;
+        box-shadow: 0 6px 0 #050811, 0 10px 18px rgba(0, 0, 0, 0.6);
+        transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+        user-select: none;
+    }
+    .key-cap-3d.active-glow {
+        border-color: #00f2fe;
+        box-shadow: 0 6px 0 #0284c7, 0 0 25px rgba(0, 242, 254, 0.6), inset 0 0 12px rgba(0, 242, 254, 0.4);
+        transform: translateY(-2px);
+    }
+
     button { font: inherit; }
 
     .navbar {
@@ -42,6 +70,8 @@
       background: rgba(7, 10, 19, 0.92);
       backdrop-filter: blur(12px);
       flex-shrink: 0;
+      position: relative;
+      z-index: 50;
     }
 
     .brand {
@@ -69,13 +99,6 @@
 
     .brand-cursor { color: var(--cyan); animation: blink 1s infinite; }
     @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: clamp(16px, 2.5vw, 36px);
-      height: 100%;
-    }
 
     .nav-links a {
       height: 100%;
@@ -141,6 +164,8 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
+      position: relative;
+      z-index: 10;
     }
 
     .page-heading { text-align: center; margin-bottom: 12px; }
@@ -199,7 +224,7 @@
       overflow: hidden;
       border: 1px solid var(--line);
       border-radius: 14px;
-      background: rgba(19, 28, 51, 0.75);
+      background: rgba(19, 28, 51, 0.85);
       backdrop-filter: blur(12px);
       box-shadow: 0 15px 35px rgba(0,0,0,0.4);
     }
@@ -278,7 +303,8 @@
       align-items: center;
       border: 1px solid var(--cyan);
       border-radius: 12px;
-      background: rgba(15, 22, 40, 0.85);
+      background: rgba(15, 22, 40, 0.9);
+      backdrop-filter: blur(12px);
       box-shadow: 0 0 20px rgba(0, 242, 254, 0.15);
     }
 
@@ -352,15 +378,12 @@
           leaderboardData.push(doc.data());
         });
 
-        // Filter by language if needed
         const filtered = leaderboardData.filter(item => {
           if (filterLang === 'all') return true;
           return item.lang === filterLang || item.lang === 'all';
         });
 
-        // Sort by WPM descending
         filtered.sort((a, b) => b.wpm - a.wpm);
-
         container.innerHTML = "";
 
         if (filtered.length === 0) {
@@ -412,6 +435,40 @@
     document.addEventListener("DOMContentLoaded", () => {
       loadLeaderboard('all');
 
+      // 3D Parallax Script
+      let mouseX = 0, mouseY = 0;
+      let currentTiltX = 0, currentTiltY = 0;
+      const keyboard3D = document.getElementById('keyboard3D');
+
+      window.addEventListener('mousemove', (e) => {
+          mouseX = (e.clientX / window.innerWidth - 0.5) * 2;
+          mouseY = (e.clientY / window.innerHeight - 0.5) * 2;
+      });
+
+      function render3DLoop() {
+          currentTiltX += (mouseX - currentTiltX) * 0.045;
+          currentTiltY += (mouseY - currentTiltY) * 0.045;
+          const rotX = 54 - (currentTiltY * 11);
+          const rotZ = -24 + (currentTiltX * 12);
+          const translateY = (currentTiltY * 18);
+          const translateX = (currentTiltX * 12);
+
+          if (keyboard3D) {
+              keyboard3D.style.transform = `rotateX(${rotX}deg) rotateZ(${rotZ}deg) translate3d(${translateX}px, ${translateY}px, 0px)`;
+          }
+          requestAnimationFrame(render3DLoop);
+      }
+      requestAnimationFrame(render3DLoop);
+
+      const keycaps = document.querySelectorAll('.key-cap-3d');
+      setInterval(() => {
+          if (keycaps.length > 0) {
+              const randomKey = keycaps[Math.floor(Math.random() * keycaps.length)];
+              randomKey.classList.add('active-glow');
+              setTimeout(() => randomKey.classList.remove('active-glow'), 900);
+          }
+      }, 800);
+
       const filterButtons = document.querySelectorAll(".filter");
       filterButtons.forEach((button) => {
         button.addEventListener("click", () => {
@@ -424,6 +481,78 @@
   </script>
 </head>
 <body>
+  <!-- 3D INTERACTIVE PARALLAX KEYBOARD BACKGROUND -->
+  <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden flex items-center justify-center opacity-30">
+      <div class="viewport-3d w-full h-full flex items-center justify-center">
+          <div id="keyboard3D" class="keyboard-plane relative p-6 rounded-3xl bg-[#090e1a]/90 border border-cyan-500/30 shadow-[0_30px_90px_rgba(0,0,0,0.9)]">
+              <div class="absolute -inset-4 bg-gradient-to-r from-cyan-500/15 via-purple-500/15 to-blue-500/15 blur-2xl -z-10 rounded-3xl"></div>
+              <div class="space-y-3 font-mono text-[11px] text-slate-300">
+                  <div class="flex gap-2.5">
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-slate-400">~</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">1</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">2</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">3</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">4</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">5</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">6</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">7</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">8</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">9</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">0</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">-</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">=</div>
+                      <div class="key-cap-3d w-16 h-10 flex items-center justify-center text-[10px] text-slate-400">BKSP</div>
+                  </div>
+                  <div class="flex gap-2.5">
+                      <div class="key-cap-3d w-14 h-10 flex items-center justify-center text-[10px] text-slate-400">TAB</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">Q</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">W</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center active-glow text-cyan-300 font-bold">E</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">R</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">T</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">Y</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">U</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">I</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">O</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">P</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">{</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">}</div>
+                      <div class="key-cap-3d w-12 h-10 flex items-center justify-center">|</div>
+                  </div>
+                  <div class="flex gap-2.5">
+                      <div class="key-cap-3d w-16 h-10 flex items-center justify-center text-[10px] text-slate-400">CAPS</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">A</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center active-glow text-cyan-300 font-bold">S</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">D</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">F</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">G</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">H</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">J</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">K</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">L</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">;</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-cyan-400 font-bold">'</div>
+                      <div class="key-cap-3d w-20 h-10 flex items-center justify-center text-cyan-300 font-bold text-[10px] shadow-neon-cyan">ENTER ↵</div>
+                  </div>
+                  <div class="flex gap-2.5">
+                      <div class="key-cap-3d w-20 h-10 flex items-center justify-center text-[10px] text-slate-400">SHIFT</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">Z</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">X</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center active-glow text-cyan-300 font-bold">C</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">V</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">B</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">N</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">M</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">&lt;</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center text-purple-400 font-bold">&gt;</div>
+                      <div class="key-cap-3d w-10 h-10 flex items-center justify-center">/</div>
+                      <div class="key-cap-3d w-20 h-10 flex items-center justify-center text-[10px] text-slate-400">SHIFT</div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
   <!-- Navigation Bar -->
   <header class="navbar">
     <div class="brand">
@@ -472,9 +601,7 @@
         <span>Accuracy</span>
       </div>
 
-      <div id="rankingRows">
-        <!-- Dynamically populated from Firebase scores -->
-      </div>
+      <div id="rankingRows"></div>
       <div class="empty-state" id="emptyState" style="display: none;">
         No practice records found yet. Complete a lesson or test in Practice to record your score!
       </div>
