@@ -149,7 +149,7 @@
             </nav>
 
             <div class="flex items-center gap-3">
-                <button id="soundToggleBtn" onclick="toggleAudio()" title="เปิด/ปิด เสียง Mechanical Keyboard" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 hover:bg-brand-surface text-slate-300 hover:text-cyan-400 transition-all flex items-center justify-center cursor-pointer">
+                <button id="soundToggleBtn" onclick="toggleAudio()" title="Toggle Mechanical Audio" class="p-2.5 rounded-xl border border-brand-border bg-brand-surface/70 hover:bg-brand-surface text-slate-300 hover:text-cyan-400 transition-all flex items-center justify-center cursor-pointer">
                     <svg id="soundIconOn" class="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z"/></svg>
                     <svg id="soundIconOff" class="w-5 h-5 hidden text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
                 </button>
@@ -167,7 +167,7 @@
         <div class="lg:col-span-3 flex flex-col gap-3 h-full overflow-hidden">
             <div class="p-3 rounded-2xl border border-brand-border bg-brand-card/90 backdrop-blur-md shadow-lg flex-shrink-0">
                 <div class="text-[11px] font-mono font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center justify-between">
-                    <span>เลเวลหลักสูตร</span>
+                    <span>Curriculum Level</span>
                     <span class="text-[9px] text-cyan-400 bg-cyan-500/10 px-1.5 py-0.5 rounded border border-cyan-500/30">3 Levels</span>
                 </div>
                 <div class="space-y-1.5">
@@ -176,7 +176,7 @@
                             <span class="font-mono font-black text-cyan-400 text-xs px-2 py-0.5 rounded bg-cyan-500/20">L1</span>
                             <div>
                                 <div class="font-bold text-xs text-white leading-tight">KEY STARTER</div>
-                                <div class="text-[10px] text-slate-400">ฝึกกดตัวอักษร A–Z</div>
+                                <div class="text-[10px] text-slate-400">Practice A–Z touch typing</div>
                             </div>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                             <span class="font-mono font-black text-blue-400 text-xs px-2 py-0.5 rounded bg-blue-500/20">L2</span>
                             <div>
                                 <div class="font-bold text-xs text-white leading-tight">KEY WORD</div>
-                                <div class="text-[10px] text-slate-400">ฝึกคำศัพท์ตามภาษา</div>
+                                <div class="text-[10px] text-slate-400">Language keywords practice</div>
                             </div>
                         </div>
                     </div>
@@ -196,7 +196,7 @@
                             <span class="font-mono font-black text-purple-400 text-xs px-2 py-0.5 rounded bg-purple-500/20">L3</span>
                             <div>
                                 <div class="font-bold text-xs text-white leading-tight">CODE SNIPPETS</div>
-                                <div class="text-[10px] text-slate-400">โจทย์โค้ดจริง (จาก Language)</div>
+                                <div class="text-[10px] text-slate-400">Real code from Language</div>
                             </div>
                         </div>
                     </div>
@@ -208,7 +208,7 @@
                 <div class="flex items-center justify-between pb-2 mb-2 border-b border-brand-border text-xs font-mono font-bold text-slate-300">
                     <span class="flex items-center gap-2">
                         <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
-                        <span id="lessonGroupHeaderName">รายการบทเรียน</span>
+                        <span id="lessonGroupHeaderName">Lessons List</span>
                     </span>
                     <span id="lessonGroupProgress" class="text-slate-400 font-mono text-xs">0/0</span>
                 </div>
@@ -322,61 +322,109 @@
 
     <!-- ================= JAVASCRIPT ================= -->
     <script>
-        // ฐานข้อมูลโจทย์เชื่อมโยงจากหน้า Language เต็มรูปแบบ
+        // L3 Code Snippets ครบทุกภาษาจากหน้า language.html
         const languageCourses = {
             html: {
                 name: "HTML & CSS",
-                l2_words: ["HTML", "CSS", "DOCTYPE", "BODY", "HEADER", "FOOTER", "SECTION", "DIV", "SPAN", "CLASS"],
+                l2_words: [
+                    "DOCTYPE html", "meta viewport", "stylesheet link", "script defer", 
+                    "comment section", "og:title image", "preload font", "canonical base", 
+                    "body scroll-smooth", "full boilerplate"
+                ],
                 l3_snippets: [
                     { id: "doctype", title: "1. Doctype & Skeleton", text: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Document</title>\n</head>\n<body>\n</body>\n</html>" },
                     { id: "meta", title: "2. Meta Viewport & Description", text: "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<meta name=\"description\" content=\"Developer Typing Practice\">" },
                     { id: "title_style", title: "3. Title & Stylesheet Links", text: "<title>My Awesome App</title>\n<link rel=\"stylesheet\" href=\"styles.css\">" },
+                    { id: "script_tags", title: "4. Script Tags Integration", text: "<script src=\"app.js\" defer><" + "/script>\n<script type=\"module\" src=\"main.js\"><" + "/script>" },
+                    { id: "comments", title: "5. HTML Comments", text: "<!-- ================= NAVBAR SECTION ================= -->\n<!-- TODO: Add mobile drawer toggle -->" },
+                    { id: "open_graph", title: "6. Open Graph Social Tags", text: "<meta property=\"og:title\" content=\"Typing Trainer\">\n<meta property=\"og:image\" content=\"/og-cover.png\">" },
+                    { id: "preload", title: "7. Resource Preload", text: "<link rel=\"preload\" href=\"font.woff2\" as=\"font\" type=\"font/woff2\">" },
+                    { id: "base_canonical", title: "8. Base & Canonical Links", text: "<base href=\"https://example.com/\" target=\"_blank\">" },
+                    { id: "body_attrs", title: "9. Body & Root Attributes", text: "<html lang=\"en\" class=\"scroll-smooth dark\">\n<body class=\"bg-slate-900 text-white\">" },
                     { id: "boilerplate", title: "10. Full HTML5 Boilerplate", text: "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"UTF-8\">\n  <title>Typing Code Trainer</title>\n</head>\n<body>\n</body>\n</html>" }
                 ]
             },
             javascript: {
                 name: "JavaScript",
-                l2_words: ["CONST", "LET", "FUNCTION", "ASYNC", "AWAIT", "FETCH", "RETURN", "CONSOLE", "ARRAY", "MAP"],
+                l2_words: [
+                    "const add = a b", "async await fetch", "destructuring user", "filter map users", 
+                    "spread operator ...", "Promise.all resolve", "querySelector id", "addEventListener click", 
+                    "localStoragesetItem", "class extends super"
+                ],
                 l3_snippets: [
                     { id: "arrow_func", title: "11. Arrow Functions & Implicit Return", text: "const add = (a, b) => a + b;\nconst getUser = id => ({ id, name: \"Alice\" });" },
                     { id: "async_await", title: "12. Async / Await & Fetch API", text: "const loadData = async (url) => {\n  const res = await fetch(url);\n  return await res.json();\n};" },
-                    { id: "destructuring", title: "13. Object & Array Destructuring", text: "const { name, age, role = 'developer' } = user;" }
+                    { id: "destructuring", title: "13. Object & Array Destructuring", text: "const { name, age, role = 'developer' } = user;" },
+                    { id: "array_methods", title: "14. Array Methods (Map & Filter)", text: "const activeUserNames = users.filter(u => u.isActive).map(u => u.name);" },
+                    { id: "spread_operator", title: "15. Spread & Rest Operators", text: "const newObj = { ...oldObj, status: 'updated' };" },
+                    { id: "promise_all", title: "16. Promise.all Concurrency", text: "const results = await Promise.all([fetchUser(), fetchPosts()]);" },
+                    { id: "dom_query", title: "17. DOM Query Selector", text: "const submitBtn = document.querySelector('#submitBtn');" },
+                    { id: "event_listener", title: "18. Event Listener Setup", text: "submitBtn.addEventListener('click', (e) => {\n  e.preventDefault();\n  console.log('Clicked!');\n});" },
+                    { id: "local_storage", title: "19. LocalStorage Integration", text: "localStorage.setItem('user', JSON.stringify(userData));" },
+                    { id: "class_syntax", title: "20. ES6 Class Inheritance", text: "class UserProfile extends BaseComponent {\n  constructor(name) {\n    super();\n    this.name = name;\n  }\n}" }
                 ]
             },
             php: {
                 name: "PHP",
-                l2_words: ["PHP", "ECHO", "SESSION", "PDO", "REQUEST", "FILTER", "HEADER", "JSON", "ARRAY", "CLASS"],
+                l2_words: [
+                    "echo title h1", "associative array", "filter_var sanitize", "new PDO connection", 
+                    "session_start user", "float price rate", "json_encode status", "REQUEST_METHOD POST", 
+                    "header Content-Type", "database host"
+                ],
                 l3_snippets: [
                     { id: "php_vars", title: "21. Variables & Echo Output", text: "<?php\n$title = \"Typing Code Trainer\";\necho \"<h1>\" . $title . \"</h1>\";\n?>" },
                     { id: "php_assoc", title: "22. Associative Arrays", text: "$user = [\"id\" => 101, \"username\" => \"dev_pro\"];" },
-                    { id: "php_pdo", title: "24. PDO Database Connection", text: "$pdo = new PDO(\"mysql:host=localhost;dbname=test\", \"root\", \"\");" }
+                    { id: "php_post", title: "23. POST Request & Sanitization", text: "if ($_SERVER[\"REQUEST_METHOD\"] === \"POST\") {\n    $email = filter_var($_POST['email'], FILTER_SANITIZE_EMAIL);\n}" },
+                    { id: "php_pdo", title: "24. PDO Database Connection", text: "$pdo = new PDO(\"mysql:host=localhost;dbname=test\", \"root\", \"\");" },
+                    { id: "php_session", title: "25. Session Handling", text: "session_start();\n$_SESSION['logged_in'] = true;\n$_SESSION['user_id'] = $userId;" },
+                    { id: "php_function", title: "26. Function with Type Hints", text: "function calculate_tax(float $price, float $rate = 0.07): float {\n    return $price * (1 + $rate);\n}" },
+                    { id: "php_json", title: "27. JSON Response Header", text: "header('Content-Type: application/json');\necho json_encode(['status' => 'success', 'code' => 200]);" }
                 ]
             },
             python: {
                 name: "Python",
-                l2_words: ["DEF", "CLASS", "IMPORT", "RETURN", "PRINT", "LAMBDA", "WITH", "OPEN", "SELF", "RANGE"],
+                l2_words: [
+                    "list comprehension", "def calculate_wpm", "class Developer init", "dictionary iteration", 
+                    "app route decorator", "with open json", "lambda map function", "return round float", 
+                    "self name str", "scores items print"
+                ],
                 l3_snippets: [
                     { id: "py_comp", title: "28. List Comprehension", text: "numbers = [1, 2, 3, 4, 5]\nsquares = [x**2 for x in numbers if x % 2 == 0]" },
                     { id: "py_def", title: "29. Functions & Type Hints", text: "def calculate_wpm(words: int, seconds: float) -> float:\n    return round(words / (seconds / 60), 2)" },
-                    { id: "py_class", title: "30. Class & Constructor", text: "class Developer:\n    def __init__(self, name: str):\n        self.name = name" }
+                    { id: "py_class", title: "30. Class & Constructor", text: "class Developer:\n    def __init__(self, name: str):\n        self.name = name" },
+                    { id: "py_dict", title: "31. Dictionary Iteration", text: "scores = {\"HTML\": 95, \"CSS\": 90, \"JS\": 88}\nfor lang, score in scores.items():\n    print(f\"{lang}: {score}\")" },
+                    { id: "py_decorator", title: "32. Route Decorator", text: "@app.route('/api/v1/status')\ndef server_status():\n    return {'status': 'active', 'code': 200}" },
+                    { id: "py_file_io", title: "33. File I/O with Context Manager", text: "with open('data.json', 'r', encoding='utf-8') as f:\n    content = json.load(f)" },
+                    { id: "py_lambda", title: "34. Lambda Functions & Map", text: "get_square = lambda x: x ** 2\nresults = list(map(get_square, range(10)))" }
                 ]
             },
             symbols: {
                 name: "Symbols & Brackets",
-                l2_words: ["BRACKET", "BRACE", "OPERATOR", "NULLISH", "REGEX", "QUERY", "ASSIGN", "BITWISE", "LOGICAL", "SYNTAX"],
+                l2_words: [
+                    "braces brackets", "logical nullish", "quotes semicolons", "regex pattern", 
+                    "template literal", "bitwise operators", "component JSX", "isLoggedIn user?", 
+                    "SELECT FROM users", "FLAG READ WRITE"
+                ],
                 l3_snippets: [
                     { id: "brackets_all", title: "35. Combined Braces & Brackets", text: "function test() {\n    return [ (1 + 2) * <Component /> ];\n}" },
                     { id: "operators", title: "36. Logical & Nullish Operators", text: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}" },
-                    { id: "regex_symbols", title: "38. Regular Expression Symbols", text: "const pattern = /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/;" }
+                    { id: "punc_quotes", title: "37. Quotes & Semicolons", text: "const query = `SELECT * FROM \"users\" WHERE status = 'active';`;" },
+                    { id: "regex_symbols", title: "38. Regular Expression Symbols", text: "const pattern = /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/;" },
+                    { id: "template_literals", title: "39. Template Literal Interpolation", text: "const query = `SELECT * FROM \`users\` WHERE id = \${userId} AND status = '\${status}';`;" },
+                    { id: "bitwise_operators", title: "40. Bitwise & Assignment Operators", text: "const flags = (FLAG_READ | FLAG_WRITE) & ~FLAG_DELETE;" }
                 ]
             }
         };
 
-        // L1: ตัวอักษร A-Z
+        // L1: ฝึกวางนิ้วบนแป้นเหย้าและตัวอักษร A-Z ตามหลักการสัมผัสแป้นที่ถูกต้อง
         const l1AlphabetLessons = [
-            { id: "l1_az", title: "A – Z Full Alphabet", text: "abcdefghijklmnopqrstuvwxyz" },
-            { id: "l1_asdf", title: "Home Row (A S D F)", text: "aaaaaa ssssss dddddd ffffff asdf asdf" },
-            { id: "l1_jkl", title: "Home Row (J K L ;)", text: "jjjjjj kkkkkk llllll ;;;;;; jkl; jkl;" }
+            { id: "l1_home", title: "1. Home Row (ASDF JKL;)", text: "asdf jkl; asdf jkl; asdf jkl; asdf jkl;" },
+            { id: "l1_top", title: "2. Top Row (QWER UIOP)", text: "qwer uiop qwer uiop qwer uiop qwer uiop" },
+            { id: "l1_bottom", title: "3. Bottom Row (ZXCV NM)", text: "zxcv nm zxcv nm zxcv nm zxcv nm" },
+            { id: "l1_az_full", title: "4. Full Alphabet A to Z", text: "abcdefghijklmnopqrstuvwxyz" },
+            { id: "l1_az_rev", title: "5. Reverse Alphabet Z to A", text: "zyxwvutsrqponmlkjihgfedcba" },
+            { id: "l1_vowels", title: "6. Vowels Practice (AEIOU)", text: "aeiou aeiou aeiou aeiou aeiou aeiou aeiou" },
+            { id: "l1_consonants", title: "7. Common Consonants", text: "bcdfghjklmnpqrstvwxyz bcdfghjklmnpqrstvwxyz" }
         ];
 
         let currentMainLevel = 'l1'; // 'l1', 'l2', 'l3'
@@ -413,7 +461,6 @@
             }
 
             if (paramLessonId) {
-                // ตรวจสอบว่าเป็น L3 หรือไม่
                 currentMainLevel = 'l3';
             }
 
@@ -422,7 +469,6 @@
         });
 
         function initStudioState() {
-            // ไฮไลต์ปุ่มเลเวลหลัก (L1, L2, L3)
             ['l1', 'l2', 'l3'].forEach(lvl => {
                 const card = document.getElementById(`mainCard-${lvl}`);
                 if (card) {
@@ -458,7 +504,6 @@
             if (!container) return;
             container.innerHTML = '';
 
-            // ถ้าอยู่ L1 ไม่จำเป็นต้องเปลี่ยนภาษา แต่ถ้าอยู่ L2 หรือ L3 ให้แสดงปุ่มเลือกภาษา
             Object.keys(languageCourses).forEach(key => {
                 const course = languageCourses[key];
                 const btn = document.createElement('button');
@@ -481,16 +526,16 @@
             let groupTitle = "";
 
             if (currentMainLevel === 'l1') {
-                groupTitle = "L1 Key Starter (A-Z)";
+                groupTitle = "L1 Key Starter (A-Z & Home Row)";
                 lessons = l1AlphabetLessons;
             } else if (currentMainLevel === 'l2') {
                 groupTitle = `L2 Key Word (${languageCourses[currentLangKey].name})`;
-                // สร้างคำศัพท์กลุ่มละ 5 คำต่อบทเรียน
                 const words = languageCourses[currentLangKey].l2_words;
                 lessons = [
-                    { id: "l2_1", title: "ชุดคำศัพท์ที่ 1", text: words.slice(0, 5).join("  ") },
-                    { id: "l2_2", title: "ชุดคำศัพท์ที่ 2", text: words.slice(5, 10).join("  ") },
-                    { id: "l2_3", title: "รวมคำศัพท์ทั้งหมด", text: words.join("  ") }
+                    { id: "l2_1", title: "Set 1 (Words 1-3)", text: words.slice(0, 3).join("   ") },
+                    { id: "l2_2", title: "Set 2 (Words 4-6)", text: words.slice(3, 6).join("   ") },
+                    { id: "l2_3", title: "Set 3 (Words 7-10)", text: words.slice(6, 10).join("   ") },
+                    { id: "l2_4", title: "All Keywords Drill", text: words.join("   ") }
                 ];
             } else if (currentMainLevel === 'l3') {
                 groupTitle = `L3 Code Snippets (${languageCourses[currentLangKey].name})`;
@@ -524,7 +569,6 @@
                 listContainer.appendChild(lBtn);
             });
 
-            // กำหนด targetText จากบทเรียนปัจจุบัน
             const activeLesson = lessons[currentLessonIndex] || lessons[0];
             targetText = activeLesson ? activeLesson.text : "console.log('Ready');";
             document.getElementById('modeBadgeTitle').textContent = `${groupTitle} — ${activeLesson.title}`;
@@ -594,7 +638,7 @@
                 clearInterval(timerInterval);
                 isStarted = false;
                 saveScoreToLeaderboard();
-                showToast("🎉 บทเรียนเสร็จสมบูรณ์ยอดเยี่ยมมาก!");
+                showToast("🎉 Lesson completed successfully!");
             }
         }
 
@@ -664,7 +708,7 @@
                 };
 
                 await window.addDoc(window.collection(window.db, "scores"), scoreData);
-                showToast("🚀 บันทึกคะแนนลง Firebase สำเร็จ!");
+                showToast("🚀 Score saved to Firebase!");
             } catch (e) {
                 console.error("Error adding document: ", e);
             }
