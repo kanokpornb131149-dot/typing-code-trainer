@@ -292,33 +292,38 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDEBAR: STATS (ปรับสัดส่วนกล่องให้สวยงาม สมมาตร และจัดช่องไฟให้พอดี) -->
+        
+        <!-- RIGHT SIDEBAR: STATS (บีบความกว้างกล่องให้แคบลงและจัดกึ่งกลาง) -->
         <div class="lg:col-span-3 flex flex-col gap-3.5 h-full justify-start pt-1">
-            <div class="rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
-                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-200 mb-1">TIME</div>
+            <div class="w-full max-w-[200px] mx-auto rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">TIME</div>
                 <div id="statTimer" class="font-mono text-2xl font-extrabold text-cyan-400 leading-none">00:00</div>
             </div>
 
-            <div class="rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
-                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-200 mb-1">WPM</div>
+            <div class="w-full max-w-[200px] mx-auto rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">WPM</div>
                 <div id="statWpm" class="font-mono text-2xl font-extrabold text-cyan-400 leading-none">0</div>
             </div>
 
-            <div class="rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
-                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-200 mb-1">ACCURACY</div>
+            <div class="w-full max-w-[200px] mx-auto rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">ACCURACY</div>
                 <div id="statAccuracy" class="font-mono text-2xl font-extrabold text-emerald-400 leading-none">100%</div>
             </div>
 
-            <div class="rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
-                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-200 mb-1">WRONG</div>
+            <div class="w-full max-w-[200px] mx-auto rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">WRONG</div>
                 <div id="statWrong" class="font-mono text-2xl font-extrabold text-red-400 leading-none">0</div>
             </div>
 
+            <div class="w-full max-w-[200px] mx-auto rounded-xl border border-brand-border bg-brand-surface py-2.5 flex items-center justify-center text-slate-500 shadow-sm mt-1">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            </div>
+        </div>
 
     <!-- RESULT MODAL -->
     <div id="resultModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
         <div class="w-full max-w-md rounded-3xl border border-cyan-500/40 bg-brand-surface p-8 shadow-2xl relative text-center">
-            <h3 class="text-2xl font-bold text-white mb-1 font-mono">🎉 Lesson Completed!</h3>
+            <h3 class="text-2xl font-bold text-white mb-1 font-mono"> Lesson Completed!</h3>
             <p class="text-xs text-slate-400 mb-6">Here is your typing performance summary</p>
 
             <div class="grid grid-cols-2 gap-4 mb-6 font-mono">
