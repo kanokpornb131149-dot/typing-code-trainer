@@ -154,13 +154,11 @@
                     <svg id="soundIconOff" class="w-5 h-5 hidden text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15zM17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2"/></svg>
                 </button>
 
-                <!-- Auth / Profile Section -->
                 <div id="authSection" class="relative">
                     <button id="signInNavBtn" onclick="toggleModal(true)" class="px-6 py-2.5 rounded-xl font-medium text-sm text-slate-900 bg-gradient-to-r from-slate-200 to-slate-300 hover:from-white hover:to-slate-100 shadow-md transition-all cursor-pointer">
                         Sign In
                     </button>
 
-                    <!-- Profile Dropdown (ซ่อนไว้จนกว่าจะล็อกอิน) -->
                     <div id="profileDropdownContainer" class="hidden relative">
                         <button onclick="toggleProfileMenu()" class="flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-surface border border-brand-border text-slate-200 hover:border-cyan-400 transition-all cursor-pointer">
                             <div class="w-7 h-7 rounded-full bg-cyan-500/20 border border-cyan-400 text-cyan-400 flex items-center justify-center font-bold text-xs" id="navUserInitial">D</div>
@@ -168,7 +166,6 @@
                             <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
                         </button>
 
-                        <!-- Dropdown Menu ตามรูปตัวอย่าง -->
                         <div id="profileMenuDropdown" class="hidden absolute right-0 mt-2 w-48 rounded-2xl bg-brand-surface border border-brand-border shadow-2xl p-2 z-50 font-mono text-xs">
                             <button onclick="openEditNameModal()" class="w-full text-left px-3 py-2 rounded-xl hover:bg-brand-card text-slate-300 hover:text-cyan-400 flex items-center gap-2.5 transition-all cursor-pointer">
                                 <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
@@ -317,7 +314,7 @@
         </div>
     </main>
 
-    <!-- RESULT MODAL (สรุปผลหลังพิมพ์เสร็จ) -->
+    <!-- RESULT MODAL -->
     <div id="resultModal" class="fixed inset-0 z-50 hidden bg-black/80 backdrop-blur-md flex items-center justify-center p-4">
         <div class="w-full max-w-md rounded-3xl border border-cyan-500/40 bg-brand-surface p-8 shadow-2xl relative text-center">
             <h3 class="text-2xl font-bold text-white mb-1 font-mono">🎉 Lesson Completed!</h3>
@@ -349,7 +346,7 @@
         </div>
     </div>
 
-    <!-- AUTH MODAL (Sign In) -->
+    <!-- AUTH MODAL -->
     <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
         <div class="w-full max-w-md rounded-3xl border border-brand-border bg-brand-surface p-6 sm:p-8 shadow-2xl relative">
             <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg">
@@ -376,7 +373,7 @@
         </div>
     </div>
 
-    <!-- EDIT NAME MODAL (ดินสอ) -->
+    <!-- EDIT NAME MODAL -->
     <div id="editNameModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
         <div class="w-full max-w-md rounded-3xl border border-brand-border bg-brand-surface p-6 sm:p-8 shadow-2xl relative">
             <button onclick="closeEditNameModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg">
@@ -398,7 +395,7 @@
         </div>
     </div>
 
-    <!-- SETTINGS MODAL (เฟือง) -->
+    <!-- SETTINGS MODAL -->
     <div id="settingsModal" class="fixed inset-0 z-50 hidden bg-black/75 backdrop-blur-md flex items-center justify-center p-4">
         <div class="w-full max-w-md rounded-3xl border border-brand-border bg-brand-surface p-6 sm:p-8 shadow-2xl relative">
             <button onclick="closeSettingsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white p-1 rounded-lg">
@@ -493,19 +490,18 @@
             },
             symbols: {
                 name: "Symbols & Brackets",
-                l2_words: ["bracket", "brace", "operator", "nullish", "regex", "query", "assign", "bitwise", "logical", "syntax"],
+                l2_words: ["< >", "{ }", "[ ]", "( )", "; :", "= +", "- *", "/ %", "&& ||", "!="],
                 l3_snippets: [
-                    { id: "brackets_all", title: "35. Combined Braces & Brackets", text: "function test() {\n    return [ (1 + 2) * <Component /> ];\n}" },
-                    { id: "operators", title: "36. Logical & Nullish Operators", text: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}" },
-                    { id: "punc_quotes", title: "37. Quotes & Semicolons", text: "const query = `SELECT * FROM \"users\" WHERE status = 'active';`;" },
-                    { id: "regex_symbols", title: "38. Regular Expression Symbols", text: "const pattern = /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/;" },
-                    { id: "template_literals", title: "39. Template Literal Interpolation", text: "const query = `SELECT * FROM \`users\` WHERE id = \${userId} AND status = '\${status}';`;" },
-                    { id: "bitwise_operators", title: "40. Bitwise & Assignment Operators", text: "const flags = (FLAG_READ | FLAG_WRITE) & ~FLAG_DELETE;" }
+                    { id: "sym_1", title: "1. Angle Brackets & Tags", text: "<div class=\"container\"> <span class=\"text-cyan\">Hello</span> </div>" },
+                    { id: "sym_2", title: "2. Curly Braces & Objects", text: "const user = { name: \"Developer\", role: \"Admin\", active: true };" },
+                    { id: "sym_3", title: "3. Square Brackets & Arrays", text: "const numbers = [10, 20, 30, 40, 50]; const first = numbers[0];" },
+                    { id: "sym_4", title: "4. Parentheses & Functions", text: "function calculate(a, b) { return (a + b) * 2; }" },
+                    { id: "sym_5", title: "5. Colons & Semicolons", text: "const styles = { color: \"#00f2fe\"; margin-top: \"10px\"; };" },
+                    { id: "sym_6", title: "6. Operators & Comparisons", text: "if (score >= 80 && accuracy != 0) { console.log(\"Passed\"); }" }
                 ]
             }
         };
 
-        // L1: ฝึกแป้นเหย้า (Home Row) และตัวอักษร A-Z
         const l1AlphabetLessons = [
             { id: "l1_home", title: "1. Home Row (ASDF JKL;)", text: "asdf jkl; asdf jkl; asdf jkl; asdf jkl;" },
             { id: "l1_top", title: "2. Top Row (QWER UIOP)", text: "qwer uiop qwer uiop qwer uiop qwer uiop" },
