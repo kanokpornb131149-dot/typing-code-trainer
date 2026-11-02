@@ -102,6 +102,16 @@
             background: #1e293b;
             border-radius: 3px;
         }
+
+        /* 🔴 เพิ่มเอฟเฟกต์สำหรับกล่องพิมพ์ผิด (สั่นและขอบแดง) 🔴 */
+        @keyframes errorShake {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-6px); border-color: #ef4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.4); }
+            40%, 80% { transform: translateX(6px); border-color: #ef4444; box-shadow: 0 0 30px rgba(239, 68, 68, 0.4); }
+        }
+        .error-shake {
+            animation: errorShake 0.35s cubic-bezier(.36,.07,.19,.97) both;
+        }
     </style>
 
     <!-- Firebase SDK (Modular) -->
@@ -244,13 +254,12 @@
             </div>
         </div>
 
-        <!-- CENTER AREA (เปลี่ยนเป็น col-span-9 เพื่อให้กว้างเต็มตาขึ้น) -->
+        <!-- CENTER AREA -->
         <div id="centerArea" class="lg:col-span-9 flex flex-col gap-3 h-full overflow-hidden transition-all duration-300">
             
-            <!-- TOP BAR & STATS (ย้าย Stats มาเรียงแนวนอนด้านบน) -->
+            <!-- TOP BAR & STATS -->
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 flex-shrink-0">
                 
-                <!-- Left: Sidebar Toggle & Language Selectors -->
                 <div class="flex flex-wrap items-center gap-2 p-2 rounded-2xl bg-brand-card/90 border border-brand-border backdrop-blur-md shadow-md">
                     <!-- ปุ่มเปิด/ปิด แถบเมนูด้านซ้าย -->
                     <button onclick="toggleSidebar()" class="p-2 rounded-xl border border-brand-border bg-brand-surface hover:bg-brand-card text-slate-300 hover:text-white transition-all cursor-pointer shadow-sm" title="ซ่อน/แสดง เมนูด้านซ้าย">
@@ -259,7 +268,6 @@
                     <div id="languagePillsContainer" class="flex flex-wrap items-center gap-1.5"></div>
                 </div>
 
-                <!-- Right: Stats Row (แนวนอน) & Reset Button -->
                 <div class="flex items-center gap-2 p-2 rounded-2xl bg-brand-card/90 border border-brand-border backdrop-blur-md shadow-md">
                     <div class="flex items-center gap-4 px-3 border-r border-brand-border">
                         <div class="text-center">
@@ -286,7 +294,8 @@
                 </div>
             </div>
 
-            <div class="relative rounded-2xl border border-cyan-500/40 bg-brand-card/85 p-6 backdrop-blur-xl shadow-glow-lg flex-grow flex flex-col justify-center overflow-hidden cursor-text" onclick="document.getElementById('hiddenTypingInput').focus()">
+            <!-- 🔴 เพิ่ม id="typingBoxContainer" ที่กล่องนี้เพื่อให้ JS สั่งสั่นได้ 🔴 -->
+            <div id="typingBoxContainer" class="relative rounded-2xl border border-cyan-500/40 bg-brand-card/85 p-6 backdrop-blur-xl shadow-glow-lg flex-grow flex flex-col justify-center overflow-hidden cursor-text transition-colors duration-200" onclick="document.getElementById('hiddenTypingInput').focus()">
                 <div class="absolute top-3 left-5 flex items-center gap-2">
                     <span class="w-2.5 h-2.5 rounded-full bg-cyan-400 animate-pulse"></span>
                     <span id="modeBadgeTitle" class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400">Typing Code Studio</span>
@@ -798,6 +807,14 @@
             } else {
                 errors++;
                 document.getElementById('statWrong').textContent = errors;
+                
+                // 🔴 Trigger Visual Error Effect 🔴
+                const typingBox = document.getElementById('typingBoxContainer');
+                if (typingBox) {
+                    typingBox.classList.remove('error-shake');
+                    void typingBox.offsetWidth; // Trigger reflow to reset animation
+                    typingBox.classList.add('error-shake');
+                }
             }
 
             renderTextDisplay();
