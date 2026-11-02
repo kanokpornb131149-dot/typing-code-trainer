@@ -248,7 +248,7 @@
         <div id="centerArea" class="lg:col-span-6 flex flex-col gap-3 h-full overflow-hidden transition-all duration-300">
             <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-brand-card/90 border border-brand-border backdrop-blur-md shadow-md flex-shrink-0">
                 <div class="flex items-center gap-2">
-                    <!-- ปุ่มเปิด/ปิด แถบเมนูด้านซ้าย -->
+                    <!-- ปุ่มซ่อน/แสดง Sidebar -->
                     <button onclick="toggleSidebar()" class="p-2 rounded-xl border border-brand-border bg-brand-surface hover:bg-brand-card text-slate-300 hover:text-white transition-all cursor-pointer shadow-sm" title="ซ่อน/แสดง เมนูด้านซ้าย">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
@@ -292,29 +292,29 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDEBAR: STATS (ปรับขนาดให้เล็กลงและชิดกันพอดี) -->
-        <div class="lg:col-span-3 flex flex-col gap-2 h-full justify-start pt-1">
-            <div class="rounded-xl border border-brand-border bg-brand-card/85 py-1.5 px-3 text-center shadow-md backdrop-blur-md">
-                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">TIME</div>
-                <div id="statTimer" class="font-mono text-lg font-extrabold text-cyan-400 leading-tight">00:00</div>
+        <!-- RIGHT SIDEBAR: STATS (ปรับสัดส่วนกล่องให้สวยงาม สมมาตร และจัดช่องไฟให้พอดี) -->
+        <div class="lg:col-span-3 flex flex-col gap-3.5 h-full justify-start pt-1">
+            <div class="rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">TIME</div>
+                <div id="statTimer" class="font-mono text-2xl font-extrabold text-cyan-400 leading-none">00:00</div>
             </div>
 
-            <div class="rounded-xl border border-brand-border bg-brand-card/85 py-1.5 px-3 text-center shadow-md backdrop-blur-md">
-                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">WPM</div>
-                <div id="statWpm" class="font-mono text-lg font-extrabold text-cyan-400 leading-tight">0</div>
+            <div class="rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">WPM</div>
+                <div id="statWpm" class="font-mono text-2xl font-extrabold text-cyan-400 leading-none">0</div>
             </div>
 
-            <div class="rounded-xl border border-brand-border bg-brand-card/85 py-1.5 px-3 text-center shadow-md backdrop-blur-md">
-                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">ACCURACY</div>
-                <div id="statAccuracy" class="font-mono text-lg font-extrabold text-emerald-400 leading-tight">100%</div>
+            <div class="rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">ACCURACY</div>
+                <div id="statAccuracy" class="font-mono text-2xl font-extrabold text-emerald-400 leading-none">100%</div>
             </div>
 
-            <div class="rounded-xl border border-brand-border bg-brand-card/85 py-1.5 px-3 text-center shadow-md backdrop-blur-md">
-                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">WRONG</div>
-                <div id="statWrong" class="font-mono text-lg font-extrabold text-red-400 leading-tight">0</div>
+            <div class="rounded-2xl border border-brand-border bg-brand-card/85 py-4 px-4 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-400 mb-1">WRONG</div>
+                <div id="statWrong" class="font-mono text-2xl font-extrabold text-red-400 leading-none">0</div>
             </div>
 
-            <div class="rounded-xl border border-brand-border bg-brand-surface py-1.5 flex items-center justify-center text-slate-500 shadow-sm">
+            <div class="rounded-xl border border-brand-border bg-brand-surface py-2.5 flex items-center justify-center text-slate-500 shadow-sm mt-1">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             </div>
         </div>
@@ -531,7 +531,7 @@
         let isAudioOn = true;
         let audioCtx = null;
         let latestSessionScore = { wpm: 0, accuracy: 100 };
-        let isSidebarVisible = true; // สำหรับเปิดปิดแถบเมนู
+        let isSidebarVisible = true;
 
         window.addEventListener('DOMContentLoaded', () => {
             updateAuthNavbarUI();
@@ -569,11 +569,11 @@
             isSidebarVisible = !isSidebarVisible;
             
             if (isSidebarVisible) {
-                sidebar.style.display = ''; // แสดงแถบเมนูกลับคืนมา
+                sidebar.style.display = ''; 
                 centerArea.classList.remove('lg:col-span-9');
                 centerArea.classList.add('lg:col-span-6');
             } else {
-                sidebar.style.display = 'none'; // ซ่อนแถบเมนู
+                sidebar.style.display = 'none'; 
                 centerArea.classList.remove('lg:col-span-6');
                 centerArea.classList.add('lg:col-span-9');
             }
