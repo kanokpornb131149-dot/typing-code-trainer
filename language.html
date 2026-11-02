@@ -59,7 +59,6 @@
             animation: blink 1s infinite;
         }
 
-        /* 3D VECTOR KEYBOARD BACKGROUND */
         .viewport-3d {
             perspective: 1200px;
             perspective-origin: 50% 30%;
@@ -236,7 +235,6 @@
     </footer>
 
     <script>
-        // 3D Parallax & Glow Animation Script
         let mouseX = 0, mouseY = 0;
         let currentTiltX = 0, currentTiltY = 0;
         const keyboard3D = document.getElementById('keyboard3D');
@@ -270,7 +268,6 @@
             }
         }, 800);
 
-        // Lang data & render logic (ครบถ้วนทั้ง 40 ID)
         const langData = {
             html: {
                 title: "HTML & CSS",
@@ -372,17 +369,17 @@
                 sections: [
                     {
                         category: "Symbol Speed Drills",
-                        desc: "Build muscle memory for tough keyboard characters",
+                        desc: "Build muscle memory for tough keyboard characters and brackets",
                         completed: "0/6 completed",
                         level: "Advanced",
                         levelColor: "bg-emerald-500/20 text-emerald-400 border-emerald-500/30",
                         items: [
-                            { id: "brackets_all", name: "35. Combined Braces & Brackets", code: "function test() {\n    return [ (1 + 2) * <Component /> ];\n}" },
-                            { id: "operators", name: "36. Logical & Nullish Operators", code: "if (isLoggedIn && (hasToken || isGuest) && user?.id !== null) {}" },
-                            { id: "punc_quotes", name: "37. Quotes & Semicolons", code: "const query = `SELECT * FROM \"users\" WHERE status = 'active';`;" },
-                            { id: "regex_symbols", name: "38. Regular Expression Symbols", code: "const pattern = /^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$/;" },
-                            { id: "template_literals", name: "39. Template Literal Interpolation", code: "const query = `SELECT * FROM \`users\` WHERE id = \${userId} AND status = '\${status}';`;" },
-                            { id: "bitwise_operators", name: "40. Bitwise & Assignment Operators", code: "const flags = (FLAG_READ | FLAG_WRITE) & ~FLAG_DELETE;" }
+                            { id: "sym_1", name: "1. Angle Brackets & Tags (< > /)", code: "<div class=\"container\"> <span class=\"text-cyan\">Hello</span> </div>" },
+                            { id: "sym_2", name: "2. Curly Braces & Objects ({ } :)", code: "const user = { name: \"Developer\", role: \"Admin\", active: true };" },
+                            { id: "sym_3", name: "3. Square Brackets & Arrays ([ ])", code: "const numbers = [10, 20, 30, 40, 50]; const first = numbers[0];" },
+                            { id: "sym_4", name: "4. Parentheses & Functions (( ))", code: "function calculate(a, b) { return (a + b) * 2; }" },
+                            { id: "sym_5", name: "5. Colons & Semicolons (: ;)", code: "const styles = { color: \"#00f2fe\"; margin-top: \"10px\"; };" },
+                            { id: "sym_6", name: "6. Operators & Comparisons (&& != >=)", code: "if (score >= 80 && accuracy != 0) { console.log(\"Passed\"); }" }
                         ]
                     }
                 ]
