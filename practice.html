@@ -191,7 +191,7 @@
     <main class="flex-grow max-w-[1650px] w-full mx-auto px-4 py-3 grid grid-cols-1 lg:grid-cols-12 gap-4 items-stretch overflow-hidden">
         
         <!-- LEFT SIDEBAR -->
-        <div class="lg:col-span-3 flex flex-col gap-3 h-full overflow-hidden">
+        <div id="leftSidebar" class="lg:col-span-3 flex flex-col gap-3 h-full overflow-hidden transition-all duration-300">
             <div class="p-3 rounded-2xl border border-brand-border bg-brand-card/90 backdrop-blur-md shadow-lg flex-shrink-0">
                 <div class="text-[11px] font-mono font-bold text-slate-400 mb-2 uppercase tracking-wider flex items-center justify-between">
                     <span>Curriculum Level</span>
@@ -245,9 +245,15 @@
         </div>
 
         <!-- CENTER AREA -->
-        <div class="lg:col-span-6 flex flex-col gap-3 h-full overflow-hidden">
+        <div id="centerArea" class="lg:col-span-6 flex flex-col gap-3 h-full overflow-hidden transition-all duration-300">
             <div class="flex flex-wrap items-center justify-between gap-3 p-3 rounded-2xl bg-brand-card/90 border border-brand-border backdrop-blur-md shadow-md flex-shrink-0">
-                <div id="languagePillsContainer" class="flex flex-wrap items-center gap-2"></div>
+                <div class="flex items-center gap-2">
+                    <!-- ปุ่มเปิด/ปิด แถบเมนูด้านซ้าย -->
+                    <button onclick="toggleSidebar()" class="p-2 rounded-xl border border-brand-border bg-brand-surface hover:bg-brand-card text-slate-300 hover:text-white transition-all cursor-pointer shadow-sm" title="ซ่อน/แสดง เมนูด้านซ้าย">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                    <div id="languagePillsContainer" class="flex flex-wrap items-center gap-2"></div>
+                </div>
 
                 <button onclick="resetPracticeState()" class="px-4 py-2 rounded-xl border border-brand-border bg-brand-surface hover:bg-brand-card text-slate-300 hover:text-white font-mono text-xs font-bold flex items-center gap-2 transition-all cursor-pointer">
                     <svg class="w-4 h-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
@@ -286,30 +292,30 @@
             </div>
         </div>
 
-        <!-- RIGHT SIDEBAR: STATS -->
-        <div class="lg:col-span-3 flex flex-col gap-3 h-full justify-between">
-            <div class="rounded-2xl border border-brand-border bg-brand-card/85 p-3.5 text-center shadow-lg backdrop-blur-md">
-                <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">TIME</div>
-                <div id="statTimer" class="font-mono text-2xl font-extrabold text-cyan-400">00:00</div>
+        <!-- RIGHT SIDEBAR: STATS (ปรับชิดขึ้นด้านบนและขนาดกะทัดรัดขึ้น) -->
+        <div class="lg:col-span-3 flex flex-col gap-2.5 h-full justify-start pt-1">
+            <div class="rounded-xl border border-brand-border bg-brand-card/85 p-2.5 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">TIME</div>
+                <div id="statTimer" class="font-mono text-xl font-extrabold text-cyan-400">00:00</div>
             </div>
 
-            <div class="rounded-2xl border border-brand-border bg-brand-card/85 p-3.5 text-center shadow-lg backdrop-blur-md">
-                <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">WPM</div>
-                <div id="statWpm" class="font-mono text-2xl font-extrabold text-cyan-400">0</div>
+            <div class="rounded-xl border border-brand-border bg-brand-card/85 p-2.5 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">WPM</div>
+                <div id="statWpm" class="font-mono text-xl font-extrabold text-cyan-400">0</div>
             </div>
 
-            <div class="rounded-2xl border border-brand-border bg-brand-card/85 p-3.5 text-center shadow-lg backdrop-blur-md">
-                <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">ACCURACY</div>
-                <div id="statAccuracy" class="font-mono text-2xl font-extrabold text-emerald-400">100%</div>
+            <div class="rounded-xl border border-brand-border bg-brand-card/85 p-2.5 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">ACCURACY</div>
+                <div id="statAccuracy" class="font-mono text-xl font-extrabold text-emerald-400">100%</div>
             </div>
 
-            <div class="rounded-2xl border border-brand-border bg-brand-card/85 p-3.5 text-center shadow-lg backdrop-blur-md">
-                <div class="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-1">WRONG</div>
-                <div id="statWrong" class="font-mono text-2xl font-extrabold text-red-400">0</div>
+            <div class="rounded-xl border border-brand-border bg-brand-card/85 p-2.5 text-center shadow-lg backdrop-blur-md">
+                <div class="text-[10px] font-mono font-bold uppercase tracking-wider text-slate-400 mb-0.5">WRONG</div>
+                <div id="statWrong" class="font-mono text-xl font-extrabold text-red-400">0</div>
             </div>
 
-            <div class="rounded-2xl border border-brand-border bg-brand-surface p-3 flex items-center justify-center text-slate-500">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <div class="rounded-xl border border-brand-border bg-brand-surface p-2 flex items-center justify-center text-slate-500">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             </div>
         </div>
     </main>
@@ -525,6 +531,7 @@
         let isAudioOn = true;
         let audioCtx = null;
         let latestSessionScore = { wpm: 0, accuracy: 100 };
+        let isSidebarVisible = true; // สำหรับเปิดปิดแถบเมนู
 
         window.addEventListener('DOMContentLoaded', () => {
             updateAuthNavbarUI();
@@ -553,6 +560,24 @@
             initStudioState();
             setupAutoKeyboardFocus();
         });
+
+        function toggleSidebar() {
+            playAudioClick();
+            const sidebar = document.getElementById('leftSidebar');
+            const centerArea = document.getElementById('centerArea');
+            
+            isSidebarVisible = !isSidebarVisible;
+            
+            if (isSidebarVisible) {
+                sidebar.style.display = ''; // แสดงแถบเมนูกลับคืนมา
+                centerArea.classList.remove('lg:col-span-9');
+                centerArea.classList.add('lg:col-span-6');
+            } else {
+                sidebar.style.display = 'none'; // ซ่อนแถบเมนู
+                centerArea.classList.remove('lg:col-span-6');
+                centerArea.classList.add('lg:col-span-9');
+            }
+        }
 
         function updateAuthNavbarUI() {
             const user = localStorage.getItem('tct-user');
